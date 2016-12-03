@@ -1,0 +1,15 @@
+VERSION: 1
+HOST: https://api.github.com
+
+auth: &auth
+  HEADERS:
+    Authorization: token asfdasf123423sd1fgnh7d83n478
+    User-Agent: Beau
+
+GET /user:
+  ALIAS: $user
+  <<: *auth
+
+GET /user/repos:
+  ALIAS: $repos
+  <<: *auth

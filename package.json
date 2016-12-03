@@ -1,0 +1,30 @@
+{
+  "name": "beau",
+  "version": "0.0.1",
+  "description": "A tool for testing RESTful APIs",
+  "main": "beau.js",
+  "author": "Sergio Diaz <seich@martianwabbit.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "cli-color": "^1.1.0",
+    "clui": "^0.3.1",
+    "commander": "^2.9.0",
+    "eyes": "^0.1.8",
+    "js-yaml": "^3.7.0",
+    "unirest": "^0.5.1"
+  },
+  "repository": "git@github.com:Seich/Beau.git",
+  "devDependencies": {
+    "jest": "^17.0.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "notify": false
+  },
+  "bin": {
+    "beau": "./bin/beau"
+  }
+}

@@ -1,0 +1,94 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const Beau = require('../beau');
+const yaml = require('js-yaml');
+const fs = require('fs');
+const { Line, Spinner } = require('clui');
+const clc = require('cli-color');
+const eyes = require('eyes');
+
+program
+	.version('0.0.1')
+	.usage(`[options] -r <Request Alias>`)
+	.option('-r, --request [request]', `The alias for the request you'd like to trigger.`)
+	.option('-v, --verbose', `Show all the information related to the current request and it's response.`)
+	.option('-c, --config [file]', 'Specify your request config file. Defaults to beau.yml in the current directory.', 'beau.yml')
+	.option('-l, --list', `List all requests in the config file.`)
+	.option('-t, --truncate [length]', `Truncate the content to the given length`)
+	.parse(process.argv);
+
+if (!fs.existsSync(program.config)) {
+	console.error(`The config file, ${program.config} was not found.`);
+	process.exit(1);
+}
+
+const config = yaml.safeLoad(fs.readFileSync(program.config, 'utf-8'));
+const beau = new Beau(config);
+
+if (typeof program.list === 'undefined' &&
+	typeof program.request === 'undefined') {
+
+}
+
+if (program.list) {
+	new Line().padding(2)
+		.column('HTTP Verb', 20, [clc.cyan])
+		.column('Alias', 30, [clc.cyan])
+		.column('Endpoint', 20, [clc.cyan])
+	.output();
+
+	beau.requests.list.forEach(({$verb, $alias, $endpoint}) =>
+		new Line().padding(2)
+			.column($verb, 20,  [clc.yellow])
+			.column($alias, 30,  [clc.yellow])
+			.column($endpoint)
+		.output()
+	);
+
+	new Line().output();
+}
+
+if (program.request) {
+	const request = `$${program.request}`;
+	const spinner = new Spinner(clc.yellow(`Requesting: ${request}`));
+
+	spinner.start();
+
+	beau.requests
+		.execByAlias(request)
+		.then(res => {
+			spinner.stop();
+
+			let { status, body } = res.response;
+			let { endpoint } = res.request;
+
+			status = status.toString().startsWith(2) ? clc.green(status) : clc.red(status);
+
+			new Line().padding(2)
+				.column('Status', 20, [clc.cyan])
+				.column('Endpoint', 20, [clc.cyan])
+			.output();
+
+			new Line().padding(2)
+				.column(status, 20)
+				.column(endpoint)
+			.output();
+
+			new Line().output();
+
+			let maxLength = +(program.truncate || res.length);
+			let inspect = eyes.inspector({ maxLength });
+
+			if (program.verbose) {
+				inspect(res);
+			} else {
+				inspect(body);
+			}
+
+			process.exit(0);
+		}).catch(function(err) {
+			console.error(err);
+			process.exit(1);
+		});
+}
