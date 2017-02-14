@@ -33,7 +33,6 @@ describe('Request Cache', () => {
 		});
 	});
 
-
 	describe('parse', () => {
 		it('should transform variables in strings using it\'s cache', () => {
 			expect(cache.parse('Hello $session.hello')).toBe('Hello World');
@@ -56,18 +55,14 @@ describe('Request Cache', () => {
 		it('should parse arrays as well', () => {
 			let parsed = cache.parse({ hello: '$array.0.name' })
 			expect(parsed.hello).toBe('Sergio');
-			console.log([parsed]);
 		});
-	});
 
-	describe('safely', () => {
 		it('should return an object when given an undefined value', () => {
-			expect(Object.keys(cache.safely(undefined)).length).toBe(0)
+			expect(Object.keys(cache.parse(undefined)).length).toBe(0)
 		});
 
 		it('should parse any value other than undefined', () => {
-			expect(cache.safely('Hello $session.hello')).toBe('Hello World');
+			expect(cache.parse('Hello $session.hello')).toBe('Hello World');
 		});
 	});
-
 });

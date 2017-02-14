@@ -88,6 +88,7 @@ if (program.request) {
 
 			process.exit(0);
 		}).catch(function(err) {
+			new Line().output();
 			console.error(err);
 			process.exit(1);
 		});

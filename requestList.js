@@ -8,10 +8,6 @@ class RequestList {
 		this.cache = new RequestCache();
 	}
 
-	exec(request) {
-		return request.exec(this, this.cache);
-	}
-
 	execByAlias(alias) {
 		let request = this.list.find(r => r.$alias === alias);
 
@@ -19,7 +15,14 @@ class RequestList {
 			return Promise.reject(`${alias} not found among the requests.`);
 		}
 
-		return this.exec(request);
+		return request
+			.exec(this, this.cache)
+			.catch(reason => {
+				return Promise.reject(`${request.$verb} ${request.$endpoint} FAILED.
+Dependencies not met:
+${reason}
+				`);
+			});
 	}
 
 	loadRequests(doc) {

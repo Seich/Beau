@@ -47,21 +47,15 @@ class Request {
 	}
 
 	exec(list = new RequestList(), cache = new RequestCache()) {
-		let dependencies = [];
-
-		if (this.$dependencies.size > 0) {
-			dependencies = Array.from(this.$dependencies).map(dep => {
-				return list.execByAlias(dep);
-			});
-		}
+		let dependencies = Array.from(this.$dependencies).map(dep => list.execByAlias(dep));
 
 		return Promise.all(dependencies).then(() => {
 			let endpoint = cache.parse(this.$endpoint);
 			let request = unirest(this.$verb, endpoint);
 
-			request.headers(cache.safely(this.$headers));
-			request.query(cache.safely(this.$params));
-			request.send(cache.safely(this.$payload));
+			request.headers(cache.parse(this.$headers));
+			request.query(cache.parse(this.$params));
+			request.send(cache.parse(this.$payload));
 
 			return new Promise((resolve, reject) => {
 				request.end(res => {
@@ -78,10 +72,7 @@ class Request {
 						}
 					};
 
-
-					if (typeof this.$alias !== 'undefined') {
-						cache.add(this.$alias, results);
-					}
+					cache.add(this.$alias, results);
 
 					resolve(results);
 				});

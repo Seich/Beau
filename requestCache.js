@@ -18,28 +18,33 @@ class RequestCache {
 		});
 
 		if (typeof result === 'undefined') {
-			throw new Error('Key not found in cache: ', path);
+			throw new Error(`${path} not found in cache: `, path);
 		}
 
 		return result;
 	}
 
-	safely(val) {
-		if (typeof val === 'undefined')
-			return {};
-
-		return this.parse(val);
-	}
-
 	parse(item) {
-		if (typeof item === 'string') {
+		let type = typeof item;
+
+		if (type === 'undefined') {
+			return {};
+		}
+
+		if (item === null) {
+			return null;
+		}
+
+		if (type === 'string') {
 			return item.replace(replacementRegex, key => this.get(key));
-		} else if(typeof item === 'object' && item !== null) {
+		}
+
+		if (type === 'object') {
 			Object.keys(item).forEach(k => item[k] = this.parse(item[k]));
 			return item;
-		} else {
-			return item;
 		}
+
+		return item;
 	}
 }
 
