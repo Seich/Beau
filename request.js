@@ -4,7 +4,7 @@ const RequestList = require('./requestList');
 const RequestCache = require('./requestCache');
 
 class Request {
-	constructor(req) {
+	constructor(req, list) {
 		let { request, ALIAS, PAYLOAD, HOST, PARAMS, HEADERS } = req;
 		let { verb, endpoint } = this.parseRequest(request);
 
@@ -17,6 +17,8 @@ class Request {
 
 		this.$alias = ALIAS;
 		this.$dependencies = this.findDependencies(req);
+
+		this.list = list;
 	}
 
 	parseRequest(request) {
@@ -46,10 +48,10 @@ class Request {
 		return set;
 	}
 
-	exec(list = new RequestList(), cache = new RequestCache()) {
-		let dependencies = Array.from(this.$dependencies).map(dep => list.execByAlias(dep));
+	exec() {
+		let dependencies = Array.from(this.$dependencies);
 
-		return Promise.all(dependencies).then(() => {
+		return this.list.fetchDependencies(dependencies).then(cache => {
 			let endpoint = cache.parse(this.$endpoint);
 			let request = unirest(this.$verb, endpoint);
 

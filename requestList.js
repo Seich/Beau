@@ -1,6 +1,7 @@
 const Request = require('./request');
 const RequestCache = require('./requestCache');
 const httpVerbs = require('./shared').httpVerbs;
+
 class RequestList {
 	constructor(doc = {}, config = {}) {
 		this.config = config;
@@ -16,13 +17,17 @@ class RequestList {
 		}
 
 		return request
-			.exec(this, this.cache)
+			.exec()
 			.catch(reason => {
-				return Promise.reject(`${request.$verb} ${request.$endpoint} FAILED.
-Dependencies not met:
-${reason}
-				`);
+				return Promise
+					.reject(`${request.$verb} ${request.$endpoint} FAILED. \nDependencies not met:\n${reason}`);
 			});
+	}
+
+	fetchDependencies(dependencies) {
+		dependencies = dependencies.map(d => this.execByAlias(d));
+
+		return Promise.all(dependencies).then(() => this.cache);
 	}
 
 	loadRequests(doc) {
@@ -38,7 +43,7 @@ ${reason}
 			doc[key].HOST = this.config.HOST;
 			doc[key].request = key;
 
-			return new Request(doc[key]);
+			return new Request(doc[key], this);
 		});
 	}
 }
