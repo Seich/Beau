@@ -1,7 +1,7 @@
 {
   "name": "beau",
-  "version": "0.0.1",
-  "description": "A tool for testing RESTful APIs",
+  "version": "0.1.0",
+  "description": "A tool for testing JSON APIs",
   "main": "beau.js",
   "author": "Sergio Diaz <seich@martianwabbit.com>",
   "license": "MIT",
