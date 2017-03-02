@@ -10,6 +10,9 @@ Beau, is a CLI that executes HTTP requests based on a YAML configuration file. T
 
 ![A Gif showing how beau works](http://files.martianwabbit.com/beau.gif)
 
+## Installation
+	npm install -g beau
+
 ## Usage
 	 beau [options] -r <Request Alias>
 
