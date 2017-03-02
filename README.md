@@ -1,5 +1,9 @@
-# Beau
-Testing JSON APIs made easy.
+<div align="center">
+	<img src="http://files.martianwabbit.com/beau-logo.png"/>
+</div>
+
+<h1 align="center">Beau</h1>
+<p align="center">Testing JSON APIs made easy.</p>
 
 ## What is Beau?
 Beau, is a CLI that executes HTTP requests based on a YAML configuration file. This makes testing easy, it allows you to share test requests with others as part of your repo.
