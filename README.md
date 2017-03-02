@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="http://files.martianwabbit.com/beau-logo.png"/>
+	<img src="http://files.martianwabbit.com/beau-logo-small.png?1"/>
 </div>
 
 <h1 align="center">Beau</h1>
