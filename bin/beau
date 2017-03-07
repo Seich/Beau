@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const program = require('commander');
 const Beau = require('../beau');
 const yaml = require('js-yaml');
@@ -28,7 +27,7 @@ const beau = new Beau(config);
 
 if (typeof program.list === 'undefined' &&
 	typeof program.request === 'undefined') {
-
+	program.help();
 }
 
 if (program.list) {
