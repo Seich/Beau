@@ -79,6 +79,8 @@ class Request {
 						}
 					};
 
+					results.body = results.response.body;
+
 					cache.add(`$${this.ALIAS}`, results);
 
 					resolve(results);

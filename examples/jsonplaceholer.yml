@@ -7,5 +7,5 @@ GET /posts/:
 POST /posts/:
   alias: new-post
 
-GET /users/$posts.response.body.0.userId:
+GET /users/$posts.body.0.userId:
   alias: post-user
