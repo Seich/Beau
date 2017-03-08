@@ -28,6 +28,7 @@ describe('Request', () => {
 		cache.add('$profile', { UserId: 14 });
 
 		request = new Request(req);
+
 	});
 
 	test('It should load up the given request', () => {
@@ -40,7 +41,7 @@ describe('Request', () => {
 
 	test('It should list all of its dependencies', () => {
 		expect(request.DEPENDENCIES.size).toBe(2);
-		expect(request.DEPENDENCIES).toContain('$session');
-		expect(request.DEPENDENCIES).toContain('$profile');
+		expect(request.DEPENDENCIES).toContain('session');
+		expect(request.DEPENDENCIES).toContain('profile');
 	});
 });
