@@ -6,8 +6,8 @@ describe('RequestList', () => {
 		'POST /session': null,
 		'Not a Request': null,
 		'POST /user': {
-			ALIAS: '$user',
-			PAYLOAD: {
+			alias: 'user',
+			payload: {
 				name: 'Sergio',
 				lastname: 'Diaz'
 			}
@@ -20,7 +20,7 @@ describe('RequestList', () => {
 		let request = requests.list[0];
 
 		expect(requests.list.length).toBe(2);
-		expect(request.$verb).toBe('POST');
-		expect(request.$endpoint).toBe(host + '/session');
+		expect(request.VERB).toBe('POST');
+		expect(request.ENDPOINT).toBe(host + '/session');
 	});
 });

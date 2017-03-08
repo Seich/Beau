@@ -2,27 +2,27 @@ VERSION: '1'
 HOST: https://slack.com/api
 
 auth: &auth
-    token: xoxp-139455775026-139455775090-140286212801-4a786b8b600db898df76302a0bf0784c
+    token: xoxp-139455775026-139455775090-147751461120-f224ed6ffee029869a0f138d0859e7d6
 
 GET /users.getPresence:
-  ALIAS: $presence
+  ALIAS: presence
   PARAMS:
     <<: *auth
 
 GET /channels.list:
-  ALIAS: $channel-list
+  ALIAS: channel-list
   PARAMS:
     <<: *auth
     exclude_archived: true
 
 GET /channels.info:
-  ALIAS: $channel-info
+  ALIAS: channel-info
   PARAMS:
     <<: *auth
     channel: $channel-list.response.body.channels.0.id
 
 POST /chat.postMessage:
-  ALIAS: $new-message
+  ALIAS: new-message
   PARAMS:
     <<: *auth
     channel: $channel-info.response.body.channel.id
@@ -32,6 +32,6 @@ POST /chat.postMessage:
     username: Beau
 
 GET /users.list:
-  ALIAS: $user-list
+  ALIAS: user-list
   PARAMS:
     <<: *auth

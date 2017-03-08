@@ -10,7 +10,7 @@ class RequestList {
 	}
 
 	execByAlias(alias) {
-		let request = this.list.find(r => r.$alias === alias);
+		let request = this.list.find(r => r.ALIAS === alias);
 
 		if (typeof request === 'undefined') {
 			return Promise.reject(`${alias} not found among the requests.`);
@@ -20,7 +20,7 @@ class RequestList {
 			.exec()
 			.catch(reason => {
 				return Promise
-					.reject(`${request.$verb} ${request.$endpoint} FAILED. \nDependencies not met:\n${reason}`);
+					.reject(`${request.VERB} ${request.ENDPOINT} FAILED. \nDependencies not met:\n${reason}`);
 			});
 	}
 

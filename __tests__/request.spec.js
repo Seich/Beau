@@ -10,14 +10,15 @@ describe('Request', () => {
 	beforeEach(() => {
 		req = {
 			request: 'POST /user',
-			HOST: 'http://martianwabbit.com',
-			PARAMS: {
+			host: 'http://martianwabbit.com',
+			alias: 'profile',
+			params: {
 				userId: '$profile.UserId'
 			},
-			HEADERS: {
+			headers: {
 				authentication: 'BEARER $session.token'
 			},
-			PAYLOAD: {
+			payload: {
 				username: 'seich'
 			}
 		};
@@ -30,16 +31,16 @@ describe('Request', () => {
 	});
 
 	test('It should load up the given request', () => {
-		expect(request.$verb).toBe('POST');
-		expect(request.$endpoint).toBe(req.HOST + '/user');
-		expect(request.$headers).toBeDefined();
-		expect(request.$payload).toBeDefined();
-		expect(request.$params).toBeDefined();
+		expect(request.VERB).toBe('POST');
+		expect(request.ENDPOINT).toBe(req.host + '/user');
+		expect(request.HEADERS).toBeDefined();
+		expect(request.PAYLOAD).toBeDefined();
+		expect(request.PARAMS).toBeDefined();
 	});
 
 	test('It should list all of its dependencies', () => {
-		expect(request.$dependencies.size).toBe(2);
-		expect(request.$dependencies).toContain('$session');
-		expect(request.$dependencies).toContain('$profile');
+		expect(request.DEPENDENCIES.size).toBe(2);
+		expect(request.DEPENDENCIES).toContain('$session');
+		expect(request.DEPENDENCIES).toContain('$profile');
 	});
 });

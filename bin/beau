@@ -37,11 +37,11 @@ if (program.list) {
 		.column('Endpoint', 20, [clc.cyan])
 	.output();
 
-	beau.requests.list.forEach(({$verb, $alias, $endpoint}) =>
+	beau.requests.list.forEach(({VERB, ALIAS, ENDPOINT}) =>
 		new Line().padding(2)
-			.column($verb, 20,  [clc.yellow])
-			.column($alias, 30,  [clc.yellow])
-			.column($endpoint)
+			.column(VERB, 20,  [clc.yellow])
+			.column(ALIAS, 30,  [clc.yellow])
+			.column(ENDPOINT)
 		.output()
 	);
 
@@ -49,13 +49,12 @@ if (program.list) {
 }
 
 if (program.request) {
-	const request = `$${program.request}`;
-	const spinner = new Spinner(clc.yellow(`Requesting: ${request}`));
+	const spinner = new Spinner(clc.yellow(`Requesting: ${program.request}`));
 
 	spinner.start();
 
 	beau.requests
-		.execByAlias(request)
+		.execByAlias(program.request)
 		.then(res => {
 			spinner.stop();
 
