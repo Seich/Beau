@@ -28,8 +28,8 @@ Beau, is a CLI that executes HTTP requests based on a YAML configuration file. T
 
 ## Example Configuration File
 
-	VERSION: 1
-	HOST: https://example.com/api/
+	version: 1
+	host: https://example.com/api/
 
 	POST /session:
 		ALIAS: session
