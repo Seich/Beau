@@ -5,8 +5,10 @@ class Beau {
 		this.defaults = {
 			VERSION: 1,
 			CACHE: false,
-			HOST: ''
+			HOST: '',
+			PLUGINS: []
 		};
+
 
 		this.configKeys = Object.keys(this.defaults);
 		this.config = this.loadConfig(doc, this.defaults);

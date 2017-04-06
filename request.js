@@ -66,6 +66,11 @@ class Request {
 
 			return new Promise((resolve, reject) => {
 				request.end(res => {
+					if (res.error !== false) {
+						let error = typeof res.error.code === 'undefined' ? `Invalid Request ${res.error}` : res.error.code;
+						return reject(`HTTP Request failed: ${error}`);
+					}
+
 					let results = {
 						request: {
 							headers: res.request.headers,
@@ -83,7 +88,7 @@ class Request {
 
 					cache.add(`$${this.ALIAS}`, results);
 
-					resolve(results);
+					return resolve(results);
 				});
 			});
 		});

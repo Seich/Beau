@@ -20,7 +20,7 @@ class RequestList {
 			.exec()
 			.catch(reason => {
 				return Promise
-					.reject(`${request.VERB} ${request.ENDPOINT} FAILED. \nDependencies not met:\n${reason}`);
+					.reject(`Request: ${request.VERB} ${request.ENDPOINT} FAILED. \n${reason}`);
 			});
 	}
 
