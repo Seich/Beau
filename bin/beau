@@ -7,8 +7,10 @@ const { Line, Spinner } = require('clui');
 const clc = require('cli-color');
 const eyes = require('eyes');
 
+const package = require('../package.json');
+
 program
-	.version('0.0.1')
+	.version(package.version)
 	.usage(`[options] -r <Request Alias>`)
 	.option('-r, --request [request]', `The alias for the request you'd like to trigger.`)
 	.option('-v, --verbose', `Show all the information related to the current request and it's response.`)

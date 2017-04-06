@@ -30,20 +30,20 @@ Beau, is a CLI that executes HTTP requests based on a YAML configuration file. T
 
 	VERSION: 1
 	HOST: https://example.com/api/
-	
+
 	POST /session:
-		ALIAS: $session
+		ALIAS: session
 		PAYLOAD:
 			username: seich
 			password: hello01
-		
+
 	GET /profile
-		ALIAS: $profile
+		ALIAS: profile
 		HEADERS:
 			authorization: Bearer $session.response.body.token
-			
+
 	GET /user/$profile.response.body.id/posts
-		ALIAS: $friends
+		ALIAS: friends
 		HEADERS:
 			authorization: Bearer $session.response.body.token
 		PARAMS:
