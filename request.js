@@ -5,8 +5,8 @@ const RequestCache = require('./requestCache');
 
 class Request {
 	constructor(req, list) {
-
 		let config = {};
+		this.originalRequest = req;
 
 		Object.keys(req).forEach(k => config[k.toUpperCase()] = req[k]);
 
@@ -53,16 +53,29 @@ class Request {
 		return set;
 	}
 
-	exec() {
+	exec(modifiers = []) {
 		let dependencies = Array.from(this.DEPENDENCIES);
 
 		return this.list.fetchDependencies(dependencies).then(cache => {
-			let endpoint = cache.parse(this.ENDPOINT);
-			let request = unirest(this.VERB, endpoint);
+			let settings = {
+				endpoint: cache.parse(this.ENDPOINT),
+				method: this.VERB,
+				headers: cache.parse(this.HEADERS),
+				query: cache.parse(this.PARAMS),
+				payload: cache.parse(this.PAYLOAD)
+			};
 
-			request.headers(cache.parse(this.HEADERS));
-			request.query(cache.parse(this.PARAMS));
-			request.send(cache.parse(this.PAYLOAD));
+			modifiers.forEach(mod => {
+				if (typeof mod.preRequest !== 'undefined') {
+					mod.preRequest(settings, this.originalRequest);
+				}
+			});
+
+			let request = unirest(settings.method, settings.endpoint);
+
+			request.headers(settings.headers);
+			request.query(settings.query);
+			request.send(settings.payload);
 
 			return new Promise((resolve, reject) => {
 				request.end(res => {
@@ -75,7 +88,7 @@ class Request {
 						request: {
 							headers: res.request.headers,
 							body: res.request.body,
-							endpoint: endpoint
+							endpoint: settings.endpoint
 						},
 						response: {
 							status: res.status,

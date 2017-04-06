@@ -1,0 +1,11 @@
+host: http://localhost:10080
+
+plugins:
+  - beau-jwt:
+      data:
+        userId: 12
+        name: Sergio
+      secret: 'asdfasdf+asdfasdf/asdfasdfasdfasdf=='
+
+GET /test:
+  alias: test

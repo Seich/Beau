@@ -14,6 +14,7 @@
     "commander": "^2.9.0",
     "eyes": "^0.1.8",
     "js-yaml": "^3.7.0",
+    "requireg": "^0.1.6",
     "unirest": "^0.5.1"
   },
   "repository": "git@github.com:Seich/Beau.git",

@@ -1,10 +1,13 @@
 const Request = require('./request');
 const RequestCache = require('./requestCache');
 const httpVerbs = require('./shared').httpVerbs;
+const requireg = require('requireg');
 
 class RequestList {
 	constructor(doc = {}, config = {}) {
 		this.config = config;
+
+		this.modifiers = this.loadPlugins();
 		this.list = this.loadRequests(doc);
 		this.cache = new RequestCache();
 	}
@@ -17,7 +20,16 @@ class RequestList {
 		}
 
 		return request
-			.exec()
+			.exec(this.modifiers)
+			.then(res => {
+				this.modifiers.forEach(mod => {
+					if (typeof mod.postResponse !== 'undefined') {
+						mod.postResponse(res);
+					}
+				});
+
+				return res;
+			})
 			.catch(reason => {
 				return Promise
 					.reject(`Request: ${request.VERB} ${request.ENDPOINT} FAILED. \n${reason}`);
@@ -44,6 +56,20 @@ class RequestList {
 			doc[key].request = key;
 
 			return new Request(doc[key], this);
+		});
+	}
+
+	loadPlugins() {
+		return this.config.PLUGINS.map(plugin => {
+			let name = plugin;
+			let settings = null;
+
+			if (typeof plugin === 'object') {
+				name = Object.keys(plugin)[0];
+				settings = plugin[name];
+			}
+
+			return new (requireg(name))(settings)
 		});
 	}
 }
