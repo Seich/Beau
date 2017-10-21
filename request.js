@@ -10,7 +10,7 @@ class Request {
 
 		Object.keys(req).forEach(k => config[k.toUpperCase()] = req[k]);
 
-		let { REQUEST, ALIAS, PAYLOAD, HOST, PARAMS, HEADERS } = config;
+		let { REQUEST, ALIAS, PAYLOAD, HOST, PARAMS, HEADERS, DOCUMENTATION } = config;
 		let { verb, endpoint } = this.parseRequest(REQUEST);
 
 		this.VERB = verb;
@@ -22,6 +22,8 @@ class Request {
 
 		this.ALIAS = ALIAS;
 		this.DEPENDENCIES = this.findDependencies(req);
+
+		this.DOCUMENTATION = DOCUMENTATION;
 
 		this.list = list;
 	}

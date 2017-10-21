@@ -56,8 +56,14 @@ if (
 }
 
 if (program.cleanList) {
-	beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT }) => {
-		console.log(`${VERB}\t${ALIAS}\t${ENDPOINT}`);
+	beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT, DOCUMENTATION }) => {
+		if (typeof DOCUMENTATION !== 'undefined') {
+			let {title, description} = DOCUMENTATION;
+			console.log(`${VERB}\t${ALIAS}\t${ENDPOINT}\t${title}\t${description}`);
+
+		} else {
+			console.log(`${VERB}\t${ALIAS}\t${ENDPOINT}`);
+		}
 	});
 }
 
