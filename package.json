@@ -1,6 +1,6 @@
 {
   "name": "beau",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "A tool for testing JSON APIs",
   "main": "beau.js",
   "author": "Sergio Diaz <seich@martianwabbit.com>",
