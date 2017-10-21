@@ -12,42 +12,42 @@ class RequestList {
 		this.cache = new RequestCache();
 	}
 
-	execByAlias(alias) {
+	async execByAlias(alias) {
 		let request = this.list.find(r => r.ALIAS === alias);
 
 		if (typeof request === 'undefined') {
 			return Promise.reject(`${alias} not found among the requests.`);
 		}
 
-		return request
-			.exec(this.modifiers)
-			.then(res => {
-				this.modifiers.forEach(mod => {
-					if (typeof mod.postResponse !== 'undefined') {
-						mod.postResponse(res);
-					}
-				});
+		try {
+			let response = await request.exec(this.modifiers);
 
-				return res;
-			})
-			.catch(reason => {
-				return Promise
-					.reject(`Request: ${request.VERB} ${request.ENDPOINT} FAILED. \n${reason}`);
+			this.modifiers.forEach(mod => {
+				if (typeof mod.postResponse !== 'undefined') {
+					mod.postResponse(response);
+				}
 			});
+
+			return response;
+		} catch (reason) {
+			throw new Error(
+				`Request: ${request.VERB} ${request.ENDPOINT} FAILED. \n${reason}`
+			);
+		}
 	}
 
-	fetchDependencies(dependencies) {
+	async fetchDependencies(dependencies) {
 		dependencies = dependencies.map(d => this.execByAlias(d));
+		await Promise.all(dependencies);
 
-		return Promise.all(dependencies).then(() => this.cache);
+		return this.cache;
 	}
 
 	loadRequests(doc) {
-		let requestKeys = Object.keys(doc)
-			.filter(key => {
-				let verb = key.split(' ')[0].toUpperCase();
-				return httpVerbs.indexOf(verb) > -1;
-			});
+		let requestKeys = Object.keys(doc).filter(key => {
+			let verb = key.split(' ')[0].toUpperCase();
+			return httpVerbs.indexOf(verb) > -1;
+		});
 
 		return requestKeys.map(key => {
 			doc[key] = doc[key] || {};

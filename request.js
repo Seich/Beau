@@ -52,25 +52,27 @@ class Request {
 		return set;
 	}
 
-	exec(modifiers = []) {
+	async exec(modifiers = []) {
 		let dependencies = Array.from(this.DEPENDENCIES);
 
-		return this.list.fetchDependencies(dependencies).then(cache => {
-			let settings = {
-				endpoint: cache.parse(this.ENDPOINT),
-				method: this.VERB,
-				headers: cache.parse(this.HEADERS),
-				query: cache.parse(this.PARAMS),
-				payload: cache.parse(this.PAYLOAD)
-			};
+		let cache = await this.list.fetchDependencies(dependencies);
 
-			modifiers.forEach(mod => {
-				if (typeof mod.preRequest !== 'undefined') {
-					mod.preRequest(settings, this.originalRequest);
-				}
-			});
+		let settings = {
+			endpoint: cache.parse(this.ENDPOINT),
+			method: this.VERB,
+			headers: cache.parse(this.HEADERS),
+			query: cache.parse(this.PARAMS),
+			payload: cache.parse(this.PAYLOAD)
+		};
 
-			return request({
+		modifiers.forEach(mod => {
+			if (typeof mod.preRequest !== 'undefined') {
+				mod.preRequest(settings, this.originalRequest);
+			}
+		});
+
+		try {
+			let response = await request({
 				url: settings.endpoint,
 				method: settings.method,
 				headers: settings.headers,
@@ -80,33 +82,28 @@ class Request {
 				json: true,
 				simple: false,
 				resolveWithFullResponse: true
-			})
-
-			.then(response => {
-				let results = {
-					request: {
-						headers: response.request.headers,
-						body: response.request.body,
-						endpoint: response.request.uri.href
-					},
-					response: {
-						status: response.statusCode,
-						headers: response.headers,
-						body: response.body
-					},
-					body: response.body
-				};
-
-				cache.add(`$${this.ALIAS}`, results);
-
-				return results;
-			})
-
-			.catch(function({error}) {
-				throw new Error(error.message);
 			});
 
-		});
+			let results = {
+				request: {
+					headers: response.request.headers,
+					body: response.request.body,
+					endpoint: response.request.uri.href
+				},
+				response: {
+					status: response.statusCode,
+					headers: response.headers,
+					body: response.body
+				},
+				body: response.body
+			};
+
+			cache.add(`$${this.ALIAS}`, results);
+
+			return results;
+		} catch({error}) {
+			throw new Error(error);
+		}
 	}
 }
 
