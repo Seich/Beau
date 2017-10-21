@@ -1,12 +1,13 @@
 {
   "name": "beau",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A tool for testing JSON APIs",
   "main": "beau.js",
   "author": "Sergio Diaz <seich@martianwabbit.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "watch": "jest --watch"
   },
   "dependencies": {
     "cli-color": "^1.1.0",
@@ -14,8 +15,9 @@
     "commander": "^2.9.0",
     "eyes": "^0.1.8",
     "js-yaml": "^3.7.0",
-    "requireg": "^0.1.6",
-    "unirest": "^0.5.1"
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "requireg": "^0.1.6"
   },
   "repository": "git@github.com:Seich/Beau.git",
   "devDependencies": {
@@ -23,7 +25,7 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "notify": false
+    "notify": true
   },
   "bin": {
     "beau": "./bin/beau"

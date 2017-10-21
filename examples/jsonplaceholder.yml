@@ -1,5 +1,5 @@
 version: 1
-host: 'https://jsonplaceholder.typicode.com'
+host: 'http://jsonplaceholder.typicode.com'
 
 GET /posts/:
   alias: posts
@@ -9,3 +9,5 @@ POST /posts/:
 
 GET /users/$posts.body.0.userId:
   alias: post-user
+  params:
+    hello: 'world'

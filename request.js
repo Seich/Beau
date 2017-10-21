@@ -1,4 +1,4 @@
-const unirest = require('unirest');
+const request = require('request-promise-native');
 const {httpVerbs, requestRegex, replacementRegex} = require('./shared');
 const RequestList = require('./requestList');
 const RequestCache = require('./requestCache');
@@ -71,39 +71,41 @@ class Request {
 				}
 			});
 
-			let request = unirest(settings.method, settings.endpoint);
+			return request({
+				url: settings.endpoint,
+				method: settings.method,
+				headers: settings.headers,
+				qs: settings.query,
+				body: settings.payload,
+				json: true,
+				simple: false,
+				resolveWithFullResponse: true
+			})
 
-			request.headers(settings.headers);
-			request.query(settings.query);
-			request.send(settings.payload);
+			.then(response => {
+				let results = {
+					request: {
+						headers: response.request.headers,
+						body: response.request.body,
+						endpoint: response.request.uri.href
+					},
+					response: {
+						status: response.statusCode,
+						headers: response.headers,
+						body: response.body
+					},
+					body: response.body
+				};
 
-			return new Promise((resolve, reject) => {
-				request.end(res => {
-					if (res.error !== false) {
-						let error = typeof res.error.code === 'undefined' ? `Invalid Request ${res.error}` : res.error.code;
-						return reject(`HTTP Request failed: ${error}`);
-					}
+				cache.add(`$${this.ALIAS}`, results);
 
-					let results = {
-						request: {
-							headers: res.request.headers,
-							body: res.request.body,
-							endpoint: settings.endpoint
-						},
-						response: {
-							status: res.status,
-							headers: res.headers,
-							body: res.body,
-						}
-					};
+				return results;
+			})
 
-					results.body = results.response.body;
-
-					cache.add(`$${this.ALIAS}`, results);
-
-					return resolve(results);
-				});
+			.catch(function({error}) {
+				throw new Error(error.message);
 			});
+
 		});
 	}
 }

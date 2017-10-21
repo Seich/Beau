@@ -60,6 +60,10 @@ class RequestList {
 	}
 
 	loadPlugins() {
+		if (typeof this.config.PLUGINS === 'undefined') {
+			return;
+		}
+
 		return this.config.PLUGINS.map(plugin => {
 			let name = plugin;
 			let settings = null;
