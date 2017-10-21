@@ -37,10 +37,9 @@ class Request {
 
 	findDependencies(request, set = new Set()) {
 		if (typeof request === 'object') {
-			Object.keys(request).forEach(key => {
-				if (key === 'ALIAS')
-					return;
+			let keys = Object.keys(request).filter(key => key !== 'ALIAS');
 
+			keys.forEach(key => {
 				set = this.findDependencies(request[key], set);
 			});
 		} else if (typeof request === 'string') {
@@ -77,6 +76,7 @@ class Request {
 				headers: settings.headers,
 				qs: settings.query,
 				body: settings.payload,
+
 				json: true,
 				simple: false,
 				resolveWithFullResponse: true
