@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const program = require('commander');
+const process = require('process');
 const Beau = require('../beau');
 const yaml = require('js-yaml');
 const fs = require('fs');
@@ -12,11 +13,29 @@ const package = require('../package.json');
 program
 	.version(package.version)
 	.usage(`[options] -r <Request Alias>`)
-	.option('-r, --request [request]', `The alias for the request you'd like to trigger.`)
-	.option('-v, --verbose', `Show all the information related to the current request and it's response.`)
-	.option('-c, --config [file]', 'Specify your request config file. Defaults to beau.yml in the current directory.', 'beau.yml')
+	.option(
+		'-r, --request [request]',
+		`The alias for the request you'd like to trigger.`
+	)
+	.option(
+		'-R, --clean-request [request]',
+		`The alias for the request you'd like to trigger. This one doesn't format the output.`
+	)
+	.option(
+		'-v, --verbose',
+		`Show all the information related to the current request and it's response.`
+	)
+	.option(
+		'-c, --config [file]',
+		'Specify your request config file. Defaults to beau.yml in the current directory.',
+		'beau.yml'
+	)
 	.option('-l, --list', `List all requests in the config file.`)
-	.option('-t, --truncate [length]', `Truncate the content to the given length`)
+	.option('-L, --clean-list', `List all requests with no formatting.`)
+	.option(
+		'-t, --truncate [length]',
+		`Truncate the content to the given length`
+	)
 	.parse(process.argv);
 
 if (!fs.existsSync(program.config)) {
@@ -27,27 +46,51 @@ if (!fs.existsSync(program.config)) {
 const config = yaml.safeLoad(fs.readFileSync(program.config, 'utf-8'));
 const beau = new Beau(config);
 
-if (typeof program.list === 'undefined' &&
-	typeof program.request === 'undefined') {
+if (
+	typeof program.list === 'undefined' &&
+	typeof program.request === 'undefined' &&
+	typeof program.cleanList === 'undefined' &&
+	typeof program.cleanRequest === 'undefined'
+) {
 	program.help();
 }
 
+if (program.cleanList) {
+	beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT }) => {
+		console.log(`${VERB}\t${ALIAS}\t${ENDPOINT}`);
+	});
+}
+
 if (program.list) {
-	new Line().padding(2)
+	new Line()
+		.padding(2)
 		.column('HTTP Verb', 20, [clc.cyan])
 		.column('Alias', 30, [clc.cyan])
 		.column('Endpoint', 20, [clc.cyan])
-	.output();
+		.output();
 
-	beau.requests.list.forEach(({VERB, ALIAS, ENDPOINT}) =>
-		new Line().padding(2)
-			.column(VERB, 20,  [clc.yellow])
-			.column(ALIAS, 30,  [clc.yellow])
+	beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT }) =>
+		new Line()
+			.padding(2)
+			.column(VERB, 20, [clc.yellow])
+			.column(ALIAS, 30, [clc.yellow])
 			.column(ENDPOINT)
-		.output()
+			.output()
 	);
 
 	new Line().output();
+}
+
+if (program.cleanRequest) {
+	beau.requests.execByAlias(program.cleanRequest).then(res => {
+		let {status, headers, body} = res.response;
+		let {endpoint} = res.request;
+
+		process.stdout.write(status + '\n');
+		process.stdout.write(endpoint + '\n');
+		process.stdout.write(JSON.stringify(headers) + '\n');
+		process.stdout.write(JSON.stringify(body) + '\n');
+	});
 }
 
 if (program.request) {
@@ -63,17 +106,21 @@ if (program.request) {
 			let { status, body } = res.response;
 			let { endpoint } = res.request;
 
-			status = status.toString().startsWith(2) ? clc.green(status) : clc.red(status);
+			status = status.toString().startsWith(2)
+				? clc.green(status)
+				: clc.red(status);
 
-			new Line().padding(2)
+			new Line()
+				.padding(2)
 				.column('Status', 20, [clc.cyan])
 				.column('Endpoint', 20, [clc.cyan])
-			.output();
+				.output();
 
-			new Line().padding(2)
+			new Line()
+				.padding(2)
 				.column(status, 20)
 				.column(endpoint)
-			.output();
+				.output();
 
 			new Line().output();
 
@@ -87,7 +134,8 @@ if (program.request) {
 			}
 
 			process.exit(0);
-		}).catch(function(err) {
+		})
+		.catch(function(err) {
 			new Line().output();
 			console.error(err);
 			process.exit(1);
