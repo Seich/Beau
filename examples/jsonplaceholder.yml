@@ -1,6 +1,8 @@
 version: 1
 host: 'http://jsonplaceholder.typicode.com'
 
+GET /posts/1: get-post
+
 GET /posts/:
   alias: posts
   documentation:

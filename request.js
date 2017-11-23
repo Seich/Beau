@@ -4,7 +4,7 @@ const RequestList = require('./requestList');
 const RequestCache = require('./requestCache');
 
 class Request {
-	constructor(req, list) {
+	constructor(req) {
 		let config = {};
 		this.originalRequest = req;
 
@@ -21,11 +21,13 @@ class Request {
 		this.PARAMS = PARAMS;
 
 		this.ALIAS = ALIAS;
-		this.DEPENDENCIES = this.findDependencies(req);
-
 		this.DOCUMENTATION = DOCUMENTATION;
 
-		this.list = list;
+		if (typeof this.ALIAS === 'undefined') {
+			console.info(`${REQUEST} is missing an alias.`);
+		}
+
+		this.DEPENDENCIES = this.findDependencies(req);
 	}
 
 	parseRequest(request) {
@@ -54,10 +56,10 @@ class Request {
 		return set;
 	}
 
-	async exec(modifiers = []) {
+	async exec(modifiers = [], requestList) {
 		let dependencies = Array.from(this.DEPENDENCIES);
 
-		let cache = await this.list.fetchDependencies(dependencies);
+		let cache = await requestList.fetchDependencies(dependencies);
 
 		let settings = {
 			endpoint: cache.parse(this.ENDPOINT),
@@ -103,7 +105,7 @@ class Request {
 			cache.add(`$${this.ALIAS}`, results);
 
 			return results;
-		} catch({error}) {
+		} catch({ error }) {
 			throw new Error(error);
 		}
 	}

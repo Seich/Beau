@@ -6,7 +6,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const { Line, Spinner } = require('clui');
 const clc = require('cli-color');
-const eyes = require('eyes');
+const jsome = require('jsome');
 
 const package = require('../package.json');
 
@@ -58,9 +58,10 @@ if (
 if (program.cleanList) {
 	beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT, DOCUMENTATION }) => {
 		if (typeof DOCUMENTATION !== 'undefined') {
-			let {title, description} = DOCUMENTATION;
-			console.log(`${VERB}\t${ALIAS}\t${ENDPOINT}\t${title}\t${description}`);
-
+			let { title, description } = DOCUMENTATION;
+			console.log(
+				`${VERB}\t${ALIAS}\t${ENDPOINT}\t${title}\t${description}`
+			);
 		} else {
 			console.log(`${VERB}\t${ALIAS}\t${ENDPOINT}`);
 		}
@@ -88,15 +89,22 @@ if (program.list) {
 }
 
 if (program.cleanRequest) {
-	beau.requests.execByAlias(program.cleanRequest).then(res => {
-		let {status, headers, body} = res.response;
-		let {endpoint} = res.request;
+	beau.requests
+		.execByAlias(program.cleanRequest)
+		.then(res => {
+			let { status, headers, body } = res.response;
+			let { endpoint } = res.request;
 
-		process.stdout.write(status + '\n');
-		process.stdout.write(endpoint + '\n');
-		process.stdout.write(JSON.stringify(headers) + '\n');
-		process.stdout.write(JSON.stringify(body) + '\n');
-	});
+			console.log(status);
+			console.log(endpoint);
+			console.log(JSON.stringify(headers));
+			console.log(JSON.stringify(body));
+		})
+		.catch(err => {
+			new Line().output();
+			console.error(err);
+			process.exit(1);
+		});
 }
 
 if (program.request) {
@@ -131,17 +139,16 @@ if (program.request) {
 			new Line().output();
 
 			let maxLength = +(program.truncate || res.length);
-			let inspect = eyes.inspector({ maxLength });
 
 			if (program.verbose) {
-				inspect(res);
+				jsome(res);
 			} else {
-				inspect(body);
+				jsome(body);
 			}
 
 			process.exit(0);
 		})
-		.catch(function(err) {
+		.catch(err => {
 			new Line().output();
 			console.error(err);
 			process.exit(1);

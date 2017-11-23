@@ -20,7 +20,7 @@ class RequestList {
 		}
 
 		try {
-			let response = await request.exec(this.modifiers);
+			let response = await request.exec(this.modifiers, this);
 
 			this.modifiers.forEach(mod => {
 				if (typeof mod.postResponse !== 'undefined') {
@@ -44,18 +44,26 @@ class RequestList {
 	}
 
 	loadRequests(doc) {
-		let requestKeys = Object.keys(doc).filter(key => {
+		let requests = Object.keys(doc).filter(key => {
 			let verb = key.split(' ')[0].toUpperCase();
 			return httpVerbs.indexOf(verb) > -1;
 		});
 
-		return requestKeys.map(key => {
-			doc[key] = doc[key] || {};
+		return requests.map(request => {
+			let type = typeof doc[request];
 
-			doc[key].HOST = this.config.HOST;
-			doc[key].request = key;
+			if (type === 'string') {
+				doc[request] = {
+					ALIAS: doc[request]
+				};
+			}
 
-			return new Request(doc[key], this);
+			doc[request] = doc[request] || {};
+
+			doc[request].HOST = this.config.HOST;
+			doc[request].request = request;
+
+			return new Request(doc[request]);
 		});
 	}
 
@@ -73,7 +81,7 @@ class RequestList {
 				settings = plugin[name];
 			}
 
-			return new (requireg(name))(settings)
+			return new (requireg(name))(settings);
 		});
 	}
 }

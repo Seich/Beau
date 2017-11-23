@@ -5,6 +5,7 @@ describe('RequestList', () => {
 	let doc = {
 		'POST /session': null,
 		'Not a Request': null,
+		'GET /post': 'get-posts',
 		'POST /user': {
 			alias: 'user',
 			payload: {
@@ -19,7 +20,7 @@ describe('RequestList', () => {
 		let requests = new RequestList(doc, { HOST: host });
 		let request = requests.list[0];
 
-		expect(requests.list.length).toBe(2);
+		expect(requests.list.length).toBe(3);
 		expect(request.VERB).toBe('POST');
 		expect(request.ENDPOINT).toBe(host + '/session');
 	});
