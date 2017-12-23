@@ -8,23 +8,27 @@
 ## What is Beau?
 Beau, is a CLI that executes HTTP requests based on a YAML configuration file. This makes testing easy, it allows you to share test requests with others as part of your repo.
 
-![A Gif showing how beau works](http://files.martianwabbit.com/beau.gif)
+![A Gif showing how beau works](http://files.martianwabbit.com/beau2.gif)
 
 ## Installation
 	npm install -g beau
 
 ## Usage
-	 beau [options] -r <Request Alias>
+	⚡  beau --help
 
-  Options:
+	Usage: beau [options] [command]
 
-    -h, --help               output usage information
-    -V, --version            output the version number
-    -r, --request [request]  The alias for the request you'd like to trigger.
-    -v, --verbose            Show all the information related to the current request and it's response.
-    -c, --config [file]      Specify your request config file. Defaults to beau.yml in the current directory.
-    -l, --list               List all requests in the config file.
-    -t, --truncate [length]  Truncate the content to the given length
+
+	Options:
+
+	-V, --version  output the version number
+	-h, --help     output usage information
+
+
+	Commands:
+
+	request [options] <alias>
+	list [options]
 
 ## Example Configuration File
 
@@ -50,7 +54,7 @@ Beau, is a CLI that executes HTTP requests based on a YAML configuration file. T
 			archived: true
 
 ## Example Usage
-	beau -r profile
+	beau request profile
 
 That would execute the profile request along with it´s dependencies. In this case, the session request would be made as well since we are using it´s response value as part of our current request.
 
