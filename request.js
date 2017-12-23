@@ -1,5 +1,5 @@
 const request = require('request-promise-native');
-const {httpVerbs, requestRegex, replacementRegex} = require('./shared');
+const { httpVerbs, requestRegex, replacementRegex } = require('./shared');
 const RequestList = require('./requestList');
 const RequestCache = require('./requestCache');
 
@@ -8,10 +8,18 @@ class Request {
 		let config = {};
 		this.originalRequest = req;
 
-		Object.keys(req).forEach(k => config[k.toUpperCase()] = req[k]);
+		Object.keys(req).forEach(k => (config[k.toUpperCase()] = req[k]));
 
-		let { REQUEST, ALIAS, PAYLOAD, HOST, PARAMS, HEADERS, DOCUMENTATION } = config;
-		let { verb, endpoint } = this.parseRequest(REQUEST);
+		const {
+			REQUEST,
+			ALIAS,
+			PAYLOAD,
+			HOST,
+			PARAMS,
+			HEADERS,
+			DOCUMENTATION
+		} = config;
+		const { verb, endpoint } = this.parseRequest(REQUEST);
 
 		this.VERB = verb;
 		this.ENDPOINT = HOST + endpoint;
@@ -41,14 +49,14 @@ class Request {
 
 	findDependencies(request, set = new Set()) {
 		if (typeof request === 'object') {
-			let keys = Object.keys(request).filter(key => key !== 'ALIAS');
+			const keys = Object.keys(request).filter(key => key !== 'ALIAS');
 
 			keys.forEach(key => {
 				set = this.findDependencies(request[key], set);
 			});
 		} else if (typeof request === 'string') {
-			let matches = request.match(replacementRegex) || [];
-			let deps = matches.map(m => m.split('.')[0].substring(1));
+			const matches = request.match(replacementRegex) || [];
+			const deps = matches.map(m => m.split('.')[0].substring(1));
 
 			return new Set([...set, ...deps]);
 		}
@@ -56,12 +64,8 @@ class Request {
 		return set;
 	}
 
-	async exec(modifiers = [], requestList) {
-		let dependencies = Array.from(this.DEPENDENCIES);
-
-		let cache = await requestList.fetchDependencies(dependencies);
-
-		let settings = {
+	async exec(modifiers = [], cache = new RequestCache()) {
+		const settings = {
 			endpoint: cache.parse(this.ENDPOINT),
 			method: this.VERB,
 			headers: cache.parse(this.HEADERS),
@@ -76,7 +80,7 @@ class Request {
 		});
 
 		try {
-			let response = await request({
+			const response = await request({
 				url: settings.endpoint,
 				method: settings.method,
 				headers: settings.headers,
@@ -88,7 +92,7 @@ class Request {
 				resolveWithFullResponse: true
 			});
 
-			let results = {
+			const results = {
 				request: {
 					headers: response.request.headers,
 					body: response.request.body,
@@ -105,7 +109,7 @@ class Request {
 			cache.add(`$${this.ALIAS}`, results);
 
 			return results;
-		} catch({ error }) {
+		} catch ({ error }) {
 			throw new Error(error);
 		}
 	}

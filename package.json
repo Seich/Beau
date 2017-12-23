@@ -1,6 +1,6 @@
 {
   "name": "beau",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A tool for testing JSON APIs",
   "main": "beau.js",
   "author": "Sergio Diaz <seich@martianwabbit.com>",
@@ -21,7 +21,7 @@
   },
   "repository": "git@github.com:Seich/Beau.git",
   "devDependencies": {
-    "jest": "^17.0.3"
+    "jest": "22.0.4"
   },
   "jest": {
     "testEnvironment": "node",

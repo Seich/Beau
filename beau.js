@@ -9,22 +9,20 @@ class Beau {
 			PLUGINS: []
 		};
 
-
 		this.configKeys = Object.keys(this.defaults);
-		this.config = this.loadConfig(doc, this.defaults);
+		this.config = this.loadConfig(doc);
 		this.requests = new RequestList(doc, this.config);
 	}
 
-	loadConfig(doc, defaults = {}) {
-		var result = defaults;
+	loadConfig(doc) {
+		let result = this.defaults;
 
 		Object.keys(doc)
 			.filter(k => this.configKeys.indexOf(k.toUpperCase()) > -1)
-			.forEach(k => result[k.toUpperCase()] = doc[k]);
+			.forEach(k => (result[k.toUpperCase()] = doc[k]));
 
 		return result;
 	}
 }
-
 
 module.exports = Beau;

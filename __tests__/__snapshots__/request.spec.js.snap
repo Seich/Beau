@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Request It should execute a request 1`] = `
+Object {
+  "body": "{\\"hello\\": \\"world\\"}",
+  "request": Object {
+    "body": Object {
+      "username": "seich",
+    },
+    "endpoint": "http://martianwabbit.com/user",
+    "headers": Object {
+      "authentication": "BEARER abc123",
+    },
+  },
+  "response": Object {
+    "body": "{\\"hello\\": \\"world\\"}",
+    "headers": Array [],
+    "status": 200,
+  },
+}
+`;
+
+exports[`Request It should execute a request 2`] = `
+Object {
+  "body": "{\\"hello\\": \\"world\\"}",
+  "request": Object {
+    "body": Object {},
+    "endpoint": "http://martianwabbit.com/user",
+    "headers": Object {},
+  },
+  "response": Object {
+    "body": "{\\"hello\\": \\"world\\"}",
+    "headers": Array [],
+    "status": 200,
+  },
+}
+`;
+
+exports[`Request It should use modifiers 1`] = `
+Array [
+  Array [
+    Object {
+      "endpoint": "http://martianwabbit.com/user",
+      "headers": Object {},
+      "method": "GET",
+      "payload": Object {},
+      "query": Object {},
+    },
+    Object {
+      "alias": "show",
+      "host": "http://martianwabbit.com",
+      "request": "GET /user",
+    },
+  ],
+]
+`;

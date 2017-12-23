@@ -11,9 +11,7 @@ class RequestCache {
 
 	get(path) {
 		let result = this.$cache;
-
 		path.split('.').forEach(part => {
-			if (result === undefined) return;
 			result = result[part];
 		});
 
@@ -40,7 +38,7 @@ class RequestCache {
 		}
 
 		if (type === 'object') {
-			Object.keys(item).forEach(k => item[k] = this.parse(item[k]));
+			Object.keys(item).forEach(k => (item[k] = this.parse(item[k])));
 			return item;
 		}
 

@@ -10,13 +10,16 @@ describe('Request Cache', () => {
 			hello: 'World'
 		});
 
-		cache.add('$array', [{
-			id: 1,
-			name: 'Sergio'
-		}, {
-			id: 2,
-			name: 'Angela'
-		}]);
+		cache.add('$array', [
+			{
+				id: 1,
+				name: 'Sergio'
+			},
+			{
+				id: 2,
+				name: 'Angela'
+			}
+		]);
 	});
 
 	it('should add keys to the cache', () => {
@@ -29,23 +32,31 @@ describe('Request Cache', () => {
 		});
 
 		it('should throw when given an invalid path', () => {
-			expect(cache.get('$session.hello')).toThrow();
+			expect(() => cache.get('$session.world')).toThrow();
 		});
 	});
 
 	describe('parse', () => {
-		it('should transform variables in strings using it\'s cache', () => {
+		it("should transform variables in strings using it's cache", () => {
 			expect(cache.parse('Hello $session.hello')).toBe('Hello World');
 		});
 
 		it('should go transform variables in all values when given an object', () => {
-			let parsed = cache.parse({ hello: 'hello $session.hello', earth: '$session.hello' });
+			let parsed = cache.parse({
+				hello: 'hello $session.hello',
+				earth: '$session.hello'
+			});
 			expect(parsed.hello).toBe('hello World');
 			expect(parsed.earth).toBe('World');
 		});
 
 		it('should return every non-string value as-is', () => {
-			let parsed = cache.parse({ number: 1, nulled: null, truthy: false, hello: '$session.hello' });
+			let parsed = cache.parse({
+				number: 1,
+				nulled: null,
+				truthy: false,
+				hello: '$session.hello'
+			});
 			expect(parsed.number).toBe(1);
 			expect(parsed.nulled).toBeNull();
 			expect(parsed.truthy).toBe(false);
@@ -53,16 +64,20 @@ describe('Request Cache', () => {
 		});
 
 		it('should parse arrays as well', () => {
-			let parsed = cache.parse({ hello: '$array.0.name' })
+			let parsed = cache.parse({ hello: '$array.0.name' });
 			expect(parsed.hello).toBe('Sergio');
 		});
 
 		it('should return an object when given an undefined value', () => {
-			expect(Object.keys(cache.parse(undefined)).length).toBe(0)
+			expect(Object.keys(cache.parse(undefined)).length).toBe(0);
 		});
 
 		it('should parse any value other than undefined', () => {
 			expect(cache.parse('Hello $session.hello')).toBe('Hello World');
+		});
+
+		it('should return null when passed null', () => {
+			expect(cache.parse(null)).toBe(null);
 		});
 	});
 });

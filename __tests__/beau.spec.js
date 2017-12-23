@@ -1,9 +1,8 @@
-const fs = require('fs');
 const Beau = require('../beau');
 const yaml = require('js-yaml');
 
 describe(`Beau's config Loader.`, () => {
-	it ('Should only load valid configuration keys', () => {
+	it('Should only load valid configuration keys', () => {
 		let host = 'http://martianwabbit.com';
 		let version = 1;
 		let cache = false;

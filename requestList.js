@@ -13,14 +13,15 @@ class RequestList {
 	}
 
 	async execByAlias(alias) {
-		let request = this.list.find(r => r.ALIAS === alias);
+		const request = this.list.find(r => r.ALIAS === alias);
 
 		if (typeof request === 'undefined') {
-			return Promise.reject(`${alias} not found among the requests.`);
+			throw new Error(`${alias} not found among the requests.`);
 		}
 
 		try {
-			let response = await request.exec(this.modifiers, this);
+			await this.fetchDependencies(Array.from(request.DEPENDENCIES));
+			const response = await request.exec(this.modifiers, this.cache);
 
 			this.modifiers.forEach(mod => {
 				if (typeof mod.postResponse !== 'undefined') {
@@ -44,13 +45,13 @@ class RequestList {
 	}
 
 	loadRequests(doc) {
-		let requests = Object.keys(doc).filter(key => {
-			let verb = key.split(' ')[0].toUpperCase();
+		const requests = Object.keys(doc).filter(key => {
+			const verb = key.split(' ')[0].toUpperCase();
 			return httpVerbs.indexOf(verb) > -1;
 		});
 
 		return requests.map(request => {
-			let type = typeof doc[request];
+			const type = typeof doc[request];
 
 			if (type === 'string') {
 				doc[request] = {
@@ -69,7 +70,7 @@ class RequestList {
 
 	loadPlugins() {
 		if (typeof this.config.PLUGINS === 'undefined') {
-			return;
+			return [];
 		}
 
 		return this.config.PLUGINS.map(plugin => {

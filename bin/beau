@@ -75,7 +75,7 @@ program
 			process.exit(0);
 		} catch (err) {
 			new Line().output();
-			console.error(err);
+			console.error(err.message);
 			process.exit(1);
 		}
 	});
