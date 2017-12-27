@@ -7,12 +7,14 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "watch": "jest --watch"
+    "watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "cli-color": "^1.1.0",
     "clui": "^0.3.1",
     "commander": "^2.12.2",
+    "deepmerge": "^2.0.1",
     "js-yaml": "^3.7.0",
     "jsome": "^2.3.26",
     "request": "^2.83.0",
@@ -29,5 +31,8 @@
   },
   "bin": {
     "beau": "./bin/beau"
+  },
+  "engines": {
+    "node": ">=8.9.3"
   }
 }

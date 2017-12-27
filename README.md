@@ -4,7 +4,11 @@
 
 <h1 align="center">Beau</h1>
 <p align="center">Testing JSON APIs made easy.</p>
-
+<p align="center">
+	<a href="https://codeclimate.com/github/Seich/Beau/maintainability"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/maintainability" /></a>
+	<a href="https://codeclimate.com/github/Seich/Beau/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/test_coverage" /></a>
+	<a href="https://circleci.com/gh/Seich/Beau/tree/master"><img src="https://circleci.com/gh/Seich/Beau/tree/master.svg?style=svg" alt="CircleCI"></a>
+</p>
 ## What is Beau?
 Beau, is a CLI that executes HTTP requests based on a YAML configuration file. This makes testing easy, it allows you to share test requests with others as part of your repo.
 
@@ -33,7 +37,7 @@ Beau, is a CLI that executes HTTP requests based on a YAML configuration file. T
 ## Example Configuration File
 
 	version: 1
-	host: https://example.com/api/
+	endpoint: https://example.com/api/
 
 	POST /session:
 		ALIAS: session

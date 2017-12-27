@@ -51,17 +51,8 @@ class RequestList {
 		});
 
 		return requests.map(request => {
-			const type = typeof doc[request];
-
-			if (type === 'string') {
-				doc[request] = {
-					ALIAS: doc[request]
-				};
-			}
-
 			doc[request] = doc[request] || {};
-
-			doc[request].HOST = this.config.HOST;
+			doc[request].ENDPOINT = this.config.ENDPOINT;
 			doc[request].request = request;
 
 			return new Request(doc[request]);

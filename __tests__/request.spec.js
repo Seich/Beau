@@ -12,7 +12,7 @@ describe('Request', () => {
 	beforeEach(() => {
 		req = {
 			request: 'POST /user',
-			host: 'http://martianwabbit.com',
+			endpoint: 'http://martianwabbit.com',
 			alias: 'update',
 			params: {
 				userId: '$profile.UserId'
@@ -31,7 +31,7 @@ describe('Request', () => {
 
 		request = new Request(req);
 		requestWithoutDependencies = new Request({
-			host: 'http://martianwabbit.com',
+			endpoint: 'http://martianwabbit.com',
 			request: 'GET /user',
 			alias: 'show'
 		});
@@ -41,7 +41,7 @@ describe('Request', () => {
 
 	test('It should load up the given request', () => {
 		expect(request.VERB).toBe('POST');
-		expect(request.ENDPOINT).toBe(req.host + '/user');
+		expect(request.ENDPOINT).toBe(req.endpoint + '/user');
 		expect(request.HEADERS).toBeDefined();
 		expect(request.PAYLOAD).toBeDefined();
 		expect(request.PARAMS).toBeDefined();
