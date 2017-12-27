@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Beau's config Loader. should set up defaults for all requests 1`] = `
+Beau {
+  "config": Object {
+    "CACHE": false,
+    "DEFAULTS": Object {
+      "headers": Object {
+        "authentication": "hello",
+      },
+    },
+    "ENDPOINT": "http://jsonplaceholder.typicode.com",
+    "PLUGINS": Array [],
+    "VERSION": 1,
+  },
+  "configKeys": Array [
+    "VERSION",
+    "CACHE",
+    "ENDPOINT",
+    "PLUGINS",
+    "DEFAULTS",
+  ],
+  "defaults": Object {
+    "CACHE": false,
+    "DEFAULTS": Object {
+      "headers": Object {
+        "authentication": "hello",
+      },
+    },
+    "ENDPOINT": "http://jsonplaceholder.typicode.com",
+    "PLUGINS": Array [],
+    "VERSION": 1,
+  },
+  "requests": RequestList {
+    "cache": RequestCache {
+      "$cache": Object {},
+    },
+    "config": Object {
+      "CACHE": false,
+      "DEFAULTS": Object {
+        "headers": Object {
+          "authentication": "hello",
+        },
+      },
+      "ENDPOINT": "http://jsonplaceholder.typicode.com",
+      "PLUGINS": Array [],
+      "VERSION": 1,
+    },
+    "list": Array [
+      Request {
+        "ALIAS": "get-post",
+        "DEPENDENCIES": Set {},
+        "DOCUMENTATION": undefined,
+        "ENDPOINT": "http://jsonplaceholder.typicode.com/posts/1",
+        "HEADERS": Object {
+          "authentication": "hello",
+        },
+        "PARAMS": undefined,
+        "PAYLOAD": undefined,
+        "VERB": "GET",
+        "originalRequest": Object {
+          "ALIAS": "get-post",
+          "ENDPOINT": "http://jsonplaceholder.typicode.com",
+          "headers": Object {
+            "authentication": "hello",
+          },
+          "request": "GET /posts/1",
+        },
+      },
+      Request {
+        "ALIAS": "user",
+        "DEPENDENCIES": Set {},
+        "DOCUMENTATION": undefined,
+        "ENDPOINT": "http://jsonplaceholder.typicode.com/user",
+        "HEADERS": Object {
+          "authentication": "hello",
+          "hello": "world",
+        },
+        "PARAMS": undefined,
+        "PAYLOAD": undefined,
+        "VERB": "GET",
+        "originalRequest": Object {
+          "ENDPOINT": "http://jsonplaceholder.typicode.com",
+          "alias": "user",
+          "headers": Object {
+            "authentication": "hello",
+            "hello": "world",
+          },
+          "request": "GET /user",
+        },
+      },
+    ],
+    "modifiers": Array [],
+  },
+}
+`;

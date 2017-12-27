@@ -48,7 +48,7 @@ Array [
     },
     Object {
       "alias": "show",
-      "host": "http://martianwabbit.com",
+      "endpoint": "http://martianwabbit.com",
       "request": "GET /user",
     },
   ],

@@ -14,15 +14,15 @@ class Request {
 			REQUEST,
 			ALIAS,
 			PAYLOAD,
-			HOST,
+			ENDPOINT,
 			PARAMS,
 			HEADERS,
 			DOCUMENTATION
 		} = config;
-		const { verb, endpoint } = this.parseRequest(REQUEST);
+		const { verb, path } = this.parseRequest(REQUEST);
 
 		this.VERB = verb;
-		this.ENDPOINT = HOST + endpoint;
+		this.ENDPOINT = ENDPOINT + path;
 
 		this.HEADERS = HEADERS;
 		this.PAYLOAD = PAYLOAD;
@@ -39,11 +39,11 @@ class Request {
 	}
 
 	parseRequest(request) {
-		let parts = request.match(requestRegex);
+		const parts = request.match(requestRegex);
 
 		return {
 			verb: parts[1],
-			endpoint: parts[2]
+			path: parts[2]
 		};
 	}
 

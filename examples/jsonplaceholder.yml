@@ -1,13 +1,16 @@
 version: 1
-host: 'http://jsonplaceholder.typicode.com'
+endpoint: 'http://jsonplaceholder.typicode.com'
+
+defaults:
+  headers:
+    hello: $posts.body.0.userId
 
 GET /posts/1: get-post
 
 GET /posts/:
   alias: posts
-  documentation:
-    title: Fetch Posts
-    description: Fetches all posts available.
+  headers:
+    hello: false
 
 POST /posts/:
   alias: new-post

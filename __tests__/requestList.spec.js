@@ -2,11 +2,11 @@ const RequestList = require('../requestList');
 const requestPromiseNativeMock = require('request-promise-native');
 
 describe('RequestList', () => {
-	const host = 'http://martianwabbit.com';
+	const endpoint = 'http://martianwabbit.com';
 	const doc = {
 		'POST /session': null,
 		'Not a Request': null,
-		'GET /post': 'get-posts',
+		'GET /post': { alias: 'get-posts' },
 		'POST /user': {
 			alias: 'user',
 			payload: {
@@ -20,7 +20,7 @@ describe('RequestList', () => {
 	beforeEach(() => {
 		requestPromiseNativeMock.fail = false;
 		requests = new RequestList(doc, {
-			HOST: host,
+			ENDPOINT: endpoint,
 			PLUGINS: [
 				{
 					'beau-jwt': {
@@ -40,7 +40,7 @@ describe('RequestList', () => {
 
 		expect(requests.list.length).toBe(3);
 		expect(request.VERB).toBe('POST');
-		expect(request.ENDPOINT).toBe(host + '/session');
+		expect(request.ENDPOINT).toBe(endpoint + '/session');
 	});
 
 	it('should fetch dependencies', () => {
