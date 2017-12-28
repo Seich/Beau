@@ -116,6 +116,51 @@ program
 		}
 	});
 
+program
+	.command('init')
+	.option(
+		'-e --endpoint <endpoint>',
+		'Allows you to set the default endpoint',
+		null
+	)
+	.action(({ endpoint }) => {
+		const newFile = `# Beau.yml
+
+version: 1${endpoint === null ? `
+# endpoint: http://example.com
+`  : `
+endpoint: ${endpoint}
+`}
+
+# defaults:
+#   params:
+#     userId: 25
+
+
+
+# GET /profile: profile
+
+# GET /posts:
+#   alias: posts
+#   params:
+#     order: ASC
+
+# POST /profile:
+#   alias: save-profile
+#   headers:
+#     authentication: Bearer token
+#   payload:
+#     name: David
+#     lastname: Diaz
+`;
+		if (!fs.existsSync('beau.yml')) {
+			fs.writeFileSync('beau.yml', newFile);
+			console.info('beau.yml created!');
+		} else {
+			console.error('beau.yml already exists.');
+		}
+	});
+
 program.parse(process.argv);
 
 if (!program.args.length) program.help();
