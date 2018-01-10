@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const program = require('commander');
 const process = require('process');
-const Beau = require('../beau');
+const Beau = require('../src/beau');
 const yaml = require('js-yaml');
 const fs = require('fs');
 const { Line, Spinner } = require('clui');
