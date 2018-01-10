@@ -10,6 +10,7 @@ Beau {
       },
     },
     "ENDPOINT": "http://jsonplaceholder.typicode.com",
+    "ENVIRONMENT": Object {},
     "PLUGINS": Array [],
     "VERSION": 1,
   },
@@ -19,6 +20,7 @@ Beau {
     "ENDPOINT",
     "PLUGINS",
     "DEFAULTS",
+    "ENVIRONMENT",
   ],
   "defaults": Object {
     "CACHE": false,
@@ -28,12 +30,15 @@ Beau {
       },
     },
     "ENDPOINT": "http://jsonplaceholder.typicode.com",
+    "ENVIRONMENT": Object {},
     "PLUGINS": Array [],
     "VERSION": 1,
   },
   "requests": RequestList {
     "cache": RequestCache {
-      "$cache": Object {},
+      "$cache": Object {
+        "$env": Object {},
+      },
     },
     "config": Object {
       "CACHE": false,
@@ -43,6 +48,7 @@ Beau {
         },
       },
       "ENDPOINT": "http://jsonplaceholder.typicode.com",
+      "ENVIRONMENT": Object {},
       "PLUGINS": Array [],
       "VERSION": 1,
     },

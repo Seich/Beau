@@ -5,6 +5,10 @@ class RequestCache {
 		this.$cache = {};
 	}
 
+	exists(key) {
+		return typeof this.$cache[key] !== 'undefined';
+	}
+
 	add(key, value) {
 		this.$cache[key] = value;
 	}

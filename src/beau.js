@@ -10,7 +10,8 @@ class Beau {
 			CACHE: false,
 			ENDPOINT: '',
 			PLUGINS: [],
-			DEFAULTS: []
+			DEFAULTS: [],
+			ENVIRONMENT: {}
 		};
 
 		this.configKeys = Object.keys(this.defaults);

@@ -1,11 +1,15 @@
 version: 1
 endpoint: 'http://jsonplaceholder.typicode.com'
 
+environment:
+  the:
+    post: 1
+
 defaults:
   headers:
     hello: $posts.body.0.userId
 
-GET /posts/1: get-post
+GET /posts/$env.the.post: get-post
 
 GET /posts/:
   alias: posts
