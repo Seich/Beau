@@ -10,9 +10,15 @@ class RequestList {
 		this.modifiers = this.loadPlugins();
 		this.list = this.loadRequests(doc);
 		this.cache = new RequestCache();
+
+		this.cache.add(`$env`, this.config.ENVIRONMENT);
 	}
 
 	async execByAlias(alias) {
+		if (this.cache.exists(`$${alias}`)) {
+			return this.applyPostResponseModifiers(this.cache.get(`$${alias}`));
+		}
+
 		const request = this.list.find(r => r.ALIAS === alias);
 
 		if (typeof request === 'undefined') {
@@ -23,13 +29,7 @@ class RequestList {
 			await this.fetchDependencies(Array.from(request.DEPENDENCIES));
 			const response = await request.exec(this.modifiers, this.cache);
 
-			this.modifiers.forEach(mod => {
-				if (typeof mod.postResponse !== 'undefined') {
-					mod.postResponse(response);
-				}
-			});
-
-			return response;
+			return this.applyPostResponseModifiers(response);
 		} catch (reason) {
 			throw new Error(
 				`Request: ${request.VERB} ${request.ENDPOINT} FAILED. \n${reason}`
@@ -75,6 +75,16 @@ class RequestList {
 
 			return new (requireg(name))(settings);
 		});
+	}
+
+	applyPostResponseModifiers(response) {
+		this.modifiers.forEach(mod => {
+			if (typeof mod.postResponse !== 'undefined') {
+				mod.postResponse(response);
+			}
+		});
+
+		return response;
 	}
 }
 
