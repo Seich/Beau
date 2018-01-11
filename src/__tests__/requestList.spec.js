@@ -3,6 +3,10 @@ const requestPromiseNativeMock = require('request-promise-native');
 
 describe('RequestList', () => {
 	const endpoint = 'http://martianwabbit.com';
+	let env = {
+		environmental: true
+	};
+
 	const doc = {
 		'POST /session': null,
 		'Not a Request': null,
@@ -21,6 +25,7 @@ describe('RequestList', () => {
 		requestPromiseNativeMock.fail = false;
 		requests = new RequestList(doc, {
 			ENDPOINT: endpoint,
+			ENVIRONMENT: env,
 			PLUGINS: [
 				{
 					'beau-jwt': {
@@ -54,12 +59,18 @@ describe('RequestList', () => {
 	});
 
 	it('should execute requests by alias.', async () => {
-		await requests.execByAlias('user');
+		await expect(requests.execByAlias('user')).resolves.toMatchSnapshot();
 	});
 
 	it('should fail if the request fails', async () => {
 		requestPromiseNativeMock.fail = true;
 		await expect(requests.execByAlias('user')).rejects.toThrow(Error);
+	});
+
+	it('should return a cached result if available', async () => {
+		const obj = { test: true };
+		requests.cache.add('$test', obj);
+		await expect(requests.execByAlias('test')).resolves.toBe(obj);
 	});
 
 	it('should fail if the alias is not found', async () => {

@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RequestList should execute requests by alias. 1`] = `
+Object {
+  "body": "{\\"hello\\": \\"world\\"}",
+  "changed": true,
+  "request": Object {
+    "body": Object {
+      "lastname": "Diaz",
+      "name": "Sergio",
+    },
+    "endpoint": "http://martianwabbit.com/user",
+    "headers": Object {},
+  },
+  "response": Object {
+    "body": "{\\"hello\\": \\"world\\"}",
+    "headers": Array [],
+    "status": 200,
+  },
+}
+`;
