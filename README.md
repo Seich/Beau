@@ -9,7 +9,9 @@
 	<a href="https://codeclimate.com/github/Seich/Beau/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/test_coverage" /></a>
 	<a href="https://circleci.com/gh/Seich/Beau/tree/master"><img src="https://circleci.com/gh/Seich/Beau/tree/master.svg?style=svg" alt="CircleCI"></a>
 </p>
+
 ## What is Beau?
+
 Beau, is a CLI that executes HTTP requests based on a YAML configuration file. This makes testing easy, it allows you to share test requests with others as part of your repo.
 
 ![A Gif showing how beau works](http://files.martianwabbit.com/beau2.gif)
