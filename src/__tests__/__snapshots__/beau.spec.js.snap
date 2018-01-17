@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Beau's config Loader. should set up defaults for all requests 1`] = `
+exports[`Beau's config Loader. should create a request list 1`] = `
 Beau {
-  "config": Object {
+  "config": Config {
     "CACHE": false,
     "DEFAULTS": Object {
       "headers": Object {
@@ -11,28 +11,62 @@ Beau {
     },
     "ENDPOINT": "http://jsonplaceholder.typicode.com",
     "ENVIRONMENT": Object {},
+    "HOSTS": Array [],
     "PLUGINS": Array [],
     "VERSION": 1,
-  },
-  "configKeys": Array [
-    "VERSION",
-    "CACHE",
-    "ENDPOINT",
-    "PLUGINS",
-    "DEFAULTS",
-    "ENVIRONMENT",
-  ],
-  "defaults": Object {
-    "CACHE": false,
-    "DEFAULTS": Object {
-      "headers": Object {
-        "authentication": "hello",
-      },
+    "configKeys": Array [
+      "VERSION",
+      "CACHE",
+      "ENDPOINT",
+      "PLUGINS",
+      "DEFAULTS",
+      "ENVIRONMENT",
+      "HOSTS",
+    ],
+    "defaultConfigValues": Object {
+      "CACHE": false,
+      "DEFAULTS": Object {},
+      "ENDPOINT": "",
+      "ENVIRONMENT": Object {},
+      "HOSTS": Array [],
+      "PLUGINS": Array [],
+      "VERSION": 1,
     },
-    "ENDPOINT": "http://jsonplaceholder.typicode.com",
-    "ENVIRONMENT": Object {},
-    "PLUGINS": Array [],
-    "VERSION": 1,
+    "doc": Object {
+      "GET /posts/1": "get-post",
+      "GET /user": Object {
+        "alias": "user",
+        "headers": Object {
+          "hello": "world",
+        },
+      },
+      "defaults": Object {
+        "headers": Object {
+          "authentication": "hello",
+        },
+      },
+      "endpoint": "http://jsonplaceholder.typicode.com",
+      "version": 1,
+    },
+    "requests": Array [
+      Object {
+        "ALIAS": "get-post",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "HEADERS": Object {
+          "authentication": "hello",
+        },
+        "REQUEST": "GET /posts/1",
+      },
+      Object {
+        "ALIAS": "user",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "HEADERS": Object {
+          "authentication": "hello",
+          "hello": "world",
+        },
+        "REQUEST": "GET /user",
+      },
+    ],
   },
   "requests": RequestList {
     "cache": RequestCache {
@@ -40,7 +74,7 @@ Beau {
         "$env": Object {},
       },
     },
-    "config": Object {
+    "config": Config {
       "CACHE": false,
       "DEFAULTS": Object {
         "headers": Object {
@@ -49,14 +83,67 @@ Beau {
       },
       "ENDPOINT": "http://jsonplaceholder.typicode.com",
       "ENVIRONMENT": Object {},
+      "HOSTS": Array [],
       "PLUGINS": Array [],
       "VERSION": 1,
+      "configKeys": Array [
+        "VERSION",
+        "CACHE",
+        "ENDPOINT",
+        "PLUGINS",
+        "DEFAULTS",
+        "ENVIRONMENT",
+        "HOSTS",
+      ],
+      "defaultConfigValues": Object {
+        "CACHE": false,
+        "DEFAULTS": Object {},
+        "ENDPOINT": "",
+        "ENVIRONMENT": Object {},
+        "HOSTS": Array [],
+        "PLUGINS": Array [],
+        "VERSION": 1,
+      },
+      "doc": Object {
+        "GET /posts/1": "get-post",
+        "GET /user": Object {
+          "alias": "user",
+          "headers": Object {
+            "hello": "world",
+          },
+        },
+        "defaults": Object {
+          "headers": Object {
+            "authentication": "hello",
+          },
+        },
+        "endpoint": "http://jsonplaceholder.typicode.com",
+        "version": 1,
+      },
+      "requests": Array [
+        Object {
+          "ALIAS": "get-post",
+          "ENDPOINT": "http://jsonplaceholder.typicode.com",
+          "HEADERS": Object {
+            "authentication": "hello",
+          },
+          "REQUEST": "GET /posts/1",
+        },
+        Object {
+          "ALIAS": "user",
+          "ENDPOINT": "http://jsonplaceholder.typicode.com",
+          "HEADERS": Object {
+            "authentication": "hello",
+            "hello": "world",
+          },
+          "REQUEST": "GET /user",
+        },
+      ],
     },
     "list": Array [
       Request {
         "ALIAS": "get-post",
         "DEPENDENCIES": Set {},
-        "DOCUMENTATION": undefined,
         "ENDPOINT": "http://jsonplaceholder.typicode.com/posts/1",
         "HEADERS": Object {
           "authentication": "hello",
@@ -67,16 +154,15 @@ Beau {
         "originalRequest": Object {
           "ALIAS": "get-post",
           "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "headers": Object {
+          "HEADERS": Object {
             "authentication": "hello",
           },
-          "request": "GET /posts/1",
+          "REQUEST": "GET /posts/1",
         },
       },
       Request {
         "ALIAS": "user",
         "DEPENDENCIES": Set {},
-        "DOCUMENTATION": undefined,
         "ENDPOINT": "http://jsonplaceholder.typicode.com/user",
         "HEADERS": Object {
           "authentication": "hello",
@@ -86,17 +172,36 @@ Beau {
         "PAYLOAD": undefined,
         "VERB": "GET",
         "originalRequest": Object {
+          "ALIAS": "user",
           "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "alias": "user",
-          "headers": Object {
+          "HEADERS": Object {
             "authentication": "hello",
             "hello": "world",
           },
-          "request": "GET /user",
+          "REQUEST": "GET /user",
         },
       },
     ],
     "modifiers": Array [],
+    "requests": Array [
+      Object {
+        "ALIAS": "get-post",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "HEADERS": Object {
+          "authentication": "hello",
+        },
+        "REQUEST": "GET /posts/1",
+      },
+      Object {
+        "ALIAS": "user",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "HEADERS": Object {
+          "authentication": "hello",
+          "hello": "world",
+        },
+        "REQUEST": "GET /user",
+      },
+    ],
   },
 }
 `;
