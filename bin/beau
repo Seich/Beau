@@ -20,7 +20,7 @@ program
 		'beau.yml'
 	)
 	.option(
-		'-v --verbose',
+		'--verbose',
 		'Show all the information available on the current request.',
 		false
 	)

@@ -4,11 +4,12 @@ const httpVerbs = require('./shared').httpVerbs;
 const requireg = require('requireg');
 
 class RequestList {
-	constructor(doc = {}, config = {}) {
+	constructor(requests = [], config = {}) {
 		this.config = config;
+		this.requests = requests;
 
 		this.modifiers = this.loadPlugins();
-		this.list = this.loadRequests(doc);
+		this.list = this.loadRequests();
 		this.cache = new RequestCache();
 
 		this.cache.add(`$env`, this.config.ENVIRONMENT);
@@ -32,7 +33,9 @@ class RequestList {
 			return this.applyPostResponseModifiers(response);
 		} catch (reason) {
 			throw new Error(
-				`Request: ${request.VERB} ${request.ENDPOINT} FAILED. \n${reason}`
+				`Request: ${request.VERB} ${
+					request.ENDPOINT
+				} FAILED. \n${reason}`
 			);
 		}
 	}
@@ -44,19 +47,18 @@ class RequestList {
 		return this.cache;
 	}
 
-	loadRequests(doc) {
-		const requests = Object.keys(doc).filter(key => {
-			const verb = key.split(' ')[0].toUpperCase();
-			return httpVerbs.indexOf(verb) > -1;
+	loadRequests() {
+		let requests = [];
+		this.requests.forEach(request => {
+			try {
+				let r = new Request(request);
+				requests.push(r);
+			} catch (e) {
+				throw new Error(`${request.request} was ignored: ${e}`);
+			}
 		});
 
-		return requests.map(request => {
-			doc[request] = doc[request] || {};
-			doc[request].ENDPOINT = this.config.ENDPOINT;
-			doc[request].request = request;
-
-			return new Request(doc[request]);
-		});
+		return requests;
 	}
 
 	loadPlugins() {

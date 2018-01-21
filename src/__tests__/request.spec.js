@@ -4,13 +4,14 @@ const RequestList = require('../requestList');
 const requestPromiseNativeMock = require('request-promise-native');
 
 describe('Request', () => {
-	let req;
 	let cache;
+	let validRequestConfig;
+	let invalidRequestConfig;
 	let request;
 	let requestWithoutDependencies;
 
 	beforeEach(() => {
-		req = {
+		validRequestConfig = {
 			request: 'POST /user',
 			endpoint: 'http://martianwabbit.com',
 			alias: 'update',
@@ -25,11 +26,16 @@ describe('Request', () => {
 			}
 		};
 
+		invalidRequestConfig = {
+			request: `POST /session`,
+			endpoint: 'http://martianwabbit.com'
+		};
+
 		cache = new RequestCache();
 		cache.add('$session', { token: 'abc123' });
 		cache.add('$profile', { UserId: 14 });
 
-		request = new Request(req);
+		request = new Request(validRequestConfig);
 		requestWithoutDependencies = new Request({
 			endpoint: 'http://martianwabbit.com',
 			request: 'GET /user',
@@ -39,33 +45,37 @@ describe('Request', () => {
 		requestPromiseNativeMock.fail = false;
 	});
 
-	test('It should load up the given request', () => {
+	it('should load up the given request', () => {
 		expect(request.VERB).toBe('POST');
-		expect(request.ENDPOINT).toBe(req.endpoint + '/user');
+		expect(request.ENDPOINT).toBe(validRequestConfig.endpoint + '/user');
 		expect(request.HEADERS).toBeDefined();
 		expect(request.PAYLOAD).toBeDefined();
 		expect(request.PARAMS).toBeDefined();
 	});
 
-	test('It should list all of its dependencies', () => {
+	it('should throw if a given request is invalid', () => {
+		expect(() => new Request(invalidRequestConfig)).toThrow();
+	});
+
+	it('should list all of its dependencies', () => {
 		expect(request.DEPENDENCIES.size).toBe(2);
 		expect(request.DEPENDENCIES).toContain('session');
 		expect(request.DEPENDENCIES).toContain('profile');
 	});
 
-	test('It should execute a request', async () => {
+	it('should execute a request', async () => {
 		await expect(request.exec([], cache)).resolves.toMatchSnapshot();
 		await expect(
 			requestWithoutDependencies.exec()
 		).resolves.toMatchSnapshot();
 	});
 
-	test('It should throw if the request fails', async () => {
+	it('should throw if the request fails', async () => {
 		requestPromiseNativeMock.fail = true;
 		await expect(requestWithoutDependencies.exec()).rejects.toThrow(Error);
 	});
 
-	test('It should use modifiers', async () => {
+	it('should use modifiers', async () => {
 		const preRequest = jest.fn();
 		const withPreRequest = [{ preRequest }];
 

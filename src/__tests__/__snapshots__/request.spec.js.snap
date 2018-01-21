@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Request It should execute a request 1`] = `
+exports[`Request should execute a request 1`] = `
 Object {
   "body": "{\\"hello\\": \\"world\\"}",
   "request": Object {
@@ -20,7 +20,7 @@ Object {
 }
 `;
 
-exports[`Request It should execute a request 2`] = `
+exports[`Request should execute a request 2`] = `
 Object {
   "body": "{\\"hello\\": \\"world\\"}",
   "request": Object {
@@ -36,7 +36,7 @@ Object {
 }
 `;
 
-exports[`Request It should use modifiers 1`] = `
+exports[`Request should use modifiers 1`] = `
 Array [
   Array [
     Object {

@@ -1,14 +1,16 @@
 const request = require('request-promise-native');
-const { httpVerbs, requestRegex, replacementRegex } = require('./shared');
+const {
+	httpVerbs,
+	requestRegex,
+	replacementRegex,
+	UpperCaseKeys
+} = require('./shared');
 const RequestList = require('./requestList');
 const RequestCache = require('./requestCache');
 
 class Request {
 	constructor(req) {
-		let config = {};
 		this.originalRequest = req;
-
-		Object.keys(req).forEach(k => (config[k.toUpperCase()] = req[k]));
 
 		const {
 			REQUEST,
@@ -16,9 +18,13 @@ class Request {
 			PAYLOAD,
 			ENDPOINT,
 			PARAMS,
-			HEADERS,
-			DOCUMENTATION
-		} = config;
+			HEADERS
+		} = UpperCaseKeys(req);
+
+		if (!ALIAS) {
+			throw new Error(`${REQUEST} is missing an alias.`);
+		}
+
 		const { verb, path } = this.parseRequest(REQUEST);
 
 		this.VERB = verb;
@@ -29,11 +35,6 @@ class Request {
 		this.PARAMS = PARAMS;
 
 		this.ALIAS = ALIAS;
-		this.DOCUMENTATION = DOCUMENTATION;
-
-		if (typeof this.ALIAS === 'undefined') {
-			console.info(`${REQUEST} is missing an alias.`);
-		}
 
 		this.DEPENDENCIES = this.findDependencies(req);
 	}
