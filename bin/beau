@@ -8,8 +8,11 @@ const { Line, Spinner } = require('clui');
 const clc = require('cli-color');
 const jsome = require('jsome');
 const dotenv = require('dotenv');
+const updateNotifier = require('update-notifier');
 
 const package = require('../package.json');
+
+updateNotifier({ pkg: package }).notify();
 
 program.version(package.version);
 
@@ -127,11 +130,15 @@ program
 	.action(({ endpoint }) => {
 		const newFile = `# Beau.yml
 
-version: 1${endpoint === null ? `
+version: 1${
+			endpoint === null
+				? `
 # endpoint: http://example.com
-`  : `
+`
+				: `
 endpoint: ${endpoint}
-`}
+`
+		}
 
 # defaults:
 #   params:
@@ -164,7 +171,9 @@ endpoint: ${endpoint}
 
 program.parse(process.argv);
 
-if (!program.args.length) program.help();
+if (!program.args.length) {
+	program.help();
+}
 
 function loadConfig(configFile) {
 	if (!fs.existsSync(configFile)) {

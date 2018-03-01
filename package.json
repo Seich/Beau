@@ -20,7 +20,8 @@
     "jsome": "^2.3.26",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
-    "requireg": "^0.1.6"
+    "requireg": "^0.1.6",
+    "update-notifier": "^2.3.0"
   },
   "repository": "git@github.com:Seich/Beau.git",
   "devDependencies": {
