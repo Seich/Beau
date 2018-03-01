@@ -24,9 +24,9 @@ exports[`Request should execute a request 2`] = `
 Object {
   "body": "{\\"hello\\": \\"world\\"}",
   "request": Object {
-    "body": Object {},
+    "body": undefined,
     "endpoint": "http://martianwabbit.com/user",
-    "headers": Object {},
+    "headers": undefined,
   },
   "response": Object {
     "body": "{\\"hello\\": \\"world\\"}",

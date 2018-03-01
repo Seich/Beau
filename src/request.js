@@ -3,7 +3,8 @@ const {
 	httpVerbs,
 	requestRegex,
 	replacementRegex,
-	UpperCaseKeys
+	UpperCaseKeys,
+	removeOptionalKeys
 } = require('./shared');
 const RequestList = require('./requestList');
 const RequestCache = require('./requestCache');
@@ -81,17 +82,23 @@ class Request {
 		});
 
 		try {
-			const response = await request({
-				url: settings.endpoint,
-				method: settings.method,
-				headers: settings.headers,
-				qs: settings.query,
-				body: settings.payload,
+			const response = await request(
+				removeOptionalKeys(
+					{
+						url: settings.endpoint,
+						method: settings.method,
 
-				json: true,
-				simple: false,
-				resolveWithFullResponse: true
-			});
+						headers: settings.headers,
+						qs: settings.query,
+						body: settings.payload,
+
+						json: true,
+						simple: false,
+						resolveWithFullResponse: true
+					},
+					['headers', 'qs', 'body']
+				)
+			);
 
 			const results = {
 				request: {

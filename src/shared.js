@@ -19,9 +19,28 @@ const UpperCaseKeys = function(obj) {
 	return result;
 };
 
+const removeOptionalKeys = function(obj, optionalValues) {
+	let result = {};
+
+	Object.keys(obj).forEach(key => {
+		if (
+			optionalValues.includes(key) &&
+			(Object.keys(obj[key]).length === 0 &&
+				obj[key].constructor === Object)
+		) {
+			return;
+		}
+
+		result[key] = obj[key];
+	});
+
+	return result;
+};
+
 module.exports = {
 	httpVerbs,
 	requestRegex,
 	replacementRegex,
-	UpperCaseKeys
+	UpperCaseKeys,
+	removeOptionalKeys
 };

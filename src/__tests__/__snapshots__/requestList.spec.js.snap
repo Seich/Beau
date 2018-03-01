@@ -10,7 +10,7 @@ Object {
       "name": "Sergio",
     },
     "endpoint": "http://martianwabbit.com/user",
-    "headers": Object {},
+    "headers": undefined,
   },
   "response": Object {
     "body": "{\\"hello\\": \\"world\\"}",
