@@ -2,7 +2,7 @@ const deepMerge = require('deepmerge');
 const { requestRegex, UpperCaseKeys } = require('./shared');
 
 class Config {
-	constructor(doc) {
+	constructor(doc, env = {}) {
 		this.defaultConfigValues = {
 			VERSION: 1,
 			CACHE: false,
@@ -20,6 +20,8 @@ class Config {
 		this.configKeys.forEach(k => {
 			this[k] = config[k] || this.defaultConfigValues[k];
 		});
+
+		this.ENVIRONMENT = deepMerge(this.ENVIRONMENT, env);
 
 		this.requests = [];
 

@@ -7,6 +7,7 @@ const fs = require('fs');
 const { Line, Spinner } = require('clui');
 const clc = require('cli-color');
 const jsome = require('jsome');
+const dotenv = require('dotenv');
 
 const package = require('../package.json');
 
@@ -172,5 +173,7 @@ function loadConfig(configFile) {
 	}
 
 	const config = yaml.safeLoad(fs.readFileSync(configFile, 'utf-8'));
-	return new Beau(config);
+	const env = dotenv.config().parsed || {};
+
+	return new Beau(config, env);
 }
