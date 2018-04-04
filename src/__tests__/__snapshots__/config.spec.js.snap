@@ -41,7 +41,68 @@ Config {
       "host": "info",
     },
   ],
-  "PLUGINS": Array [],
+  "PLUGINS": Plugins {
+    "context": Object {},
+    "registry": Object {
+      "dynamicValues": Array [],
+      "postRequestModifiers": Array [],
+      "preRequestModifiers": Array [],
+    },
+  },
+  "REQUESTS": Array [
+    Object {
+      "ALIAS": "e1",
+      "ENDPOINT": "http://example.org",
+      "HEADERS": Object {
+        "hello": "mars",
+      },
+      "REQUEST": "GET /e1",
+    },
+    Object {
+      "ALIAS": "com:e2",
+      "ENDPOINT": "http://example.com",
+      "HEADERS": Object {
+        "hello": "world",
+        "world": "hello",
+      },
+      "REQUEST": "GET /e2",
+    },
+    Object {
+      "ALIAS": "com:posts",
+      "ENDPOINT": "http://example.com",
+      "HEADERS": Object {
+        "hello": "world",
+        "world": "hello",
+      },
+      "REQUEST": "GET /posts",
+    },
+    Object {
+      "ALIAS": "net:e3",
+      "ENDPOINT": "http://example.net",
+      "HEADERS": Object {
+        "hello": "world",
+        "world": "bye",
+      },
+      "REQUEST": "GET /e3",
+    },
+    Object {
+      "ALIAS": "net:posts",
+      "ENDPOINT": "http://example.net",
+      "HEADERS": Object {
+        "hello": "world",
+        "world": "bye",
+      },
+      "REQUEST": "GET /posts",
+    },
+    Object {
+      "ALIAS": "info:posts",
+      "ENDPOINT": "http://example.info",
+      "HEADERS": Object {
+        "hello": "mars",
+      },
+      "REQUEST": "GET /posts",
+    },
+  ],
   "VERSION": 1,
   "configKeys": Array [
     "VERSION",
@@ -101,60 +162,6 @@ Config {
       },
     ],
   },
-  "requests": Array [
-    Object {
-      "ALIAS": "e1",
-      "ENDPOINT": "http://example.org",
-      "HEADERS": Object {
-        "hello": "mars",
-      },
-      "REQUEST": "GET /e1",
-    },
-    Object {
-      "ALIAS": "com:e2",
-      "ENDPOINT": "http://example.com",
-      "HEADERS": Object {
-        "hello": "world",
-        "world": "hello",
-      },
-      "REQUEST": "GET /e2",
-    },
-    Object {
-      "ALIAS": "com:posts",
-      "ENDPOINT": "http://example.com",
-      "HEADERS": Object {
-        "hello": "world",
-        "world": "hello",
-      },
-      "REQUEST": "GET /posts",
-    },
-    Object {
-      "ALIAS": "net:e3",
-      "ENDPOINT": "http://example.net",
-      "HEADERS": Object {
-        "hello": "world",
-        "world": "bye",
-      },
-      "REQUEST": "GET /e3",
-    },
-    Object {
-      "ALIAS": "net:posts",
-      "ENDPOINT": "http://example.net",
-      "HEADERS": Object {
-        "hello": "world",
-        "world": "bye",
-      },
-      "REQUEST": "GET /posts",
-    },
-    Object {
-      "ALIAS": "info:posts",
-      "ENDPOINT": "http://example.info",
-      "HEADERS": Object {
-        "hello": "mars",
-      },
-      "REQUEST": "GET /posts",
-    },
-  ],
 }
 `;
 
@@ -169,7 +176,33 @@ Config {
   "ENDPOINT": "http://jsonplaceholder.typicode.com",
   "ENVIRONMENT": Object {},
   "HOSTS": Array [],
-  "PLUGINS": Array [],
+  "PLUGINS": Plugins {
+    "context": Object {},
+    "registry": Object {
+      "dynamicValues": Array [],
+      "postRequestModifiers": Array [],
+      "preRequestModifiers": Array [],
+    },
+  },
+  "REQUESTS": Array [
+    Object {
+      "ALIAS": "get-post",
+      "ENDPOINT": "http://jsonplaceholder.typicode.com",
+      "HEADERS": Object {
+        "authentication": "hello",
+      },
+      "REQUEST": "GET /posts/1",
+    },
+    Object {
+      "ALIAS": "user",
+      "ENDPOINT": "http://jsonplaceholder.typicode.com",
+      "HEADERS": Object {
+        "authentication": "hello",
+        "hello": "world",
+      },
+      "REQUEST": "GET /user",
+    },
+  ],
   "VERSION": 1,
   "configKeys": Array [
     "VERSION",
@@ -205,24 +238,5 @@ Config {
     "endpoint": "http://jsonplaceholder.typicode.com",
     "version": 1,
   },
-  "requests": Array [
-    Object {
-      "ALIAS": "get-post",
-      "ENDPOINT": "http://jsonplaceholder.typicode.com",
-      "HEADERS": Object {
-        "authentication": "hello",
-      },
-      "REQUEST": "GET /posts/1",
-    },
-    Object {
-      "ALIAS": "user",
-      "ENDPOINT": "http://jsonplaceholder.typicode.com",
-      "HEADERS": Object {
-        "authentication": "hello",
-        "hello": "world",
-      },
-      "REQUEST": "GET /user",
-    },
-  ],
 }
 `;

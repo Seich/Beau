@@ -64,7 +64,7 @@ describe('Request', () => {
 	});
 
 	it('should execute a request', async () => {
-		await expect(request.exec([], cache)).resolves.toMatchSnapshot();
+		await expect(request.exec(cache)).resolves.toMatchSnapshot();
 		await expect(
 			requestWithoutDependencies.exec()
 		).resolves.toMatchSnapshot();
@@ -73,22 +73,5 @@ describe('Request', () => {
 	it('should throw if the request fails', async () => {
 		requestPromiseNativeMock.fail = true;
 		await expect(requestWithoutDependencies.exec()).rejects.toThrow(Error);
-	});
-
-	it('should use modifiers', async () => {
-		const preRequest = jest.fn();
-		const withPreRequest = [{ preRequest }];
-
-		const notCalled = jest.fn();
-		const nonModifiers = [{ notCalled }];
-
-		await requestWithoutDependencies.exec(withPreRequest);
-
-		expect(preRequest).toHaveBeenCalled();
-		expect(preRequest.mock.calls).toMatchSnapshot();
-
-		await requestWithoutDependencies.exec(nonModifiers);
-
-		expect(notCalled).not.toHaveBeenCalled();
 	});
 });

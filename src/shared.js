@@ -11,7 +11,8 @@ const httpVerbs = [
 ];
 
 const requestRegex = new RegExp(`(${httpVerbs.join('|')})\\s(.*)`, 'i');
-const replacementRegex = /\$([a-zA-Z\.\d\-\_\/\\\:]*)/g;
+const replacementRegex = /\$([a-zA-Z\.\d\-\_\/\\\:]+)/g;
+const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])+?\))\]/g;
 
 const UpperCaseKeys = function(obj) {
 	let result = {};
@@ -37,10 +38,43 @@ const removeOptionalKeys = function(obj, optionalValues) {
 	return result;
 };
 
+const toKebabCase = function(str) {
+	return str
+		.trim()
+		.replace(/([a-z])([A-Z])/g, '$1-$2')
+		.replace(/\s+/g, '-')
+		.toLowerCase();
+};
+
+const replaceInObject = function(obj, fn) {
+	if (obj === null) {
+		return null;
+	}
+
+	let type = typeof obj;
+
+	if (type === 'undefined') {
+		return {};
+	}
+
+	if (type === 'string') {
+		return fn(obj);
+	}
+
+	if (type === 'object') {
+		Object.keys(obj).forEach(k => (obj[k] = replaceInObject(obj[k], fn)));
+	}
+
+	return obj;
+};
+
 module.exports = {
 	httpVerbs,
 	requestRegex,
 	replacementRegex,
+	dynamicValueRegex,
 	UpperCaseKeys,
-	removeOptionalKeys
+	removeOptionalKeys,
+	toKebabCase,
+	replaceInObject
 };
