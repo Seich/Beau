@@ -1,5 +1,6 @@
 const deepMerge = require('deepmerge');
 const { requestRegex, UpperCaseKeys } = require('./shared');
+const Plugins = require('./plugins');
 
 class Config {
 	constructor(doc, env = {}) {
@@ -23,7 +24,7 @@ class Config {
 
 		this.ENVIRONMENT = deepMerge(this.ENVIRONMENT, env);
 
-		this.requests = [];
+		this.REQUESTS = [];
 
 		this.loadRequests(doc, {
 			DEFAULTS: this.DEFAULTS,
@@ -31,6 +32,8 @@ class Config {
 		});
 
 		this.loadHosts(this.HOSTS, config);
+
+		this.PLUGINS = new Plugins(this.PLUGINS);
 	}
 
 	loadHosts(hosts, rootConfig) {
@@ -77,7 +80,7 @@ class Config {
 				return deepMerge(defaults, request);
 			});
 
-		this.requests = this.requests.concat(requests);
+		this.REQUESTS = this.REQUESTS.concat(requests);
 	}
 
 	loadConfig(host) {

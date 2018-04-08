@@ -12,7 +12,33 @@ Beau {
     "ENDPOINT": "http://jsonplaceholder.typicode.com",
     "ENVIRONMENT": Object {},
     "HOSTS": Array [],
-    "PLUGINS": Array [],
+    "PLUGINS": Plugins {
+      "context": Object {},
+      "registry": Object {
+        "dynamicValues": Array [],
+        "postRequestModifiers": Array [],
+        "preRequestModifiers": Array [],
+      },
+    },
+    "REQUESTS": Array [
+      Object {
+        "ALIAS": "get-post",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "HEADERS": Object {
+          "authentication": "hello",
+        },
+        "REQUEST": "GET /posts/1",
+      },
+      Object {
+        "ALIAS": "user",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "HEADERS": Object {
+          "authentication": "hello",
+          "hello": "world",
+        },
+        "REQUEST": "GET /user",
+      },
+    ],
     "VERSION": 1,
     "configKeys": Array [
       "VERSION",
@@ -48,7 +74,9 @@ Beau {
       "endpoint": "http://jsonplaceholder.typicode.com",
       "version": 1,
     },
-    "requests": Array [
+  },
+  "requests": RequestList {
+    "REQUESTS": Array [
       Object {
         "ALIAS": "get-post",
         "ENDPOINT": "http://jsonplaceholder.typicode.com",
@@ -67,8 +95,6 @@ Beau {
         "REQUEST": "GET /user",
       },
     ],
-  },
-  "requests": RequestList {
     "cache": RequestCache {
       "$cache": Object {
         "$env": Object {},
@@ -84,7 +110,33 @@ Beau {
       "ENDPOINT": "http://jsonplaceholder.typicode.com",
       "ENVIRONMENT": Object {},
       "HOSTS": Array [],
-      "PLUGINS": Array [],
+      "PLUGINS": Plugins {
+        "context": Object {},
+        "registry": Object {
+          "dynamicValues": Array [],
+          "postRequestModifiers": Array [],
+          "preRequestModifiers": Array [],
+        },
+      },
+      "REQUESTS": Array [
+        Object {
+          "ALIAS": "get-post",
+          "ENDPOINT": "http://jsonplaceholder.typicode.com",
+          "HEADERS": Object {
+            "authentication": "hello",
+          },
+          "REQUEST": "GET /posts/1",
+        },
+        Object {
+          "ALIAS": "user",
+          "ENDPOINT": "http://jsonplaceholder.typicode.com",
+          "HEADERS": Object {
+            "authentication": "hello",
+            "hello": "world",
+          },
+          "REQUEST": "GET /user",
+        },
+      ],
       "VERSION": 1,
       "configKeys": Array [
         "VERSION",
@@ -120,25 +172,6 @@ Beau {
         "endpoint": "http://jsonplaceholder.typicode.com",
         "version": 1,
       },
-      "requests": Array [
-        Object {
-          "ALIAS": "get-post",
-          "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "HEADERS": Object {
-            "authentication": "hello",
-          },
-          "REQUEST": "GET /posts/1",
-        },
-        Object {
-          "ALIAS": "user",
-          "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "HEADERS": Object {
-            "authentication": "hello",
-            "hello": "world",
-          },
-          "REQUEST": "GET /user",
-        },
-      ],
     },
     "list": Array [
       Request {
@@ -158,6 +191,14 @@ Beau {
             "authentication": "hello",
           },
           "REQUEST": "GET /posts/1",
+        },
+        "plugins": Plugins {
+          "context": Object {},
+          "registry": Object {
+            "dynamicValues": Array [],
+            "postRequestModifiers": Array [],
+            "preRequestModifiers": Array [],
+          },
         },
       },
       Request {
@@ -180,26 +221,14 @@ Beau {
           },
           "REQUEST": "GET /user",
         },
-      },
-    ],
-    "modifiers": Array [],
-    "requests": Array [
-      Object {
-        "ALIAS": "get-post",
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "HEADERS": Object {
-          "authentication": "hello",
+        "plugins": Plugins {
+          "context": Object {},
+          "registry": Object {
+            "dynamicValues": Array [],
+            "postRequestModifiers": Array [],
+            "preRequestModifiers": Array [],
+          },
         },
-        "REQUEST": "GET /posts/1",
-      },
-      Object {
-        "ALIAS": "user",
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "HEADERS": Object {
-          "authentication": "hello",
-          "hello": "world",
-        },
-        "REQUEST": "GET /user",
       },
     ],
   },

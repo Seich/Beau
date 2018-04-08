@@ -4,8 +4,7 @@ const Config = require('./config');
 class Beau {
 	constructor(doc, env = {}) {
 		this.config = new Config(doc, env);
-
-		this.requests = new RequestList(this.config.requests, this.config);
+		this.requests = new RequestList(this.config);
 	}
 }
 

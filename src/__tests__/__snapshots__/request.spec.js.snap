@@ -35,22 +35,3 @@ Object {
   },
 }
 `;
-
-exports[`Request should use modifiers 1`] = `
-Array [
-  Array [
-    Object {
-      "endpoint": "http://martianwabbit.com/user",
-      "headers": Object {},
-      "method": "GET",
-      "payload": Object {},
-      "query": Object {},
-    },
-    Object {
-      "alias": "show",
-      "endpoint": "http://martianwabbit.com",
-      "request": "GET /user",
-    },
-  ],
-]
-`;

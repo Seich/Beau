@@ -3,7 +3,6 @@
 exports[`RequestList should execute requests by alias. 1`] = `
 Object {
   "body": "{\\"hello\\": \\"world\\"}",
-  "changed": true,
   "request": Object {
     "body": Object {
       "lastname": "Diaz",

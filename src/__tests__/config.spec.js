@@ -31,7 +31,7 @@ describe('Config', () => {
         `);
 
     const config = new Config(doc);
-    expect(Object.keys(config.requests).length).toBe(4);
+    expect(Object.keys(config.REQUESTS).length).toBe(4);
   });
 
   it('should set up defaults for all requests', () => {
@@ -53,7 +53,7 @@ describe('Config', () => {
     const config = new Config(doc);
 
     expect(config).toMatchSnapshot();
-    Object.values(config.requests).forEach(r => {
+    Object.values(config.REQUESTS).forEach(r => {
       expect(r.HEADERS.authentication).toMatch('hello');
     });
   });
@@ -115,8 +115,8 @@ describe('Config', () => {
 
     let config = new Config(doc);
 
-    expect(config.requests[0].ALIAS).toBe('test1:posts');
-    expect(config.requests[1].ALIAS).toBe('test2:posts');
+    expect(config.REQUESTS[0].ALIAS).toBe('test1:posts');
+    expect(config.REQUESTS[1].ALIAS).toBe('test2:posts');
   });
 
   it(`should throw if host doesn't have a host key`, () => {
@@ -153,6 +153,6 @@ describe('Config', () => {
         `);
 
     let config = new Config(doc);
-    expect(config.requests[0].HEADERS.hello).toBe(1);
+    expect(config.REQUESTS[0].HEADERS.hello).toBe(1);
   });
 });

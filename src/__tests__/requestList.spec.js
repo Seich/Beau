@@ -12,17 +12,6 @@ describe('RequestList', () => {
 	const doc = {
 		ENDPOINT: endpoint,
 		ENVIRONMENT: env,
-		PLUGINS: [
-			{
-				'beau-jwt': {
-					data: {
-						secret: 'shhh.',
-						userId: 412
-					}
-				}
-			},
-			'beau-document'
-		],
 		'GET /post': { alias: 'get-posts' },
 		'POST /user': {
 			alias: 'user',
@@ -38,7 +27,12 @@ describe('RequestList', () => {
 		requestPromiseNativeMock.fail = false;
 
 		let config = new Config(doc);
-		requests = new RequestList(config.requests, config);
+		requests = new RequestList(config);
+	});
+
+	it('should allow an empty request list', () => {
+		requests = new RequestList();
+		expect(requests.list.length).toBe(0);
 	});
 
 	it('should load valid requests', () => {
@@ -47,12 +41,6 @@ describe('RequestList', () => {
 
 	it('should fetch dependencies', () => {
 		requests.fetchDependencies(['get-posts']);
-	});
-
-	it('should load plugins', () => {
-		const pluginLessList = new RequestList();
-		expect(requests.modifiers.length).toBe(2);
-		expect(pluginLessList.modifiers.length).toBe(0);
 	});
 
 	it('should execute requests by alias.', async () => {
@@ -83,6 +71,6 @@ describe('RequestList', () => {
 			}
 		});
 
-		expect(() => new RequestList(config.requests, config)).toThrow();
+		expect(() => new RequestList(config, config)).toThrow();
 	});
 });

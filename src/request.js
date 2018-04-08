@@ -1,4 +1,8 @@
 const request = require('request-promise-native');
+const RequestList = require('./requestList');
+const RequestCache = require('./requestCache');
+const Plugins = require('./plugins');
+
 const {
 	httpVerbs,
 	requestRegex,
@@ -6,12 +10,11 @@ const {
 	UpperCaseKeys,
 	removeOptionalKeys
 } = require('./shared');
-const RequestList = require('./requestList');
-const RequestCache = require('./requestCache');
 
 class Request {
-	constructor(req) {
+	constructor(req, plugins = new Plugins()) {
 		this.originalRequest = req;
+		this.plugins = plugins;
 
 		const {
 			REQUEST,
@@ -50,13 +53,15 @@ class Request {
 	}
 
 	findDependencies(request, set = new Set()) {
-		if (typeof request === 'object') {
-			const keys = Object.keys(request).filter(key => key !== 'ALIAS');
+		let type = typeof request;
 
-			keys.forEach(key => {
-				set = this.findDependencies(request[key], set);
-			});
-		} else if (typeof request === 'string') {
+		if (type === 'object') {
+			Object.keys(request)
+				.filter(key => key !== 'ALIAS')
+				.forEach(key => {
+					set = this.findDependencies(request[key], set);
+				});
+		} else if (type === 'string') {
 			const matches = request.match(replacementRegex) || [];
 			const deps = matches.map(m => m.split('.')[0].substring(1));
 
@@ -66,20 +71,21 @@ class Request {
 		return set;
 	}
 
-	async exec(modifiers = [], cache = new RequestCache()) {
-		const settings = {
-			endpoint: cache.parse(this.ENDPOINT),
+	async exec(cache = new RequestCache()) {
+		let settings = cache.parse({
+			endpoint: this.ENDPOINT,
 			method: this.VERB,
-			headers: cache.parse(this.HEADERS),
-			query: cache.parse(this.PARAMS),
-			payload: cache.parse(this.PAYLOAD)
-		};
-
-		modifiers.forEach(mod => {
-			if (typeof mod.preRequest !== 'undefined') {
-				mod.preRequest(settings, this.originalRequest);
-			}
+			headers: this.HEADERS,
+			query: this.PARAMS,
+			payload: this.PAYLOAD
 		});
+
+		settings = this.plugins.replaceDynamicValues(settings);
+
+		settings = this.plugins.execPreRequestModifiers(
+			settings,
+			this.originalRequest
+		);
 
 		try {
 			const response = await request(
@@ -100,7 +106,7 @@ class Request {
 				)
 			);
 
-			const results = {
+			let results = {
 				request: {
 					headers: response.request.headers,
 					body: response.request.body,
@@ -114,11 +120,16 @@ class Request {
 				body: response.body
 			};
 
+			results = this.plugins.execPostRequestModifiers(
+				results,
+				this.originalRequest
+			);
+
 			cache.add(`$${this.ALIAS}`, results);
 
 			return results;
 		} catch ({ error }) {
-			throw new Error(error);
+			throw new Error(`Request Error: ` + error);
 		}
 	}
 }
