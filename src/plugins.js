@@ -27,11 +27,11 @@ class Plugins {
 				throw new Error(`Plugin items should contain only one key.`);
 			}
 
-			name = Object.keys(plugin)[0];
+			name = keys[0];
 			settings = plugin[name];
 		}
 
-		plugin = requireg(`./beau-${toKebabCase(name)}`);
+		plugin = requireg(`beau-${toKebabCase(name)}`);
 		new plugin(this, settings);
 	}
 
@@ -43,22 +43,6 @@ class Plugins {
 		);
 
 		return result;
-	}
-
-	execPreRequestModifiers(request, originalRequest) {
-		return this.executeModifier(
-			'preRequestModifiers',
-			request,
-			originalRequest
-		);
-	}
-
-	execPostRequestModifiers(response, originalRequest) {
-		return this.executeModifier(
-			'postRequestModifiers',
-			response,
-			originalRequest
-		);
 	}
 
 	replaceDynamicValues(obj) {

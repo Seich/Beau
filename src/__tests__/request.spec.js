@@ -32,8 +32,8 @@ describe('Request', () => {
 		};
 
 		cache = new RequestCache();
-		cache.add('$session', { token: 'abc123' });
-		cache.add('$profile', { UserId: 14 });
+		cache.add('session', { token: 'abc123' });
+		cache.add('profile', { UserId: 14 });
 
 		request = new Request(validRequestConfig);
 		requestWithoutDependencies = new Request({

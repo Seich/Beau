@@ -39,8 +39,10 @@ describe('RequestList', () => {
 		expect(requests.list.length).toBe(2);
 	});
 
-	it('should fetch dependencies', () => {
-		requests.fetchDependencies(['get-posts']);
+	it('should fetch dependencies', async () => {
+		await expect(
+			requests.fetchDependencies(['get-posts'])
+		).resolves.toMatchSnapshot();
 	});
 
 	it('should execute requests by alias.', async () => {
@@ -54,7 +56,7 @@ describe('RequestList', () => {
 
 	it('should return a cached result if available', async () => {
 		const obj = { test: true };
-		requests.cache.add('$test', obj);
+		requests.cache.add('test', obj);
 		await expect(requests.execByAlias('test')).resolves.toBe(obj);
 	});
 

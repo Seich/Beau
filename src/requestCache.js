@@ -16,12 +16,12 @@ class RequestCache {
 	get(path) {
 		let result = this.$cache;
 		path.split('.').forEach(part => {
+			if (result[part] === undefined) {
+				throw new Error(`${path} not found in cache: `, path);
+			}
+
 			result = result[part];
 		});
-
-		if (typeof result === 'undefined') {
-			throw new Error(`${path} not found in cache: `, path);
-		}
 
 		return result;
 	}
@@ -31,9 +31,15 @@ class RequestCache {
 			return null;
 		}
 
-		return replaceInObject(item, item =>
-			item.replace(replacementRegex, key => this.get(key))
-		);
+		return replaceInObject(item, item => {
+			return item.replace(replacementRegex, (match, key) => {
+				if (match.startsWith('\\')) {
+					return match.replace('\\$', '$');
+				}
+
+				return this.get(key);
+			});
+		});
 	}
 }
 

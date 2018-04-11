@@ -97,7 +97,7 @@ Beau {
     ],
     "cache": RequestCache {
       "$cache": Object {
-        "$env": Object {},
+        "env": Object {},
       },
     },
     "config": Config {

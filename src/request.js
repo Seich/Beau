@@ -62,8 +62,12 @@ class Request {
 					set = this.findDependencies(request[key], set);
 				});
 		} else if (type === 'string') {
-			const matches = request.match(replacementRegex) || [];
-			const deps = matches.map(m => m.split('.')[0].substring(1));
+			const matches = [];
+			request.replace(
+				replacementRegex,
+				(match, g1) => !match.startsWith('\\') && matches.push(g1)
+			);
+			const deps = matches.map(m => m.split('.')[0]);
 
 			return new Set([...set, ...deps]);
 		}
@@ -82,7 +86,8 @@ class Request {
 
 		settings = this.plugins.replaceDynamicValues(settings);
 
-		settings = this.plugins.execPreRequestModifiers(
+		settings = this.plugins.executeModifier(
+			'preRequestModifiers',
 			settings,
 			this.originalRequest
 		);
@@ -120,12 +125,13 @@ class Request {
 				body: response.body
 			};
 
-			results = this.plugins.execPostRequestModifiers(
+			results = this.plugins.executeModifier(
+				'postRequestModifiers',
 				results,
 				this.originalRequest
 			);
 
-			cache.add(`$${this.ALIAS}`, results);
+			cache.add(this.ALIAS, results);
 
 			return results;
 		} catch ({ error }) {
