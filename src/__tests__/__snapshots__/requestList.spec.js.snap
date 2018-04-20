@@ -18,3 +18,26 @@ Object {
   },
 }
 `;
+
+exports[`RequestList should fetch dependencies 1`] = `
+RequestCache {
+  "$cache": Object {
+    "env": Object {
+      "environmental": true,
+    },
+    "get-posts": Object {
+      "body": "{\\"hello\\": \\"world\\"}",
+      "request": Object {
+        "body": undefined,
+        "endpoint": "http://martianwabbit.com/post",
+        "headers": undefined,
+      },
+      "response": Object {
+        "body": "{\\"hello\\": \\"world\\"}",
+        "headers": Array [],
+        "status": 200,
+      },
+    },
+  },
+}
+`;

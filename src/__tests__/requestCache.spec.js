@@ -6,11 +6,11 @@ describe('Request Cache', () => {
 	beforeEach(() => {
 		cache = new RequestCache();
 
-		cache.add('$session', {
+		cache.add('session', {
 			hello: 'World'
 		});
 
-		cache.add('$array', [
+		cache.add('array', [
 			{
 				id: 1,
 				name: 'Sergio'
@@ -23,12 +23,12 @@ describe('Request Cache', () => {
 	});
 
 	it('should add keys to the cache', () => {
-		expect(cache.$cache.$session.hello).toBe('World');
+		expect(cache.$cache.session.hello).toBe('World');
 	});
 
 	describe('get', () => {
 		it('should be able to find key values with a given path', () => {
-			expect(cache.get('$session.hello')).toBe('World');
+			expect(cache.get('session.hello')).toBe('World');
 		});
 
 		it('should throw when given an invalid path', () => {
@@ -78,6 +78,12 @@ describe('Request Cache', () => {
 
 		it('should return null when passed null', () => {
 			expect(cache.parse(null)).toBe(null);
+		});
+
+		it(`shouldn't replace escaped variables`, () => {
+			expect(cache.parse(`\\$session.hello is $session.hello`)).toBe(
+				`$session.hello is World`
+			);
 		});
 	});
 });

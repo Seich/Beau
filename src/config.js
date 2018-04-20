@@ -64,7 +64,7 @@ class Config {
 				let requestDefinitionIsString = typeof host[key] === 'string';
 				let originalRequest = requestDefinitionIsString
 					? { ALIAS: host[key] }
-					: deepMerge.all([host[key]]);
+					: host[key];
 
 				let request = UpperCaseKeys(originalRequest);
 

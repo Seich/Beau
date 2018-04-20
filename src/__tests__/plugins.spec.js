@@ -74,7 +74,7 @@ describe(`Beau's plugin system`, () => {
 
         it(`should look for dynamic values executing and replacing them`, async () => {
             let cache = new RequestCache();
-            cache.add('$value2', '2');
+            cache.add('value2', '2');
 
             let req = await request.exec(cache);
 

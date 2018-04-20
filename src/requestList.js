@@ -10,12 +10,12 @@ class RequestList {
 		this.list = this.loadRequests();
 		this.cache = new RequestCache();
 
-		this.cache.add(`$env`, this.config.ENVIRONMENT);
+		this.cache.add(`env`, this.config.ENVIRONMENT);
 	}
 
 	async execByAlias(alias) {
-		if (this.cache.exists(`$${alias}`)) {
-			return this.cache.get(`$${alias}`);
+		if (this.cache.exists(alias)) {
+			return this.cache.get(alias);
 		}
 
 		const request = this.list.find(r => r.ALIAS === alias);
@@ -26,8 +26,7 @@ class RequestList {
 
 		try {
 			await this.fetchDependencies(Array.from(request.DEPENDENCIES));
-			const response = await request.exec(this.cache);
-			return response;
+			return await request.exec(this.cache);
 		} catch (reason) {
 			throw new Error(
 				`Request: ${request.VERB} ${
