@@ -5,6 +5,7 @@ class Modifiers {
 	}
 
 	preRequest(request, orig) {
+		request.headers = request.headers || {};
 		request.headers.preRequestModifier = true;
 		return request;
 	}
