@@ -77,12 +77,19 @@ class Request {
 
 	async exec(cache = new RequestCache()) {
 		let settings = cache.parse({
-			endpoint: this.ENDPOINT,
+			url: this.ENDPOINT,
 			method: this.VERB,
+
 			headers: this.HEADERS,
-			query: this.PARAMS,
-			payload: this.PAYLOAD
+			qs: this.PARAMS,
+			body: this.PAYLOAD,
+
+			json: true,
+			simple: false,
+			resolveWithFullResponse: true
 		});
+
+		settings = removeOptionalKeys(settings, ['headers', 'qs', 'body']);
 
 		settings = this.plugins.replaceDynamicValues(settings);
 
@@ -93,23 +100,7 @@ class Request {
 		);
 
 		try {
-			const response = await request(
-				removeOptionalKeys(
-					{
-						url: settings.endpoint,
-						method: settings.method,
-
-						headers: settings.headers,
-						qs: settings.query,
-						body: settings.payload,
-
-						json: true,
-						simple: false,
-						resolveWithFullResponse: true
-					},
-					['headers', 'qs', 'body']
-				)
-			);
+			const response = await request(settings);
 
 			let results = {
 				request: {
