@@ -23,7 +23,8 @@ class Request {
 			ENDPOINT,
 			PARAMS,
 			HEADERS,
-			FORM
+			FORM,
+			COOKIEJAR
 		} = UpperCaseKeys(req);
 
 		if (!ALIAS) {
@@ -42,6 +43,7 @@ class Request {
 		this.FORM = FORM;
 
 		this.ALIAS = ALIAS;
+		this.COOKIEJAR = COOKIEJAR;
 
 		this.DEPENDENCIES = this.findDependencies(req);
 	}
@@ -70,6 +72,7 @@ class Request {
 				replacementRegex,
 				(match, g1) => !match.startsWith('\\') && matches.push(g1)
 			);
+
 			const deps = matches.map(m => m.split('.')[0]);
 
 			return new Set([...set, ...deps]);
@@ -83,6 +86,7 @@ class Request {
 			baseUrl: this.ENDPOINT,
 			uri: this.PATH,
 			method: this.VERB,
+			jar: this.COOKIEJAR,
 
 			headers: this.HEADERS,
 			qs: this.PARAMS,

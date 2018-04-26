@@ -3,6 +3,7 @@
 exports[`Config should load multiple hosts 1`] = `
 Config {
   "CACHE": false,
+  "COOKIEJAR": false,
   "DEFAULTS": Object {
     "HEADERS": Object {
       "hello": "mars",
@@ -52,6 +53,7 @@ Config {
   "REQUESTS": Array [
     Object {
       "ALIAS": "e1",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://example.org",
       "HEADERS": Object {
         "hello": "mars",
@@ -60,6 +62,7 @@ Config {
     },
     Object {
       "ALIAS": "com:e2",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://example.com",
       "HEADERS": Object {
         "hello": "world",
@@ -69,6 +72,7 @@ Config {
     },
     Object {
       "ALIAS": "com:posts",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://example.com",
       "HEADERS": Object {
         "hello": "world",
@@ -78,6 +82,7 @@ Config {
     },
     Object {
       "ALIAS": "net:e3",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://example.net",
       "HEADERS": Object {
         "hello": "world",
@@ -87,6 +92,7 @@ Config {
     },
     Object {
       "ALIAS": "net:posts",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://example.net",
       "HEADERS": Object {
         "hello": "world",
@@ -96,6 +102,7 @@ Config {
     },
     Object {
       "ALIAS": "info:posts",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://example.info",
       "HEADERS": Object {
         "hello": "mars",
@@ -112,9 +119,11 @@ Config {
     "DEFAULTS",
     "ENVIRONMENT",
     "HOSTS",
+    "COOKIEJAR",
   ],
   "defaultConfigValues": Object {
     "CACHE": false,
+    "COOKIEJAR": false,
     "DEFAULTS": Object {},
     "ENDPOINT": "",
     "ENVIRONMENT": Object {},
@@ -168,6 +177,7 @@ Config {
 exports[`Config should set up defaults for all requests 1`] = `
 Config {
   "CACHE": false,
+  "COOKIEJAR": false,
   "DEFAULTS": Object {
     "HEADERS": Object {
       "authentication": "hello",
@@ -187,6 +197,7 @@ Config {
   "REQUESTS": Array [
     Object {
       "ALIAS": "get-post",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://jsonplaceholder.typicode.com",
       "HEADERS": Object {
         "authentication": "hello",
@@ -195,6 +206,7 @@ Config {
     },
     Object {
       "ALIAS": "user",
+      "COOKIEJAR": false,
       "ENDPOINT": "http://jsonplaceholder.typicode.com",
       "HEADERS": Object {
         "authentication": "hello",
@@ -212,9 +224,11 @@ Config {
     "DEFAULTS",
     "ENVIRONMENT",
     "HOSTS",
+    "COOKIEJAR",
   ],
   "defaultConfigValues": Object {
     "CACHE": false,
+    "COOKIEJAR": false,
     "DEFAULTS": Object {},
     "ENDPOINT": "",
     "ENVIRONMENT": Object {},

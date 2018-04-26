@@ -69,7 +69,6 @@ const replaceInObject = function(obj, fn) {
 };
 
 module.exports = {
-	httpVerbs,
 	requestRegex,
 	replacementRegex,
 	dynamicValueRegex,
