@@ -177,11 +177,13 @@ Beau {
       Request {
         "ALIAS": "get-post",
         "DEPENDENCIES": Set {},
-        "ENDPOINT": "http://jsonplaceholder.typicode.com/posts/1",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "FORM": undefined,
         "HEADERS": Object {
           "authentication": "hello",
         },
         "PARAMS": undefined,
+        "PATH": "/posts/1",
         "PAYLOAD": undefined,
         "VERB": "GET",
         "originalRequest": Object {
@@ -204,12 +206,14 @@ Beau {
       Request {
         "ALIAS": "user",
         "DEPENDENCIES": Set {},
-        "ENDPOINT": "http://jsonplaceholder.typicode.com/user",
+        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "FORM": undefined,
         "HEADERS": Object {
           "authentication": "hello",
           "hello": "world",
         },
         "PARAMS": undefined,
+        "PATH": "/user",
         "PAYLOAD": undefined,
         "VERB": "GET",
         "originalRequest": Object {
