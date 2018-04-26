@@ -47,7 +47,7 @@ describe('Request', () => {
 
 	it('should load up the given request', () => {
 		expect(request.VERB).toBe('POST');
-		expect(request.ENDPOINT).toBe(validRequestConfig.endpoint + '/user');
+		expect(request.ENDPOINT).toBe(validRequestConfig.endpoint);
 		expect(request.HEADERS).toBeDefined();
 		expect(request.PAYLOAD).toBeDefined();
 		expect(request.PARAMS).toBeDefined();

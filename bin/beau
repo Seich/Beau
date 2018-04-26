@@ -103,19 +103,19 @@ program
 				.column('Endpoint', 20, [clc.cyan])
 				.output();
 
-			beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT }) =>
+			beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT, PATH }) =>
 				new Line()
 					.padding(2)
 					.column(VERB, 20, [clc.yellow])
 					.column(ALIAS, 30, [clc.yellow])
-					.column(ENDPOINT)
+					.column(ENDPOINT.replace(/\/$/, '') + '/' + PATH.replace(/^\//, ''))
 					.output()
 			);
 
 			new Line().output();
 		} else {
-			beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT }) => {
-				console.log(`${VERB}\t${ALIAS}\t${ENDPOINT}`);
+			beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT, PATH }) => {
+				console.log(`${VERB}\t${ALIAS}\t${ENDPOINT.replace(/\/$/, '')}/${PATH.replace(/^\//, '')}`);
 			});
 		}
 	});

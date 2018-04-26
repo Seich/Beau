@@ -8,7 +8,7 @@ function Request(request) {
 			headers: request.headers,
 			body: request.body,
 			uri: {
-				href: request.url
+				href: `${request.baseUrl}${request.uri}`
 			}
 		},
 		statusCode: 200,

@@ -22,7 +22,8 @@ class Request {
 			PAYLOAD,
 			ENDPOINT,
 			PARAMS,
-			HEADERS
+			HEADERS,
+			FORM
 		} = UpperCaseKeys(req);
 
 		if (!ALIAS) {
@@ -32,11 +33,13 @@ class Request {
 		const { verb, path } = this.parseRequest(REQUEST);
 
 		this.VERB = verb;
-		this.ENDPOINT = ENDPOINT + path;
+		this.ENDPOINT = ENDPOINT;
+		this.PATH = path;
 
 		this.HEADERS = HEADERS;
 		this.PAYLOAD = PAYLOAD;
 		this.PARAMS = PARAMS;
+		this.FORM = FORM;
 
 		this.ALIAS = ALIAS;
 
@@ -77,19 +80,26 @@ class Request {
 
 	async exec(cache = new RequestCache()) {
 		let settings = cache.parse({
-			url: this.ENDPOINT,
+			baseUrl: this.ENDPOINT,
+			uri: this.PATH,
 			method: this.VERB,
 
 			headers: this.HEADERS,
 			qs: this.PARAMS,
 			body: this.PAYLOAD,
+			form: this.FORM,
 
 			json: true,
 			simple: false,
 			resolveWithFullResponse: true
 		});
 
-		settings = removeOptionalKeys(settings, ['headers', 'qs', 'body']);
+		settings = removeOptionalKeys(settings, [
+			'headers',
+			'qs',
+			'body',
+			'form'
+		]);
 
 		settings = this.plugins.replaceDynamicValues(settings);
 
