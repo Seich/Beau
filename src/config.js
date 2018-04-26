@@ -11,7 +11,8 @@ class Config {
 			PLUGINS: [],
 			DEFAULTS: {},
 			ENVIRONMENT: {},
-			HOSTS: []
+			HOSTS: [],
+			COOKIEJAR: false
 		};
 
 		this.configKeys = Object.keys(this.defaultConfigValues);
@@ -73,6 +74,7 @@ class Config {
 				}
 
 				request.REQUEST = key;
+				request.COOKIEJAR = this.COOKIEJAR;
 				request.ENDPOINT = settings.ENDPOINT;
 
 				let defaults = UpperCaseKeys(settings.DEFAULTS);
