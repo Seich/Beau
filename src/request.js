@@ -16,44 +16,45 @@ class Request {
 		this.originalRequest = req;
 		this.plugins = plugins;
 
-		const {
-			REQUEST,
-			ALIAS,
-			PAYLOAD,
-			ENDPOINT,
-			PARAMS,
-			HEADERS,
-			FORM,
-			COOKIEJAR
-		} = UpperCaseKeys(req);
+		this.loadCofiguration(
+			[
+				'REQUEST',
+				'ENDPOINT',
+				'HEADERS',
+				'PAYLOAD',
+				'PARAMS',
+				'FORM',
+				'ALIAS',
+				'COOKIEJAR'
+			],
+			req
+		);
 
-		if (!ALIAS) {
-			throw new Error(`${REQUEST} is missing an alias.`);
+		if (!this.ALIAS) {
+			throw new Error(`${this.REQUEST} is missing an alias.`);
 		}
 
-		const { verb, path } = this.parseRequest(REQUEST);
+		const { VERB, PATH } = this.parseRequest(this.REQUEST);
 
-		this.VERB = verb;
-		this.ENDPOINT = ENDPOINT;
-		this.PATH = path;
-
-		this.HEADERS = HEADERS;
-		this.PAYLOAD = PAYLOAD;
-		this.PARAMS = PARAMS;
-		this.FORM = FORM;
-
-		this.ALIAS = ALIAS;
-		this.COOKIEJAR = COOKIEJAR;
+		this.VERB = VERB;
+		this.PATH = PATH;
 
 		this.DEPENDENCIES = this.findDependencies(req);
+	}
+
+	loadCofiguration(keys, obj) {
+		obj = UpperCaseKeys(obj);
+		keys.forEach(k => {
+			this[k] = obj[k];
+		});
 	}
 
 	parseRequest(request) {
 		const parts = request.match(requestRegex);
 
 		return {
-			verb: parts[1],
-			path: parts[2]
+			VERB: parts[1],
+			PATH: parts[2]
 		};
 	}
 
