@@ -6,7 +6,6 @@ class Config {
 	constructor(doc, env = {}) {
 		this.defaultConfigValues = {
 			VERSION: 1,
-			CACHE: false,
 			ENDPOINT: '',
 			PLUGINS: [],
 			DEFAULTS: {},

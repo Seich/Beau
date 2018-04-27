@@ -1,0 +1,19 @@
+version: 1
+endpoint: https://httpbin.org/
+
+cookiejar: true
+
+GET /anything:
+  alias: anything
+  form:
+    name: David
+  params:
+    hello: World
+
+GET /cookies/set:
+  alias: set-cookies
+  params:
+    hello: World
+
+GET /status/418:
+  alias: teapot
