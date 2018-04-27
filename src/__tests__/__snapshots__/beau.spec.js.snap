@@ -198,6 +198,7 @@ Beau {
         "PARAMS": undefined,
         "PATH": "/posts/1",
         "PAYLOAD": undefined,
+        "REQUEST": "GET /posts/1",
         "VERB": "GET",
         "originalRequest": Object {
           "ALIAS": "get-post",
@@ -230,6 +231,7 @@ Beau {
         "PARAMS": undefined,
         "PATH": "/user",
         "PAYLOAD": undefined,
+        "REQUEST": "GET /user",
         "VERB": "GET",
         "originalRequest": Object {
           "ALIAS": "user",
