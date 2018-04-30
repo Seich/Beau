@@ -65,21 +65,32 @@ describe(`Beau's plugin system`, () => {
                     endpoint: 'http://example.com',
                     alias: 'say-hello',
                     headers: {
-                        count: '$[add(1, $value2)]'
-                    }
+                        count: '$[add(1, $value2)]',
+                        empty: ''
+                    },
+                    payload: 'counted $[add(1, $value2)] so far.'
                 },
                 plugins
             );
         });
 
-        it(`should look for dynamic values executing and replacing them`, async () => {
-            let cache = new RequestCache();
-            cache.add('value2', '2');
+        let cache = new RequestCache();
+        cache.add('value2', '2');
 
+        it(`should look for dynamic values executing and replacing them`, async () => {
             let req = await request.exec(cache);
 
-            expect(req).toHaveProperty('request.headers.count', '3');
-            expect(req).toMatchSnapshot();
+            expect(req).toHaveProperty('request.body', 'counted 3 so far.');
+        });
+
+        it(`should change the internal datatype if the only thing in the value is the dynamic value`, async () => {
+            let req = await request.exec(cache);
+            expect(req).toHaveProperty('request.headers.count', 3);
+        });
+
+        it(`should return empty values as empty`, async () => {
+            let req = await request.exec(cache);
+            expect(req).toHaveProperty('request.headers.empty', '');
         });
 
         it(`should throw when calling an undefined dynamic value`, async () => {

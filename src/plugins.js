@@ -47,7 +47,25 @@ class Plugins {
 
 	replaceDynamicValues(obj) {
 		return replaceInObject(obj, val => {
+			let valIsEmpty = val.trim().length === 0;
+
+			if (valIsEmpty) {
+				return val;
+			}
+
 			try {
+				let onlyHasDynamic =
+					val.replace(dynamicValueRegex, '').trim() === '';
+
+				if (onlyHasDynamic) {
+					let call;
+					val.replace(dynamicValueRegex, (match, c) => {
+						call = c;
+					});
+
+					return vm.runInContext(call, this.context);
+				}
+
 				return val.replace(dynamicValueRegex, (match, call) => {
 					return vm.runInContext(call, this.context);
 				});
