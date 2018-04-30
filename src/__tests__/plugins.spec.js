@@ -79,7 +79,6 @@ describe(`Beau's plugin system`, () => {
 
         it(`should look for dynamic values executing and replacing them`, async () => {
             let req = await request.exec(cache);
-
             expect(req).toHaveProperty('request.body', 'counted 3 so far.');
         });
 

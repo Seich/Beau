@@ -2,6 +2,7 @@ const vm = require('vm');
 const requireg = require('requireg');
 const deepmerge = require('deepmerge');
 const { toKebabCase, dynamicValueRegex, replaceInObject } = require('./shared');
+const isPlainObject = require('is-plain-object');
 
 class Plugins {
 	constructor(plugins = []) {
@@ -36,7 +37,7 @@ class Plugins {
 	}
 
 	executeModifier(modifier, obj, orig) {
-		let result = deepmerge({}, obj);
+		let result = deepmerge({}, obj, { isMergeableObject: isPlainObject });
 
 		this.registry[modifier].forEach(
 			modifier => (result = modifier(result, orig))

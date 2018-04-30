@@ -25,7 +25,8 @@ class Request {
 				'PARAMS',
 				'FORM',
 				'ALIAS',
-				'COOKIEJAR'
+				'COOKIEJAR',
+				'FORMDATA'
 			],
 			req
 		);
@@ -93,6 +94,7 @@ class Request {
 			qs: this.PARAMS,
 			body: this.PAYLOAD,
 			form: this.FORM,
+			formData: this.FORMDATA,
 
 			json: true,
 			simple: false,
@@ -103,7 +105,8 @@ class Request {
 			'headers',
 			'qs',
 			'body',
-			'form'
+			'form',
+			'formData'
 		]);
 
 		settings = this.plugins.replaceDynamicValues(settings);
