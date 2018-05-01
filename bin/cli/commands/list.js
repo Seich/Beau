@@ -9,7 +9,7 @@ class ListCommand extends Base {
 		const { flags } = this.parse(ListCommand);
 		const Beau = this.loadConfig(flags.config);
 
-		if (flags.format === false) {
+		if (flags['no-format']) {
 			return Beau.requests.list.forEach(
 				({ VERB, ALIAS, ENDPOINT, PATH }) =>
 					this.log(

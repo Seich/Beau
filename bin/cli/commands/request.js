@@ -29,7 +29,7 @@ class RequestCommand extends Base {
 
 		new Line().output();
 
-		jsome(verbose ? res : body);
+		jsome((verbose ? res : body) || null);
 	}
 
 	async run() {
