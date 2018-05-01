@@ -186,6 +186,7 @@ Beau {
         "DEPENDENCIES": Set {},
         "ENDPOINT": "http://jsonplaceholder.typicode.com",
         "FORM": undefined,
+        "FORMDATA": undefined,
         "HEADERS": Object {
           "authentication": "hello",
         },
@@ -218,6 +219,7 @@ Beau {
         "DEPENDENCIES": Set {},
         "ENDPOINT": "http://jsonplaceholder.typicode.com",
         "FORM": undefined,
+        "FORMDATA": undefined,
         "HEADERS": Object {
           "authentication": "hello",
           "hello": "world",
