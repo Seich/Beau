@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Beau's plugin system Dynamic Values should look for dynamic values executing and replacing them 1`] = `
-Object {
-  "body": "Hello World",
-  "request": Object {
-    "body": undefined,
-    "endpoint": "http://example.com/hello/3",
-    "headers": Object {
-      "count": "3",
-      "preRequestModifier": true,
-    },
-  },
-  "response": Object {
-    "body": "Hello World",
-    "headers": Array [],
-    "status": 200,
-  },
-}
-`;
-
 exports[`Beau's plugin system Request Modifiers should modify the request and response using modifiers. 1`] = `
 Object {
   "body": "Hello World",
