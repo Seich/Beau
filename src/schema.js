@@ -8,8 +8,10 @@ const requestSchema = [
 			PAYLOAD: [Joi.object().keys(null), Joi.string()],
 			PARAMS: Joi.object().keys(null),
 			FORM: Joi.object().keys(null),
-			ALIAS: Joi.string().required()
+			ALIAS: Joi.string().required(),
+			FORMDATA: Joi.object().keys(null)
 		})
+		.or('FORM', 'PAYLOAD', 'FORMDATA')
 		.rename(/headers/i, 'HEADERS', { override: true })
 		.rename(/payload/i, 'PAYLOAD', { override: true })
 		.rename(/params/i, 'PARAMS', { override: true })
