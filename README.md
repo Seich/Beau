@@ -12,6 +12,8 @@
 
 ## What is Beau?
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Seich/Beau.svg)](https://greenkeeper.io/)
+
 Beau, is a CLI that executes HTTP requests based on a YAML configuration file.
 This makes testing easy, it allows you to share test requests with others as
 part of your repo.
