@@ -1,6 +1,13 @@
 const Joi = require('joi');
 const { requestRegex } = require('./shared.js');
 
+const pluginSchema = [
+	Joi.string(),
+	Joi.object()
+		.keys(null)
+		.max(1)
+];
+
 const requestSchema = [
 	Joi.object()
 		.keys({
@@ -11,7 +18,9 @@ const requestSchema = [
 			ALIAS: Joi.string().required(),
 			FORMDATA: Joi.object().keys(null)
 		})
-		.or('FORM', 'PAYLOAD', 'FORMDATA')
+		.without('FORM', ['PAYLOAD', 'FORMDATA'])
+		.without('PAYLOAD', ['FORM', 'FORMDATA'])
+		.without('FORMDATA', ['FORM', 'PAYLOAD'])
 		.rename(/headers/i, 'HEADERS', { override: true })
 		.rename(/payload/i, 'PAYLOAD', { override: true })
 		.rename(/params/i, 'PARAMS', { override: true })
@@ -36,7 +45,7 @@ const schema = Joi.object()
 	.keys({
 		VERSION: Joi.number().integer(),
 		ENDPOINT: Joi.string().uri(),
-		PLUGINS: Joi.array().items([Joi.string(), Joi.object().keys(null)]),
+		PLUGINS: Joi.array().items(pluginSchema),
 		DEFAULTS: Joi.object(),
 		ENVIRONMENT: Joi.object(),
 		HOSTS: Joi.array().items(hostSchema),
@@ -51,8 +60,20 @@ const schema = Joi.object()
 	.rename(/environment/i, 'ENVIRONMENT', { override: true })
 	.rename(/cookiejar/i, 'COOKIEJAR', { override: true });
 
-const validate = function(config) {
-	return Joi.validate(config, schema, { allowUnknown: true });
+const validate = async function(config) {
+	try {
+		let results = await Joi.validate(config, schema, {
+			allowUnknown: true
+		});
+		return { valid: true };
+	} catch ({ name, details }) {
+		return {
+			valid: false,
+			message: `${name}: \n ${details
+				.map(d => d.message + ' @ ' + d.path)
+				.join(' \n ')}`
+		};
+	}
 };
 
 module.exports = { schema, validate };

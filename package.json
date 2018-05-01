@@ -35,7 +35,10 @@
   "oclif": {
     "commands": "./bin/cli/commands",
     "bin": "beau",
-    "plugins": ["@oclif/plugin-help", "@oclif/plugin-warn-if-update-available"]
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-warn-if-update-available"
+    ]
   },
   "jest": {
     "testEnvironment": "node",

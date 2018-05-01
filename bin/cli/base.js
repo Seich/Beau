@@ -6,13 +6,17 @@ const { Command, flags } = require('@oclif/command');
 const Beau = require('../../src/beau');
 
 class Base extends Command {
-	loadConfig(configFile) {
+	openConfigFile(configFile) {
 		if (!fs.existsSync(configFile)) {
 			this.error(`The config file, ${configFile} was not found.`);
 			this.exit(1);
 		}
 
-		const config = yaml.safeLoad(fs.readFileSync(configFile, 'utf-8'));
+		return yaml.safeLoad(fs.readFileSync(configFile, 'utf-8'));
+	}
+
+	loadConfig(configFile) {
+		const config = this.openConfigFile(configFile);
 		const env = dotenv.config().parsed || {};
 
 		return new Beau(config, env);
