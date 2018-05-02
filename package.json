@@ -19,6 +19,7 @@
     "clui": "^0.3.1",
     "deepmerge": "^2.1.0",
     "dotenv": "^5.0.1",
+    "joi": "^13.2.0",
     "globby": "^8.0.1",
     "is-plain-object": "^2.0.4",
     "js-yaml": "^3.11.0",

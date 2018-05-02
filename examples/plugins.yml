@@ -1,7 +1,7 @@
 endpoint: http://localhost:10080
 
 plugins:
-  - beau-jwt:
+  - jwt:
       data:
         userId: 12
         name: Sergio

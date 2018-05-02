@@ -17,7 +17,7 @@ class RequestCache {
 		let result = this.$cache;
 		path.split('.').forEach(part => {
 			if (result[part] === undefined) {
-				throw new Error(`${path} not found in cache: `, path);
+				throw new Error(`${path} not found in cache.`);
 			}
 
 			result = result[part];

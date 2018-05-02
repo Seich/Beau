@@ -3,7 +3,6 @@
 exports[`Beau's config Loader. should create a request list 1`] = `
 Beau {
   "config": Config {
-    "CACHE": false,
     "COOKIEJAR": false,
     "DEFAULTS": Object {
       "headers": Object {
@@ -45,7 +44,6 @@ Beau {
     "VERSION": 1,
     "configKeys": Array [
       "VERSION",
-      "CACHE",
       "ENDPOINT",
       "PLUGINS",
       "DEFAULTS",
@@ -54,7 +52,6 @@ Beau {
       "COOKIEJAR",
     ],
     "defaultConfigValues": Object {
-      "CACHE": false,
       "COOKIEJAR": false,
       "DEFAULTS": Object {},
       "ENDPOINT": "",
@@ -108,7 +105,6 @@ Beau {
       },
     },
     "config": Config {
-      "CACHE": false,
       "COOKIEJAR": false,
       "DEFAULTS": Object {
         "headers": Object {
@@ -150,7 +146,6 @@ Beau {
       "VERSION": 1,
       "configKeys": Array [
         "VERSION",
-        "CACHE",
         "ENDPOINT",
         "PLUGINS",
         "DEFAULTS",
@@ -159,7 +154,6 @@ Beau {
         "COOKIEJAR",
       ],
       "defaultConfigValues": Object {
-        "CACHE": false,
         "COOKIEJAR": false,
         "DEFAULTS": Object {},
         "ENDPOINT": "",

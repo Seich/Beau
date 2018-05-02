@@ -6,13 +6,11 @@ describe('Config', () => {
     const doc = yaml.safeLoad(`
             version: 1
             endpoint: http://martianwabbit.com
-            cache: false
             shouldntBeAdded: true
         `);
 
     const config = new Config(doc);
     expect(config.ENDPOINT).toBe(doc.endpoint);
-    expect(config.CACHE).toBe(doc.cache);
     expect(config.VERSION).toBe(doc.version);
     expect(config.shouldntBeAdded).toBeUndefined();
   });
