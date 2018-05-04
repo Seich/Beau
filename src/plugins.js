@@ -5,7 +5,7 @@ const { toKebabCase, dynamicValueRegex, replaceInObject } = require('./shared');
 const isPlainObject = require('is-plain-object');
 
 class Plugins {
-    constructor(plugins = []) {
+    constructor(plugins = [], autoload = ['std']) {
         this.registry = {
             preRequestModifiers: [],
             postRequestModifiers: [],
@@ -15,6 +15,12 @@ class Plugins {
         this.context = {};
 
         plugins.forEach(plugin => this.loadPlugin(plugin));
+        autoload.forEach(plugin => {
+            try {
+                requireg.resolve(plugin);
+                this.loadPlugin(plugin);
+            } catch (e) {}
+        });
     }
 
     loadPlugin(plugin) {
