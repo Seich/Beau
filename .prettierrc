@@ -1,0 +1,10 @@
+printWidth: 80
+singleQuote: true
+useTabs: true
+trailingComma: none
+bracketSpacing: true
+jsxBracketSameLine: true
+parser: babylon
+semi: true
+requirePragma: false
+proseWrap: always
