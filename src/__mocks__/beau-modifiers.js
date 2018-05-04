@@ -1,20 +1,20 @@
 class Modifiers {
-	constructor(registry, settings = {}) {
-		registry.addPreRequestModifier(this.preRequest);
-		registry.addPostRequestModifier(this.postRequest);
-	}
+    constructor(registry, settings = {}) {
+        registry.addPreRequestModifier(this.preRequest);
+        registry.addPostRequestModifier(this.postRequest);
+    }
 
-	preRequest(request, orig) {
-		request.headers = request.headers || {};
-		request.headers.preRequestModifier = true;
-		return request;
-	}
+    preRequest(request, orig) {
+        request.headers = request.headers || {};
+        request.headers.preRequestModifier = true;
+        return request;
+    }
 
-	postRequest(response, orig) {
-		response.body = 'Hello World';
-		response.response.body = 'Hello World';
-		return response;
-	}
+    postRequest(response, orig) {
+        response.body = 'Hello World';
+        response.response.body = 'Hello World';
+        return response;
+    }
 }
 
 module.exports = Modifiers;
