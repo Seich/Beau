@@ -1,13 +1,12 @@
 {
   "name": "beau",
   "version": "0.8.0",
-  "description": "A tool for testing JSON APIs",
+  "description": "Testing APIs made easy.",
   "main": "./src/beau.js",
   "author": "Sergio Diaz <seich@martianwabbit.com>",
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
