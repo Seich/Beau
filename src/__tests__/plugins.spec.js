@@ -3,14 +3,16 @@ const Config = require('../config');
 const Plugins = require('../plugins');
 const Request = require('../request');
 const RequestCache = require('../requestCache');
+const requireg = require('requireg');
 
 describe(`Beau's plugin system`, () => {
     let config;
     let request;
     let plugins;
+    let doc;
 
     beforeEach(() => {
-        const doc = yaml.safeLoad(`
+        doc = yaml.safeLoad(`
             version: 1
             endpoint: 'http://example.com'
 
@@ -30,6 +32,13 @@ describe(`Beau's plugin system`, () => {
         expect(plugins.registry.preRequestModifiers.length).toBe(1);
         expect(plugins.registry.postRequestModifiers.length).toBe(1);
         expect(plugins.registry.dynamicValues.length).toBe(1);
+    });
+
+    it(`should load autoload plugins`, () => {
+        requireg.std_resolving = true;
+        config = new Config(doc);
+        expect(config.PLUGINS.registry.dynamicValues.length).toBe(2);
+        requireg.std_resolving = false;
     });
 
     it(`should throw if given an invalid configuration`, () => {
