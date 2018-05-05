@@ -53,6 +53,7 @@ class Plugins {
     }
 
     replaceDynamicValues(obj) {
+        vm.createContext(this.context);
         return replaceInObject(obj, val => {
             let valIsEmpty = val.trim().length === 0;
 
@@ -93,8 +94,6 @@ class Plugins {
     defineDynamicValue(name, fn) {
         this.registry.dynamicValues.push({ name, fn });
         this.context[name] = fn;
-
-        vm.createContext(this.context);
     }
 }
 
