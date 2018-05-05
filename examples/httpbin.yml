@@ -17,3 +17,9 @@ GET /cookies/set:
 
 GET /status/418:
   alias: teapot
+
+POST /post:
+  alias: post
+  formdata:
+      file: $[createReadStream('./github.yml')]
+  
