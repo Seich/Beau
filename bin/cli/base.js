@@ -15,11 +15,14 @@ class Base extends Command {
         return yaml.safeLoad(fs.readFileSync(configFile, 'utf-8'));
     }
 
-    loadConfig(configFile) {
+    loadConfig(configFile, params = []) {
         const config = this.openConfigFile(configFile);
         const env = dotenv.config().parsed || {};
+        params = dotenv.parse(params.reduce((a, p) => a + '\n' + p, ''));
 
-        return new Beau(config, env);
+        const envParams = { params: Object.assign(env, params) };
+
+        return new Beau(config, envParams);
     }
 }
 
