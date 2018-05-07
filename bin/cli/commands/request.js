@@ -33,33 +33,38 @@ class RequestCommand extends Base {
     }
 
     async run() {
-        const { flags, args } = this.parse(RequestCommand);
-        const Beau = this.loadConfig(flags.config);
-        this.spinner = new Spinner(clc.yellow(`Requesting: ${args.alias}`), [
-            '⣾',
-            '⣽',
-            '⣻',
-            '⢿',
-            '⡿',
-            '⣟',
-            '⣯',
-            '⣷'
-        ]);
+        const {
+            flags: {
+                param: params,
+                config,
+                'no-format': noFormat = false,
+                verbose = false
+            },
+            args
+        } = this.parse(RequestCommand);
+
+        const Beau = this.loadConfig(config, params);
+
+        const spinnerSprite = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'];
+        this.spinner = new Spinner(
+            clc.yellow(`Requesting: ${args.alias}`),
+            spinnerSprite
+        );
 
         try {
-            if (!flags['no-format']) {
+            if (!noFormat) {
                 this.spinner.start();
             }
 
             let res = await Beau.requests.execByAlias(args.alias);
 
-            if (flags['no-format']) {
+            if (noFormat) {
                 this.log(res.response.status);
                 this.log(res.request.endpoint);
                 this.log(JSON.stringify(res.response.headers));
                 this.log(JSON.stringify(res.response.body));
             } else {
-                this.prettyOutput(res, flags.verbose);
+                this.prettyOutput(res, verbose);
             }
         } catch (err) {
             new Line().output();
@@ -70,7 +75,15 @@ class RequestCommand extends Base {
 }
 
 RequestCommand.description = `Executes a request by name.`;
-RequestCommand.flags = { ...Base.flags };
+RequestCommand.flags = {
+    ...Base.flags,
+    param: flags.string({
+        char: 'P',
+        multiple: true,
+        default: [],
+        description: `Allows you to inject values into the request's environment.`
+    })
+};
 
 RequestCommand.args = [
     {

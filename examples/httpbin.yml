@@ -2,13 +2,14 @@ version: 1
 endpoint: https://httpbin.org/
 
 cookiejar: true
+environment:
+  params:
+    name: David
 
 GET /anything:
   alias: anything
-  form:
-    name: David
-  params:
-    hello: World
+  payload:
+    name: $env.params.name
 
 GET /cookies/set:
   alias: set-cookies
@@ -22,4 +23,5 @@ POST /post:
   alias: post
   formdata:
       file: $[createReadStream('./github.yml')]
-  
+
+
