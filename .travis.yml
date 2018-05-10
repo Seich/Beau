@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+  - "8.9.3"
+
+install:
+  - npm install
+  - npm install -g codeclimate-test-reporter prettier
+
+before_script:
+  - prettier "./**/*.js" -l
+  - npm run test:coverage
+  - codeclimate-test-reporter < ./coverage/lcov.info
+
+script:
+  - npm test
