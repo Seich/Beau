@@ -2,13 +2,13 @@ function requireg(name) {
     return require(name);
 }
 
-requireg.std_resolving = false;
+requireg.resolving = true;
 
 requireg.resolve = function(name) {
-    if (requireg.std_resolving) {
+    if (requireg.resolving) {
         return '';
     } else {
-        throw new Error(`Failed to resolve.`);
+        return undefined;
     }
 };
 

@@ -14,32 +14,51 @@ class Plugins {
 
         this.context = {};
 
-        plugins.forEach(plugin => this.loadPlugin(plugin));
-        autoload.forEach(plugin => {
-            try {
-                requireg.resolve(plugin);
-                this.loadPlugin(plugin);
-            } catch (e) {}
-        });
+        this.loadPlugins(autoload.concat(plugins));
     }
 
-    loadPlugin(plugin) {
-        let name = plugin;
-        let settings = {};
+    normalizePlugins(plugins) {
+        let results = {};
 
-        if (typeof plugin === 'object') {
-            let keys = Object.keys(plugin);
+        plugins.forEach(plugin => {
+            let name = plugin;
+            let settings = undefined;
 
-            if (keys.length !== 1) {
-                throw new Error(`Plugin items should contain only one key.`);
+            if (typeof plugin === 'object') {
+                let keys = Object.keys(plugin);
+
+                if (keys.length !== 1) {
+                    throw new Error(
+                        `Plugin items should contain only one key.`
+                    );
+                }
+
+                name = keys[0];
+                settings = plugin[name];
             }
 
-            name = keys[0];
-            settings = plugin[name];
-        }
+            results[name] = settings;
+        });
 
-        plugin = requireg(`beau-${toKebabCase(name)}`);
-        new plugin(this, settings);
+        return results;
+    }
+
+    loadPlugins(plugins) {
+        plugins = this.normalizePlugins(plugins);
+        Object.keys(plugins).forEach(name => {
+            const module = `beau-${toKebabCase(name)}`;
+
+            if (typeof requireg.resolve(module) !== 'undefined') {
+                const plugin = requireg(module);
+                new plugin(this, plugins[name]);
+            } else {
+                if (name === 'std') return;
+
+                console.warn(
+                    `Plugin ${name} couldn't be found. It is available globally?`
+                );
+            }
+        });
     }
 
     executeModifier(modifier, obj, orig) {
