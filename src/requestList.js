@@ -1,6 +1,5 @@
 const Request = require('./request');
 const RequestCache = require('./requestCache');
-const httpVerbs = require('./shared').httpVerbs;
 
 class RequestList {
     constructor(config = { REQUESTS: [] }) {

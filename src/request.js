@@ -1,10 +1,8 @@
 const request = require('request-promise-native');
-const RequestList = require('./requestList');
 const RequestCache = require('./requestCache');
 const Plugins = require('./plugins');
 
 const {
-    httpVerbs,
     requestRegex,
     replacementRegex,
     UpperCaseKeys,
