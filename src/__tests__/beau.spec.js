@@ -1,6 +1,9 @@
 const yaml = require('js-yaml');
 const Beau = require('../beau');
 
+const requireg = require('requireg');
+requireg.resolving = false;
+
 describe(`Beau's config Loader.`, () => {
     it('should create a request list', () => {
         const doc = yaml.safeLoad(`

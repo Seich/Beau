@@ -12,7 +12,7 @@ const httpVerbs = [
 
 const requestRegex = new RegExp(`(${httpVerbs.join('|')})\\s(.*)`, 'i');
 const replacementRegex = /(?:\\?)\$([a-zA-Z\.\d\-\_\/\\\:]+)/g;
-const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])+?\))\]/g;
+const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g;
 
 const UpperCaseKeys = function(obj) {
     let result = {};

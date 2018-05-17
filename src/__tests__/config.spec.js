@@ -1,22 +1,25 @@
 const yaml = require('js-yaml');
 const Config = require('../config');
 
+const requireg = require('requireg');
+requireg.resolving = false;
+
 describe('Config', () => {
-    it('should load valid config keys', () => {
-        const doc = yaml.safeLoad(`
+  it('should load valid config keys', () => {
+    const doc = yaml.safeLoad(`
             version: 1
             endpoint: http://martianwabbit.com
             shouldntBeAdded: true
         `);
 
-        const config = new Config(doc);
-        expect(config.ENDPOINT).toBe(doc.endpoint);
-        expect(config.VERSION).toBe(doc.version);
-        expect(config.shouldntBeAdded).toBeUndefined();
-    });
+    const config = new Config(doc);
+    expect(config.ENDPOINT).toBe(doc.endpoint);
+    expect(config.VERSION).toBe(doc.version);
+    expect(config.shouldntBeAdded).toBeUndefined();
+  });
 
-    it('should load requests', () => {
-        const doc = yaml.safeLoad(`
+  it('should load requests', () => {
+    const doc = yaml.safeLoad(`
             endpoint: http://example.com
 
             GET /profile: get-profile
@@ -28,12 +31,12 @@ describe('Config', () => {
                     hello: world
         `);
 
-        const config = new Config(doc);
-        expect(Object.keys(config.REQUESTS).length).toBe(4);
-    });
+    const config = new Config(doc);
+    expect(Object.keys(config.REQUESTS).length).toBe(4);
+  });
 
-    it('should set up defaults for all requests', () => {
-        const doc = yaml.safeLoad(`
+  it('should set up defaults for all requests', () => {
+    const doc = yaml.safeLoad(`
             version: 1
             endpoint: 'http://jsonplaceholder.typicode.com'
 
@@ -48,16 +51,16 @@ describe('Config', () => {
                     hello: world
         `);
 
-        const config = new Config(doc);
+    const config = new Config(doc);
 
-        expect(config).toMatchSnapshot();
-        Object.values(config.REQUESTS).forEach(r => {
-            expect(r.HEADERS.authentication).toMatch('hello');
-        });
+    expect(config).toMatchSnapshot();
+    Object.values(config.REQUESTS).forEach(r => {
+      expect(r.HEADERS.authentication).toMatch('hello');
     });
+  });
 
-    it('should load multiple hosts', () => {
-        const doc = yaml.safeLoad(`
+  it('should load multiple hosts', () => {
+    const doc = yaml.safeLoad(`
           endpoint: http://example.org
 
           defaults:
@@ -95,13 +98,13 @@ describe('Config', () => {
               GET /posts: posts
         `);
 
-        let config = new Config(doc);
+    let config = new Config(doc);
 
-        expect(config).toMatchSnapshot();
-    });
+    expect(config).toMatchSnapshot();
+  });
 
-    it('should namespace all aliases within an host', () => {
-        const doc = yaml.safeLoad(`
+  it('should namespace all aliases within an host', () => {
+    const doc = yaml.safeLoad(`
             hosts:
               - host: test1
                 endpoint: http://example.com
@@ -111,14 +114,14 @@ describe('Config', () => {
                 GET /posts: posts
         `);
 
-        let config = new Config(doc);
+    let config = new Config(doc);
 
-        expect(config.REQUESTS[0].ALIAS).toBe('test1:posts');
-        expect(config.REQUESTS[1].ALIAS).toBe('test2:posts');
-    });
+    expect(config.REQUESTS[0].ALIAS).toBe('test1:posts');
+    expect(config.REQUESTS[1].ALIAS).toBe('test2:posts');
+  });
 
-    it(`should throw if host doesn't have a host key`, () => {
-        const doc = yaml.safeLoad(`
+  it(`should throw if host doesn't have a host key`, () => {
+    const doc = yaml.safeLoad(`
             hosts:
               - endpoint: http://example.com
                 GET /posts: posts
@@ -128,11 +131,11 @@ describe('Config', () => {
                 GET /posts: posts
         `);
 
-        expect(() => new Config(doc)).toThrow();
-    });
+    expect(() => new Config(doc)).toThrow();
+  });
 
-    it(`should merge host settings with global settings`, () => {
-        const doc = yaml.safeLoad(`
+  it(`should merge host settings with global settings`, () => {
+    const doc = yaml.safeLoad(`
             defaults:
               headers:
                 hello: 1
@@ -150,7 +153,7 @@ describe('Config', () => {
                 GET /posts: posts
         `);
 
-        let config = new Config(doc);
-        expect(config.REQUESTS[0].HEADERS.hello).toBe(1);
-    });
+    let config = new Config(doc);
+    expect(config.REQUESTS[0].HEADERS.hello).toBe(1);
+  });
 });

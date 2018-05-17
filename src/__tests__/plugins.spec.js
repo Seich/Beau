@@ -1,31 +1,15 @@
 const yaml = require('js-yaml');
-const Config = require('../config');
 const Plugins = require('../plugins');
 const Request = require('../request');
 const RequestCache = require('../requestCache');
 const requireg = require('requireg');
 
 describe(`Beau's plugin system`, () => {
-    let config;
     let request;
     let plugins;
-    let doc;
 
     beforeEach(() => {
-        doc = yaml.safeLoad(`
-            version: 1
-            endpoint: 'http://example.com'
-
-            plugins:
-                - Modifiers:
-                    data: hi
-                - DynamicValues
-
-            GET /posts/$[add(1, 1)]: get-post
-        `);
-
-        config = new Config(doc);
-        plugins = config.PLUGINS;
+        plugins = new Plugins([{ Modifiers: [Object] }, 'DynamicValues'], []);
     });
 
     it('should load all plugins', () => {
@@ -34,19 +18,24 @@ describe(`Beau's plugin system`, () => {
         expect(plugins.registry.dynamicValues.length).toBe(1);
     });
 
-    it(`should load autoload plugins`, () => {
-        requireg.std_resolving = true;
-        config = new Config(doc);
-        expect(config.PLUGINS.registry.dynamicValues.length).toBe(2);
-        requireg.std_resolving = false;
-    });
-
     it(`should throw if given an invalid configuration`, () => {
         expect(() => new Plugins([{ test1: true, test2: true }])).toThrow();
     });
 
     it(`shouldn't do anything when given an empty array.`, () => {
-        expect(new Plugins()).toMatchSnapshot();
+        expect(new Plugins([], [])).toMatchSnapshot();
+    });
+
+    it(`should warn if the plugin is not available.`, () => {
+        const spy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+        requireg.resolving = false;
+
+        new Plugins(['not-a-Package']);
+        expect(spy).toHaveBeenCalled();
+
+        requireg.resolving = true;
+        spy.mockReset();
+        spy.mockRestore();
     });
 
     describe(`Request Modifiers`, () => {

@@ -1,5 +1,6 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
+const path = require('path');
 const dotenv = require('dotenv');
 const { Command, flags } = require('@oclif/command');
 
@@ -21,6 +22,12 @@ class Base extends Command {
         params = dotenv.parse(params.reduce((a, p) => a + '\n' + p, ''));
 
         const envParams = { params: Object.assign(env, params) };
+
+        const configFileDir = path.dirname(
+            path.resolve(process.cwd(), configFile)
+        );
+
+        process.chdir(configFileDir);
 
         return new Beau(config, envParams);
     }
