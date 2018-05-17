@@ -21,7 +21,7 @@ class Base extends Command {
         const env = dotenv.config().parsed || {};
         params = dotenv.parse(params.reduce((a, p) => a + '\n' + p, ''));
 
-        const envParams = { params: Object.assign(env, params) };
+        const envParams = { _: Object.assign(env, params) };
 
         const configFileDir = path.dirname(
             path.resolve(process.cwd(), configFile)
