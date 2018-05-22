@@ -3,10 +3,16 @@ const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
 const { Command, flags } = require('@oclif/command');
+const { Spinner } = require('clui');
 
 const Beau = require('../../src/beau');
 
 class Base extends Command {
+    async init() {
+        const spinnerSprite = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'];
+        this.spinner = new Spinner('', spinnerSprite);
+    }
+
     openConfigFile(configFile) {
         if (!fs.existsSync(configFile)) {
             this.error(`The config file, ${configFile} was not found.`);

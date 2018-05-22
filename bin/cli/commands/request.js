@@ -1,6 +1,6 @@
 const clc = require('cli-color');
 const jsome = require('jsome');
-const { Line, Spinner } = require('clui');
+const { Line } = require('clui');
 const { flags } = require('@oclif/command');
 
 const Base = require('../base');
@@ -47,12 +47,6 @@ class RequestCommand extends Base {
 
         const Beau = this.loadConfig(config, params);
 
-        const spinnerSprite = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'];
-        this.spinner = new Spinner(
-            clc.yellow(`Requesting: ${args.alias}`),
-            spinnerSprite
-        );
-
         let spinnerEnabled = !noFormat && !asJson && !quiet;
 
         if (spinnerEnabled) {
@@ -78,7 +72,7 @@ class RequestCommand extends Base {
         }
 
         if (asJson) {
-            return this.log(JSON.stringify(res.response));
+            return this.log(JSON.stringify(verbose ? res : res.response));
         }
 
         if (noFormat) {
