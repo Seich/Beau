@@ -185,14 +185,10 @@ Beau {
         "COOKIEJAR": false,
         "DEPENDENCIES": Set {},
         "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "FORM": undefined,
-        "FORMDATA": undefined,
         "HEADERS": Object {
           "authentication": "hello",
         },
-        "PARAMS": undefined,
         "PATH": "/posts/1",
-        "PAYLOAD": undefined,
         "REQUEST": "GET /posts/1",
         "VERB": "GET",
         "originalRequest": Object {
@@ -218,15 +214,11 @@ Beau {
         "COOKIEJAR": false,
         "DEPENDENCIES": Set {},
         "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "FORM": undefined,
-        "FORMDATA": undefined,
         "HEADERS": Object {
           "authentication": "hello",
           "hello": "world",
         },
-        "PARAMS": undefined,
         "PATH": "/user",
-        "PAYLOAD": undefined,
         "REQUEST": "GET /user",
         "VERB": "GET",
         "originalRequest": Object {

@@ -18,9 +18,7 @@ class Config {
         this.doc = doc;
 
         let config = this.loadConfig(doc);
-        this.configKeys.forEach(k => {
-            this[k] = config[k] || this.defaultConfigValues[k];
-        });
+        Object.assign(this, this.defaultConfigValues, config);
 
         this.ENVIRONMENT = deepMerge(this.ENVIRONMENT, env);
 

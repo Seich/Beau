@@ -14,20 +14,8 @@ class Request {
         this.originalRequest = req;
         this.plugins = plugins;
 
-        this.loadCofiguration(
-            [
-                'REQUEST',
-                'ENDPOINT',
-                'HEADERS',
-                'PAYLOAD',
-                'PARAMS',
-                'FORM',
-                'ALIAS',
-                'COOKIEJAR',
-                'FORMDATA'
-            ],
-            req
-        );
+        req = UpperCaseKeys(req);
+        Object.assign(this, req);
 
         if (!this.ALIAS) {
             throw new Error(`${this.REQUEST} is missing an alias.`);
@@ -39,13 +27,6 @@ class Request {
         this.PATH = PATH;
 
         this.DEPENDENCIES = this.findDependencies(req);
-    }
-
-    loadCofiguration(keys, obj) {
-        obj = UpperCaseKeys(obj);
-        keys.forEach(k => {
-            this[k] = obj[k];
-        });
     }
 
     parseRequest(request) {
