@@ -1,17 +1,13 @@
-const clc = require('cli-color');
-const fs = require('fs');
-const yaml = require('js-yaml');
-const { flags } = require('@oclif/command');
-
-const Base = require('../base');
+const { flags, Command } = require('@oclif/command');
+const { baseFlags, openConfigFile } = require('../utils');
 const { validate } = require('../../../src/schema.js');
 
-class ValidateCommand extends Base {
+class ValidateCommand extends Command {
     async run() {
         const { flags, args } = this.parse(ValidateCommand);
         const configFile = args.alias || flags.config;
 
-        const config = this.openConfigFile(configFile);
+        const config = openConfigFile(configFile);
 
         let result = await validate(config);
         if (result.valid) {
@@ -23,7 +19,7 @@ class ValidateCommand extends Base {
 }
 
 ValidateCommand.description = `Validates the given configuration file against Beau's configuration schema.`;
-ValidateCommand.flags = { ...Base.flags };
+ValidateCommand.flags = { ...baseFlags };
 ValidateCommand.args = [
     {
         name: 'alias',
