@@ -41,7 +41,7 @@ Base.flags = {
     }),
     verbose: flags.boolean({
         char: 'V',
-        description: 'Show all additional information available for a command.'
+        description: `Show all additional information available for a command.`
     }),
     'no-format': flags.boolean({
         description: `Disables color formatting for usage on external tools.`

@@ -38,7 +38,9 @@ class RequestCommand extends Base {
                 param: params,
                 config,
                 'no-format': noFormat = false,
-                verbose = false
+                verbose = false,
+                'as-json': asJson = false,
+                quiet = false
             },
             args
         } = this.parse(RequestCommand);
@@ -51,26 +53,43 @@ class RequestCommand extends Base {
             spinnerSprite
         );
 
-        try {
-            if (!noFormat) {
-                this.spinner.start();
-            }
+        let spinnerEnabled = !noFormat && !asJson && !quiet;
 
-            let res = await Beau.requests.execByAlias(args.alias);
-
-            if (noFormat) {
-                this.log(res.response.status);
-                this.log(res.request.endpoint);
-                this.log(JSON.stringify(res.response.headers));
-                this.log(JSON.stringify(res.response.body));
-            } else {
-                this.prettyOutput(res, verbose);
-            }
-        } catch (err) {
-            new Line().output();
-            this.spinner.stop();
-            this.error(err.message);
+        if (spinnerEnabled) {
+            this.spinner.start();
         }
+
+        let res;
+
+        try {
+            res = await Beau.requests.execByAlias(args.alias);
+        } catch (err) {
+            this.spinner.stop();
+
+            if (!quiet) {
+                this.error(err.message);
+            }
+
+            this.exit(1);
+        }
+
+        if (quiet) {
+            return;
+        }
+
+        if (asJson) {
+            return this.log(JSON.stringify(res.response));
+        }
+
+        if (noFormat) {
+            this.log(res.response.status);
+            this.log(res.request.endpoint);
+            this.log(JSON.stringify(res.response.headers));
+            this.log(JSON.stringify(res.response.body));
+            return;
+        }
+
+        this.prettyOutput(res, verbose);
     }
 }
 
@@ -82,6 +101,15 @@ RequestCommand.flags = {
         multiple: true,
         default: [],
         description: `Allows you to inject values into the request's environment.`
+    }),
+
+    quiet: flags.boolean({
+        description: `Skips the output.`
+    }),
+
+    'as-json': flags.boolean({
+        char: 'j',
+        description: `Outputs the response as json.`
     })
 };
 
