@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Request Command Should output an unformatted version 1`] = `
+Array [
+  "200
+",
+  "https://example.org/anything
+",
+  "[]
+",
+  "\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"
+",
+]
+`;
+
+exports[`Request Command Should output nothing 1`] = `Array []`;
+
+exports[`Request Command Should output the response as json 1`] = `
+Array [
+  "{\\"status\\":200,\\"headers\\":[],\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"}
+",
+]
+`;
+
+exports[`Request Command Should output the response as json verboselly 1`] = `
+Array [
+  "{\\"request\\":{\\"body\\":{\\"name\\":\\"David\\"},\\"endpoint\\":\\"https://example.org/anything\\"},\\"response\\":{\\"status\\":200,\\"headers\\":[],\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"},\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"}
+",
+]
+`;
+
+exports[`Request Command Should request the given alias 1`] = `
+Array [
+  "",
+  "  Status              Endpoint            
+",
+  "  200                 https://example.org/anything
+",
+  "
+",
+  "\\"{\\"hello\\": \\"world\\"}\\"
+",
+]
+`;
+
+exports[`Request Command Should show all information available when being verbose 1`] = `
+Array [
+  "",
+  "  Status              Endpoint            
+",
+  "  200                 https://example.org/anything
+",
+  "
+",
+  "{
+  request: {
+    body: {
+      name: \\"David\\"
+    },
+    endpoint: \\"https://example.org/anything\\"
+  },
+  response: {
+    status: 200,
+    headers: [],
+    body: \\"{\\"hello\\": \\"world\\"}\\"
+  },
+  body: \\"{\\"hello\\": \\"world\\"}\\"
+}
+",
+]
+`;

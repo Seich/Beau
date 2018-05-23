@@ -1,13 +1,12 @@
 const clc = require('cli-color');
 const { Line } = require('clui');
-const { flags } = require('@oclif/command');
+const { flags, Command } = require('@oclif/command');
+const { baseFlags, loadConfig } = require('../utils');
 
-const Base = require('../base');
-
-class ListCommand extends Base {
+class ListCommand extends Command {
     async run() {
         const { flags } = this.parse(ListCommand);
-        const Beau = this.loadConfig(flags.config);
+        const Beau = loadConfig(flags.config);
 
         if (flags['no-format']) {
             return Beau.requests.list.forEach(
@@ -47,6 +46,6 @@ class ListCommand extends Base {
 }
 
 ListCommand.description = `Lists all available requests in the config file.`;
-ListCommand.flags = { ...Base.flags };
+ListCommand.flags = { ...baseFlags };
 
 module.exports = ListCommand;

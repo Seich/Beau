@@ -1,11 +1,10 @@
 const clc = require('cli-color');
 const jsome = require('jsome');
 const { Line, Spinner } = require('clui');
-const { flags } = require('@oclif/command');
+const { flags, Command } = require('@oclif/command');
+const { baseFlags, loadConfig } = require('../utils');
 
-const Base = require('../base');
-
-class RequestCommand extends Base {
+class RequestCommand extends Command {
     prettyOutput(res, verbose = false) {
         let { status, body } = res.response;
 
@@ -29,7 +28,7 @@ class RequestCommand extends Base {
 
         new Line().output();
 
-        jsome((verbose ? res : body) || null);
+        this.log(jsome.getColoredString((verbose ? res : body) || null));
     }
 
     async run() {
@@ -45,13 +44,10 @@ class RequestCommand extends Base {
             args
         } = this.parse(RequestCommand);
 
-        const Beau = this.loadConfig(config, params);
+        const Beau = loadConfig(config, params);
 
         const spinnerSprite = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'];
-        this.spinner = new Spinner(
-            clc.yellow(`Requesting: ${args.alias}`),
-            spinnerSprite
-        );
+        this.spinner = new Spinner('', spinnerSprite);
 
         let spinnerEnabled = !noFormat && !asJson && !quiet;
 
@@ -78,7 +74,7 @@ class RequestCommand extends Base {
         }
 
         if (asJson) {
-            return this.log(JSON.stringify(res.response));
+            return this.log(JSON.stringify(verbose ? res : res.response));
         }
 
         if (noFormat) {
@@ -95,7 +91,7 @@ class RequestCommand extends Base {
 
 RequestCommand.description = `Executes a request by name.`;
 RequestCommand.flags = {
-    ...Base.flags,
+    ...baseFlags,
     param: flags.string({
         char: 'P',
         multiple: true,
