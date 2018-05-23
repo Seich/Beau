@@ -9,7 +9,7 @@ const config = {
 			name: 'David'
 		}
 	},
-	endpoint: 'https://httpbin.org/',
+	endpoint: 'https://example.org',
 	version: 1,
 	'GET /anything': {
 		alias: 'anything',
@@ -24,6 +24,10 @@ const config = {
 
 utils.loadConfig = function() {
 	return new Beau(config, {});
+};
+
+utils.openConfigFile = function() {
+	return config;
 };
 
 utils.baseFlags = original.baseFlags;

@@ -2,9 +2,9 @@
 
 exports[`List Command Should disable formatting when the flag is active. 1`] = `
 Array [
-  "GET	anything	https://httpbin.org/anything
+  "GET	anything	https://example.org/anything
 ",
-  "GET	teapot	https://httpbin.org/status/418
+  "GET	teapot	https://example.org/status/418
 ",
 ]
 `;
@@ -13,9 +13,9 @@ exports[`List Command Should list available requests for a given file. 1`] = `
 Array [
   "  HTTP Verb           Alias                         Endpoint            
 ",
-  "  GET                 anything                      https://httpbin.org/anything
+  "  GET                 anything                      https://example.org/anything
 ",
-  "  GET                 teapot                        https://httpbin.org/status/418
+  "  GET                 teapot                        https://example.org/status/418
 ",
   "
 ",

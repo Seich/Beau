@@ -28,7 +28,7 @@ class RequestCommand extends Command {
 
         new Line().output();
 
-        jsome((verbose ? res : body) || null);
+        this.log(jsome.getColoredString((verbose ? res : body) || null));
     }
 
     async run() {

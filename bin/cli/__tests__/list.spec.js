@@ -1,5 +1,4 @@
 const ListCommand = require('../commands/list');
-const stripAnsi = require('strip-ansi');
 
 jest.mock('../utils');
 
@@ -11,7 +10,7 @@ describe('List Command', () => {
 		jest
 			.spyOn(process.stdout, 'write')
 			.mockImplementation(val =>
-				result.push(stripAnsi(val.toString('utf8')))
+				result.push(require('strip-ansi')(val.toString('utf8')))
 			);
 	});
 
