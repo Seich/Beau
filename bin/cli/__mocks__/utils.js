@@ -26,8 +26,14 @@ utils.loadConfig = function() {
 	return new Beau(config, {});
 };
 
-utils.openConfigFile = function() {
-	return config;
+utils.openConfigFile = function(filename) {
+	if (filename === 'beau.yml') {
+		return config;
+	}
+
+	if (filename === 'invalid-conf.yml') {
+		return { plugins: [{ hello: 1, world: 2 }] };
+	}
 };
 
 utils.baseFlags = original.baseFlags;

@@ -62,9 +62,7 @@ const schema = Joi.object()
 
 const validate = async function(config) {
     try {
-        let results = await Joi.validate(config, schema, {
-            allowUnknown: true
-        });
+        await Joi.validate(config, schema, { allowUnknown: true });
         return { valid: true };
     } catch ({ name, details }) {
         return {

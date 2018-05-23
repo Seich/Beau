@@ -1,4 +1,3 @@
-const yaml = require('js-yaml');
 const Plugins = require('../plugins');
 const Request = require('../request');
 const RequestCache = require('../requestCache');

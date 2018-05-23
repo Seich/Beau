@@ -16,8 +16,14 @@ describe('Validate Command', () => {
 
 	afterEach(() => jest.restoreAllMocks());
 
-	it('Validate the configuration file', async () => {
+	it('should validate the configuration file', async () => {
 		await ValidateCommand.run([]);
 		expect(result).toMatchSnapshot();
+	});
+
+	it('should show schema errors', async () => {
+		await expect(
+			ValidateCommand.run(['invalid-conf.yml'])
+		).rejects.toThrow();
 	});
 });

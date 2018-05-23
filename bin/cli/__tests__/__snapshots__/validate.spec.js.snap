@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Validate Command Validate the configuration file 1`] = `
+exports[`Validate Command should validate the configuration file 1`] = `
 Array [
   "beau.yml is valid.
 ",

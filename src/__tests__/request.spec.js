@@ -1,6 +1,5 @@
 const Request = require('../request');
 const RequestCache = require('../requestCache');
-const RequestList = require('../requestList');
 const requestPromiseNativeMock = require('request-promise-native');
 
 describe('Request', () => {
