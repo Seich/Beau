@@ -1,20 +1,19 @@
 <div align="center">
-	<img src="http://files.martianwabbit.com/beau.png?1" height="144"/>
+    <img src="http://files.martianwabbit.com/beau.png?1" height="144"/>
 </div>
 
 <h1 align="center">Beau</h1>
 <p align="center">Testing JSON APIs made easy.</p>
 <p align="center">
-	<a href="https://codeclimate.com/github/Seich/Beau/maintainability"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/maintainability" /></a>
-	<a href="https://codeclimate.com/github/Seich/Beau/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/test_coverage" /></a>
-	<a href="https://circleci.com/gh/Seich/Beau/tree/master"><img src="https://circleci.com/gh/Seich/Beau/tree/master.svg?style=svg" alt="CircleCI"></a>
+    <a href="https://codeclimate.com/github/Seich/Beau/maintainability"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/maintainability" /></a>
+    <a href="https://codeclimate.com/github/Seich/Beau/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/test_coverage" /></a>
+    <a href="https://circleci.com/gh/Seich/Beau/tree/master"><img src="https://circleci.com/gh/Seich/Beau/tree/master.svg?style=svg" alt="CircleCI"></a>
 </p>
 
 ## What is Beau?
 
-Beau, is a CLI that executes HTTP requests based on a YAML configuration file.
-This makes testing easy, it allows you to share test requests with others as
-part of your repo.
+Beau is a modern http client. It uses a YAML file as configuration allowing you
+to test APIs without having to write lengthy commands.
 
 ![A Gif showing how beau works](http://files.martianwabbit.com/beau2.gif)
 
@@ -24,52 +23,47 @@ part of your repo.
 
 ## Usage
 
-    ⚡  beau --help
+    $ beau [COMMAND]
 
-    Usage: beau [options] [command]
-
-
-    Options:
-
-    -V, --version  output the version number
-    -h, --help     output usage information
-
-
-    Commands:
-
-    request [options] <alias>
-    list [options]
+    COMMANDS
+      help      display help for beau
+      list      Lists all available requests in the config file.
+      request   Executes a request by name.
+      validate  Validates the given configuration file against Beau's configuration schema.
 
 ## Example Configuration File
 
-    version: 1
-    endpoint: https://example.com/api/
+```yaml
+endpoint: https://httpbin.org/
 
-    POST /session:
-    	ALIAS: session
-    	PAYLOAD:
-    		username: seich
-    		password: hello01
+POST /anything:
+    alias: anything
+    payload:
+        username: sergio
+        password: password1
+```
 
-    GET /profile
-    	ALIAS: profile
-    	HEADERS:
-    		authorization: Bearer $session.response.body.token
+```
+$ beau request anything
 
-    GET /user/$profile.response.body.id/posts
-    	ALIAS: friends
-    	HEADERS:
-    		authorization: Bearer $session.response.body.token
-    	PARAMS:
-    		archived: true
+Status              Endpoint
+200                 https://httpbin.org/anything
 
-## Example Usage
+{
+...
+  json: {
+    password: "password1",
+    username: "sergio"
+  },
+  method: "POST",
+  url: "https://httpbin.org/anything"
+  ...
+}
+```
 
-    beau request profile
+## Documentation
 
-That would execute the profile request along with it´s dependencies. In this
-case, the session request would be made as well since we are using it´s response
-value as part of our current request.
+Visit https://beaujs.com/docs/ for the complete docs.
 
 ## License
 
