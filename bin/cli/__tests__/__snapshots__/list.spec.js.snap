@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`List Command Should disable formatting when the flag is active. 1`] = `
+exports[`List Command with flags: --no-format 1`] = `
 Array [
   "GET	anything	https://example.org/anything
 ",
@@ -9,7 +9,7 @@ Array [
 ]
 `;
 
-exports[`List Command Should list available requests for a given file. 1`] = `
+exports[`List Command with flags: 1`] = `
 Array [
   "  HTTP Verb           Alias                         Endpoint            
 ",
