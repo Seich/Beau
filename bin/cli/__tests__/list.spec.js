@@ -16,13 +16,8 @@ describe('List Command', () => {
 
 	afterEach(() => jest.restoreAllMocks());
 
-	it('Should list available requests for a given file.', async () => {
-		await ListCommand.run([]);
-		expect(result).toMatchSnapshot();
-	});
-
-	it('Should disable formatting when the flag is active.', async () => {
-		await ListCommand.run(['--no-format']);
+	test.each([[], ['--no-format']])('with flags:', async (...args) => {
+		await ListCommand.run(args);
 		expect(result).toMatchSnapshot();
 	});
 });

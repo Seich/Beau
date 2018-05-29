@@ -29,7 +29,7 @@
     },
     "repository": "git@github.com:Seich/Beau.git",
     "devDependencies": {
-        "jest": "^22.4.0",
+        "jest": "^23.0.0",
         "strip-ansi": "^4.0.0"
     },
     "oclif": {
