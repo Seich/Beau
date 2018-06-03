@@ -96,35 +96,31 @@ class Request {
             this.originalRequest
         );
 
-        try {
-            const response = await request(settings);
+        const response = await request(settings);
 
-            let results = {
-                request: {
-                    headers: response.request.headers,
-                    body: response.request.body,
-                    endpoint: response.request.uri.href
-                },
-                response: {
-                    status: response.statusCode,
-                    headers: response.headers,
-                    body: response.body
-                },
+        let results = {
+            request: {
+                headers: response.request.headers,
+                body: response.request.body,
+                endpoint: response.request.uri.href
+            },
+            response: {
+                status: response.statusCode,
+                headers: response.headers,
                 body: response.body
-            };
+            },
+            body: response.body
+        };
 
-            results = this.plugins.executeModifier(
-                'postRequestModifiers',
-                results,
-                this.originalRequest
-            );
+        results = this.plugins.executeModifier(
+            'postRequestModifiers',
+            results,
+            this.originalRequest
+        );
 
-            cache.add(this.ALIAS, results);
+        cache.add(this.ALIAS, results);
 
-            return results;
-        } catch ({ error }) {
-            throw new Error(`Request Error: ` + error);
-        }
+        return results;
     }
 }
 

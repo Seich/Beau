@@ -1,20 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Request Command with flags: anything --as-json --verbose 1`] = `
+exports[`Request Command with flags: alias %s %s 1`] = `
 Array [
-  "{\\"request\\":{\\"body\\":{\\"name\\":\\"David\\"},\\"endpoint\\":\\"https://example.org/anything\\"},\\"response\\":{\\"status\\":200,\\"headers\\":[],\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"},\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"}
+  "",
+  "  Status              Endpoint            
+",
+  "  200                 https://example.org/anything
+",
+  "
+",
+  "\\"{\\"hello\\": \\"world\\"}\\"
 ",
 ]
 `;
 
-exports[`Request Command with flags: anything --as-json 1`] = `
+exports[`Request Command with flags: alias --as-json %s 1`] = `
 Array [
   "{\\"status\\":200,\\"headers\\":[],\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"}
 ",
 ]
 `;
 
-exports[`Request Command with flags: anything --no-format 1`] = `
+exports[`Request Command with flags: alias --as-json --verbose 1`] = `
+Array [
+  "{\\"request\\":{\\"body\\":{\\"name\\":\\"David\\"},\\"endpoint\\":\\"https://example.org/anything\\"},\\"response\\":{\\"status\\":200,\\"headers\\":[],\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"},\\"body\\":\\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"}
+",
+]
+`;
+
+exports[`Request Command with flags: alias --no-format %s 1`] = `
 Array [
   "200
 ",
@@ -27,9 +41,9 @@ Array [
 ]
 `;
 
-exports[`Request Command with flags: anything --quiet 1`] = `Array []`;
+exports[`Request Command with flags: alias --quiet %s 1`] = `Array []`;
 
-exports[`Request Command with flags: anything --verbose 1`] = `
+exports[`Request Command with flags: alias --verbose %s 1`] = `
 Array [
   "",
   "  Status              Endpoint            
@@ -52,20 +66,6 @@ Array [
   },
   body: \\"{\\"hello\\": \\"world\\"}\\"
 }
-",
-]
-`;
-
-exports[`Request Command with flags: anything 1`] = `
-Array [
-  "",
-  "  Status              Endpoint            
-",
-  "  200                 https://example.org/anything
-",
-  "
-",
-  "\\"{\\"hello\\": \\"world\\"}\\"
 ",
 ]
 `;
