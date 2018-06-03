@@ -1,23 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`List Command with flags: --no-format 1`] = `
-Array [
-  "GET	anything	https://example.org/anything
-",
-  "GET	teapot	https://example.org/status/418
-",
-]
-`;
-
 exports[`List Command with flags: 1`] = `
 Array [
   "  HTTP Verb           Alias                         Endpoint            
 ",
-  "  GET                 anything                      https://example.org/anything
+  "  GET                 alias                         https://example.org/anything
 ",
   "  GET                 teapot                        https://example.org/status/418
 ",
   "
+",
+]
+`;
+
+exports[`List Command with flags: 2`] = `
+Array [
+  "GET	alias	https://example.org/anything
+",
+  "GET	teapot	https://example.org/status/418
 ",
 ]
 `;

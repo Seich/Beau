@@ -28,7 +28,7 @@ class RequestList {
             return await request.exec(this.cache);
         } catch (reason) {
             throw new Error(
-                `Request: ${request.VERB} ${
+                `Request ${request.VERB} ${
                     request.ENDPOINT
                 } FAILED. \n${reason}`
             );
