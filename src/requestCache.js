@@ -31,15 +31,15 @@ class RequestCache {
             return null;
         }
 
-        return replaceInObject(item, item => {
-            return item.replace(replacementRegex, (match, key) => {
+        return replaceInObject(item, item =>
+            item.replace(replacementRegex, (match, key) => {
                 if (match.startsWith('\\')) {
                     return match.replace('\\$', '$');
                 }
 
                 return this.get(key);
-            });
-        });
+            })
+        );
     }
 }
 

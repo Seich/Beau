@@ -69,7 +69,7 @@ describe('Request Cache', () => {
         });
 
         it('should return an object when given an undefined value', () => {
-            expect(Object.keys(cache.parse(undefined)).length).toBe(0);
+            expect(cache.parse(undefined)).toEqual({});
         });
 
         it('should parse any value other than undefined', () => {
