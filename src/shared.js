@@ -20,15 +20,14 @@ const UpperCaseKeys = function(obj) {
     return result;
 };
 
+const isEmptyObject = obj =>
+    Object.keys(obj).length === 0 && obj.constructor === Object;
+
 const removeOptionalKeys = function(obj, optionalValues) {
     let result = {};
 
     Object.keys(obj).forEach(key => {
-        if (
-            optionalValues.includes(key) &&
-            (Object.keys(obj[key]).length === 0 &&
-                obj[key].constructor === Object)
-        ) {
+        if (optionalValues.includes(key) && isEmptyObject(obj[key])) {
             return;
         }
 
@@ -42,7 +41,6 @@ const toKebabCase = function(str) {
     return str
         .trim()
         .replace(/([a-z])([A-Z])/g, '$1-$2')
-        .replace(/\s+/g, '-')
         .toLowerCase();
 };
 
@@ -62,6 +60,7 @@ const replaceInObject = function(obj, fn) {
     }
 
     if (type === 'object') {
+        obj = Object.assign({}, obj);
         Object.keys(obj).forEach(k => (obj[k] = replaceInObject(obj[k], fn)));
     }
 
