@@ -45,25 +45,6 @@ Config {
     "HOSTS",
     "COOKIEJAR",
   ],
-  "defaultConfigValues": Object {
-    "COOKIEJAR": false,
-    "DEFAULTS": Object {},
-    "ENDPOINT": "",
-    "ENVIRONMENT": Object {},
-    "HOSTS": Array [],
-    "PLUGINS": Array [],
-    "VERSION": 1,
-  },
-  "doc": Object {
-    "GET /anything": Object {
-      "alias": "anything",
-      "payload": Object {
-        "name": "$env.params.name",
-      },
-    },
-    "endpoint": "https://example.org/",
-    "version": 1,
-  },
 }
 `;
 

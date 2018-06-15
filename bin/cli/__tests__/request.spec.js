@@ -1,6 +1,8 @@
 const RequestCommand = require('../commands/request');
 const requestPromiseNativeMock = require('request-promise-native');
 
+jest.mock('../../../src/shared');
+
 jest.mock('../utils');
 
 describe('Request Command', () => {
@@ -9,11 +11,9 @@ describe('Request Command', () => {
     beforeEach(() => {
         requestPromiseNativeMock.fail = false;
         result = [];
-        jest
-            .spyOn(process.stdout, 'write')
-            .mockImplementation(val =>
-                result.push(require('strip-ansi')(val.toString('utf8')))
-            );
+        jest.spyOn(process.stdout, 'write').mockImplementation(val =>
+            result.push(require('strip-ansi')(val.toString('utf8')))
+        );
     });
 
     afterEach(() => jest.restoreAllMocks());
