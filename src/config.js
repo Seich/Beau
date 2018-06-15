@@ -1,12 +1,11 @@
 const deepMerge = require('deepmerge');
-const { requestRegex, UpperCaseKeys } = require('./shared');
+const { requestRegex, UpperCaseKeys, moduleVersion } = require('./shared');
 const Plugins = require('./plugins');
-const version = parseInt(require('../package.json').version, 10);
 
 class Config {
     constructor(doc, env = {}) {
         const defaultConfigValues = {
-            VERSION: version,
+            VERSION: moduleVersion(),
             ENDPOINT: '',
             PLUGINS: [],
             DEFAULTS: {},

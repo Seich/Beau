@@ -67,6 +67,8 @@ const replaceInObject = function(obj, fn) {
     return obj;
 };
 
+const moduleVersion = () => parseInt(require('../package.json').version, 10);
+
 module.exports = {
     requestRegex,
     replacementRegex,
@@ -74,5 +76,6 @@ module.exports = {
     UpperCaseKeys,
     removeOptionalKeys,
     toKebabCase,
-    replaceInObject
+    replaceInObject,
+    moduleVersion
 };

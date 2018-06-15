@@ -7,7 +7,7 @@ Object {
     "body": Object {
       "username": "seich",
     },
-    "endpoint": "http://martianwabbit.com/user",
+    "endpoint": "http://example.com/user",
     "headers": Object {
       "authentication": "BEARER abc123",
     },
@@ -25,7 +25,7 @@ Object {
   "body": "{\\"hello\\": \\"world\\"}",
   "request": Object {
     "body": undefined,
-    "endpoint": "http://martianwabbit.com/user",
+    "endpoint": "http://example.com/user",
     "headers": undefined,
   },
   "response": Object {

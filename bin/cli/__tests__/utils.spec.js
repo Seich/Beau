@@ -1,5 +1,7 @@
 const utils = require('../utils.js');
 
+jest.mock('../../../src/shared');
+
 jest.mock('fs');
 
 describe('utils', () => {

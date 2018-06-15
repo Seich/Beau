@@ -12,7 +12,7 @@ describe('Request', () => {
     beforeEach(() => {
         validRequestConfig = {
             request: 'POST /user',
-            endpoint: 'http://martianwabbit.com',
+            endpoint: 'http://example.com',
             alias: 'update',
             params: {
                 userId: '$profile.UserId'
@@ -27,7 +27,7 @@ describe('Request', () => {
 
         invalidRequestConfig = {
             request: `POST /session`,
-            endpoint: 'http://martianwabbit.com'
+            endpoint: 'http://example.com'
         };
 
         cache = new RequestCache();
@@ -36,7 +36,7 @@ describe('Request', () => {
 
         request = new Request(validRequestConfig);
         requestWithoutDependencies = new Request({
-            endpoint: 'http://martianwabbit.com',
+            endpoint: 'http://example.com',
             request: 'GET /user',
             alias: 'show'
         });
