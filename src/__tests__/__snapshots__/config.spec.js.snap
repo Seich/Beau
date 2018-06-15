@@ -119,55 +119,6 @@ Config {
     "HOSTS",
     "COOKIEJAR",
   ],
-  "defaultConfigValues": Object {
-    "COOKIEJAR": false,
-    "DEFAULTS": Object {},
-    "ENDPOINT": "",
-    "ENVIRONMENT": Object {},
-    "HOSTS": Array [],
-    "PLUGINS": Array [],
-    "VERSION": 1,
-  },
-  "doc": Object {
-    "GET /e1": "e1",
-    "defaults": Object {
-      "HEADERS": Object {
-        "hello": "mars",
-      },
-    },
-    "endpoint": "http://example.org",
-    "hosts": Array [
-      Object {
-        "GET /e2": "e2",
-        "GET /posts": "posts",
-        "defaults": Object {
-          "HEADERS": Object {
-            "hello": "world",
-            "world": "hello",
-          },
-        },
-        "endpoint": "http://example.com",
-        "host": "com",
-      },
-      Object {
-        "GET /e3": "e3",
-        "GET /posts": "posts",
-        "defaults": Object {
-          "HEADERS": Object {
-            "hello": "world",
-            "world": "bye",
-          },
-        },
-        "endpoint": "http://example.net",
-        "host": "net",
-      },
-      Object {
-        "GET /posts": "posts",
-        "endpoint": "http://example.info",
-        "host": "info",
-      },
-    ],
-  },
 }
 `;
 
@@ -221,30 +172,5 @@ Config {
     "HOSTS",
     "COOKIEJAR",
   ],
-  "defaultConfigValues": Object {
-    "COOKIEJAR": false,
-    "DEFAULTS": Object {},
-    "ENDPOINT": "",
-    "ENVIRONMENT": Object {},
-    "HOSTS": Array [],
-    "PLUGINS": Array [],
-    "VERSION": 1,
-  },
-  "doc": Object {
-    "GET /posts/1": "get-post",
-    "GET /user": Object {
-      "alias": "user",
-      "headers": Object {
-        "hello": "world",
-      },
-    },
-    "defaults": Object {
-      "HEADERS": Object {
-        "authentication": "hello",
-      },
-    },
-    "endpoint": "http://jsonplaceholder.typicode.com",
-    "version": 1,
-  },
 }
 `;

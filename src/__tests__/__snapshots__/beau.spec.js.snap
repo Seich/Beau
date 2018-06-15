@@ -51,31 +51,6 @@ Beau {
       "HOSTS",
       "COOKIEJAR",
     ],
-    "defaultConfigValues": Object {
-      "COOKIEJAR": false,
-      "DEFAULTS": Object {},
-      "ENDPOINT": "",
-      "ENVIRONMENT": Object {},
-      "HOSTS": Array [],
-      "PLUGINS": Array [],
-      "VERSION": 1,
-    },
-    "doc": Object {
-      "GET /posts/1": "get-post",
-      "GET /user": Object {
-        "alias": "user",
-        "headers": Object {
-          "hello": "world",
-        },
-      },
-      "defaults": Object {
-        "headers": Object {
-          "authentication": "hello",
-        },
-      },
-      "endpoint": "http://jsonplaceholder.typicode.com",
-      "version": 1,
-    },
   },
   "requests": RequestList {
     "REQUESTS": Array [
@@ -153,31 +128,6 @@ Beau {
         "HOSTS",
         "COOKIEJAR",
       ],
-      "defaultConfigValues": Object {
-        "COOKIEJAR": false,
-        "DEFAULTS": Object {},
-        "ENDPOINT": "",
-        "ENVIRONMENT": Object {},
-        "HOSTS": Array [],
-        "PLUGINS": Array [],
-        "VERSION": 1,
-      },
-      "doc": Object {
-        "GET /posts/1": "get-post",
-        "GET /user": Object {
-          "alias": "user",
-          "headers": Object {
-            "hello": "world",
-          },
-        },
-        "defaults": Object {
-          "headers": Object {
-            "authentication": "hello",
-          },
-        },
-        "endpoint": "http://jsonplaceholder.typicode.com",
-        "version": 1,
-      },
     },
     "list": Array [
       Request {

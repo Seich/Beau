@@ -1,11 +1,12 @@
 const deepMerge = require('deepmerge');
 const { requestRegex, UpperCaseKeys } = require('./shared');
 const Plugins = require('./plugins');
+const version = parseInt(require('../package.json').version, 10);
 
 class Config {
     constructor(doc, env = {}) {
-        this.defaultConfigValues = {
-            VERSION: 1,
+        const defaultConfigValues = {
+            VERSION: version,
             ENDPOINT: '',
             PLUGINS: [],
             DEFAULTS: {},
@@ -14,11 +15,10 @@ class Config {
             COOKIEJAR: false
         };
 
-        this.configKeys = Object.keys(this.defaultConfigValues);
-        this.doc = doc;
+        this.configKeys = Object.keys(defaultConfigValues);
 
         let config = this.loadConfig(doc);
-        Object.assign(this, this.defaultConfigValues, config);
+        Object.assign(this, defaultConfigValues, config);
 
         this.ENVIRONMENT = deepMerge(this.ENVIRONMENT, env);
 
@@ -29,21 +29,18 @@ class Config {
             ENDPOINT: this.ENDPOINT
         });
 
-        this.loadHosts(this.HOSTS, config);
+        this.loadHosts(this.HOSTS, config, defaultConfigValues);
 
         this.PLUGINS = new Plugins(this.PLUGINS);
     }
 
-    loadHosts(hosts, rootConfig) {
+    loadHosts(hosts, rootConfig, defaultConfigValues) {
         hosts.forEach(host => {
             if (typeof host.host === 'undefined') {
                 throw new Error(`Host doesn't indicate it's host name.`);
             }
 
-            let config = deepMerge(
-                this.defaultConfigValues,
-                this.loadConfig(host)
-            );
+            let config = deepMerge(defaultConfigValues, this.loadConfig(host));
 
             config.DEFAULTS = deepMerge(rootConfig.DEFAULTS, config.DEFAULTS);
 
