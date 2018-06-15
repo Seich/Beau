@@ -16,7 +16,7 @@ const openConfigFile = configFile => {
 const loadConfig = (configFile, params = []) => {
     const config = openConfigFile(configFile);
     const env = dotenv.config().parsed || {};
-    params = dotenv.parse(params.reduce((a, p) => a + '\n' + p, ''));
+    params = dotenv.parse(params.join('\n'));
 
     const envParams = { _: Object.assign(env, params) };
 
