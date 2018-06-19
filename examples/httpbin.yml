@@ -22,6 +22,5 @@ GET /status/418:
 POST /post:
   alias: post
   formdata:
-      file: $[createReadStream('./github.yml')]
-
-
+    id: $[uuid()]
+    file: $[createReadStream('./github.yml')]
