@@ -35,7 +35,7 @@
     "repository": "git@github.com:Seich/Beau.git",
     "devDependencies": {
         "jest": "^23.1.0",
-        "jest-watch-typeahead": "^0.1.0",
+        "jest-watch-typeahead": "^0.2.0",
         "strip-ansi": "^4.0.0"
     },
     "oclif": {
