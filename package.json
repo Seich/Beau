@@ -7,12 +7,10 @@
     "license": "MIT",
     "scripts": {
         "test": "jest",
-        "test:coverage": "jest --coverage ./src"
+        "test:coverage": "jest --coverage ./src",
+        "release": "np"
     },
-    "files": [
-        "/src",
-        "/bin"
-    ],
+    "files": ["/src", "/bin"],
     "dependencies": {
         "@oclif/command": "^1.4.34",
         "@oclif/config": "^1.6.33",
@@ -36,6 +34,7 @@
     "devDependencies": {
         "jest": "^23.4.1",
         "jest-watch-typeahead": "^0.2.0",
+        "np": "^3.0.4",
         "strip-ansi": "^4.0.0"
     },
     "oclif": {
