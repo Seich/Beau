@@ -10,7 +10,10 @@
         "test:coverage": "jest --coverage ./src",
         "release": "np"
     },
-    "files": ["/src", "/bin"],
+    "files": [
+        "/src",
+        "/bin"
+    ],
     "dependencies": {
         "@oclif/command": "^1.4.34",
         "@oclif/config": "^1.6.33",
