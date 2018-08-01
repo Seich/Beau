@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="http://files.martianwabbit.com/beau.png?1" height="144"/>
+    <img src="media/beau.png" height="144" alt="Beau's Logo is a Seahorse" />
 </div>
 
 <h1 align="center">Beau</h1>
@@ -15,7 +15,9 @@
 Beau is a modern http client. It uses a YAML file as configuration allowing you
 to test APIs without having to write lengthy commands.
 
-![A Gif showing how beau works](http://files.martianwabbit.com/beau2.gif)
+<div align="center">
+    <img src="media/usage.gif" alt="A gif showing how beau works." />
+</div>
 
 ## Installation
 
@@ -39,8 +41,7 @@ endpoint: https://httpbin.org/
 POST /anything:
     alias: anything
     payload:
-        username: sergio
-        password: password1
+      hello: world
 ```
 
 ```
@@ -52,8 +53,7 @@ Status              Endpoint
 {
 ...
   json: {
-    password: "password1",
-    username: "sergio"
+    hello: "world"
   },
   method: "POST",
   url: "https://httpbin.org/anything"
