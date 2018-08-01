@@ -3,13 +3,13 @@ const RequestCache = require('./requestCache');
 
 class RequestList {
     constructor(config = { REQUESTS: [] }) {
-        this.config = config;
+        this.PLUGINS = config.PLUGINS;
         this.REQUESTS = config.REQUESTS;
 
         this.list = this.loadRequests();
         this.cache = new RequestCache();
 
-        this.cache.add(`env`, this.config.ENVIRONMENT);
+        this.cache.add(`env`, config.ENVIRONMENT);
     }
 
     async execByAlias(alias) {
@@ -46,7 +46,7 @@ class RequestList {
         let requests = [];
         this.REQUESTS.forEach(request => {
             try {
-                requests.push(new Request(request, this.config.PLUGINS));
+                requests.push(new Request(request, this.PLUGINS));
             } catch (e) {
                 throw new Error(`${request.request} was ignored: ${e}`);
             }

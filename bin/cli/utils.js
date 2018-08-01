@@ -10,7 +10,20 @@ const openConfigFile = configFile => {
         throw new Error(`The config file, ${configFile} was not found.`);
     }
 
-    return yaml.safeLoad(fs.readFileSync(configFile, 'utf-8'));
+    let config;
+    yaml.safeLoadAll(fs.readFileSync(configFile, 'utf-8'), doc => {
+        if (typeof config === 'undefined') {
+            config = doc;
+        } else {
+            if (typeof config.hosts === 'undefined') {
+                config.hosts = [];
+            }
+
+            config.hosts.push(doc);
+        }
+    });
+
+    return config;
 };
 
 const loadConfig = (configFile, params = []) => {

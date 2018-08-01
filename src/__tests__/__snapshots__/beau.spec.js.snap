@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Beau's config Loader. should create a request list 1`] = `
+exports[`Beau's config Loader. should load the config 1`] = `
 Beau {
   "config": Config {
     "COOKIEJAR": false,
@@ -9,10 +9,13 @@ Beau {
         "authentication": "hello",
       },
     },
-    "ENDPOINT": "http://jsonplaceholder.typicode.com",
+    "ENDPOINT": "http://example.com",
     "ENVIRONMENT": Object {},
     "HOSTS": Array [],
     "PLUGINS": Plugins {
+      "autoload": Array [
+        "std",
+      ],
       "context": Object {},
       "registry": Object {
         "dynamicValues": Array [],
@@ -20,27 +23,7 @@ Beau {
         "preRequestModifiers": Array [],
       },
     },
-    "REQUESTS": Array [
-      Object {
-        "ALIAS": "get-post",
-        "COOKIEJAR": false,
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "HEADERS": Object {
-          "authentication": "hello",
-        },
-        "REQUEST": "GET /posts/1",
-      },
-      Object {
-        "ALIAS": "user",
-        "COOKIEJAR": false,
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "HEADERS": Object {
-          "authentication": "hello",
-          "hello": "world",
-        },
-        "REQUEST": "GET /user",
-      },
-    ],
+    "REQUESTS": Array [],
     "VERSION": 1,
     "configKeys": Array [
       "VERSION",
@@ -53,43 +36,82 @@ Beau {
     ],
   },
   "requests": RequestList {
-    "REQUESTS": Array [
-      Object {
-        "ALIAS": "get-post",
-        "COOKIEJAR": false,
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "HEADERS": Object {
-          "authentication": "hello",
-        },
-        "REQUEST": "GET /posts/1",
+    "PLUGINS": Plugins {
+      "autoload": Array [
+        "std",
+      ],
+      "context": Object {},
+      "registry": Object {
+        "dynamicValues": Array [],
+        "postRequestModifiers": Array [],
+        "preRequestModifiers": Array [],
       },
-      Object {
-        "ALIAS": "user",
-        "COOKIEJAR": false,
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "HEADERS": Object {
-          "authentication": "hello",
-          "hello": "world",
-        },
-        "REQUEST": "GET /user",
-      },
-    ],
+    },
+    "REQUESTS": Array [],
     "cache": RequestCache {
       "$cache": Object {
         "env": Object {},
       },
     },
-    "config": Config {
+    "list": Array [],
+  },
+}
+`;
+
+exports[`Beau's config Loader. should load the request list using the configuration 1`] = `
+RequestList {
+  "PLUGINS": Plugins {
+    "autoload": Array [
+      "std",
+    ],
+    "context": Object {},
+    "registry": Object {
+      "dynamicValues": Array [],
+      "postRequestModifiers": Array [],
+      "preRequestModifiers": Array [],
+    },
+  },
+  "REQUESTS": Array [
+    Object {
+      "ALIAS": "get-post",
       "COOKIEJAR": false,
-      "DEFAULTS": Object {
-        "headers": Object {
-          "authentication": "hello",
-        },
+      "ENDPOINT": "http://example.com",
+      "REQUEST": "GET /posts/1",
+    },
+    Object {
+      "ALIAS": "user",
+      "COOKIEJAR": false,
+      "ENDPOINT": "http://example.com",
+      "HEADERS": Object {
+        "hello": "world",
       },
-      "ENDPOINT": "http://jsonplaceholder.typicode.com",
-      "ENVIRONMENT": Object {},
-      "HOSTS": Array [],
-      "PLUGINS": Plugins {
+      "REQUEST": "GET /user",
+    },
+  ],
+  "cache": RequestCache {
+    "$cache": Object {
+      "env": Object {},
+    },
+  },
+  "list": Array [
+    Request {
+      "ALIAS": "get-post",
+      "COOKIEJAR": false,
+      "DEPENDENCIES": Set {},
+      "ENDPOINT": "http://example.com",
+      "PATH": "/posts/1",
+      "REQUEST": "GET /posts/1",
+      "VERB": "GET",
+      "originalRequest": Object {
+        "ALIAS": "get-post",
+        "COOKIEJAR": false,
+        "ENDPOINT": "http://example.com",
+        "REQUEST": "GET /posts/1",
+      },
+      "plugins": Plugins {
+        "autoload": Array [
+          "std",
+        ],
         "context": Object {},
         "registry": Object {
           "dynamicValues": Array [],
@@ -97,100 +119,39 @@ Beau {
           "preRequestModifiers": Array [],
         },
       },
-      "REQUESTS": Array [
-        Object {
-          "ALIAS": "get-post",
-          "COOKIEJAR": false,
-          "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "HEADERS": Object {
-            "authentication": "hello",
-          },
-          "REQUEST": "GET /posts/1",
-        },
-        Object {
-          "ALIAS": "user",
-          "COOKIEJAR": false,
-          "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "HEADERS": Object {
-            "authentication": "hello",
-            "hello": "world",
-          },
-          "REQUEST": "GET /user",
-        },
-      ],
-      "VERSION": 1,
-      "configKeys": Array [
-        "VERSION",
-        "ENDPOINT",
-        "PLUGINS",
-        "DEFAULTS",
-        "ENVIRONMENT",
-        "HOSTS",
-        "COOKIEJAR",
-      ],
     },
-    "list": Array [
-      Request {
-        "ALIAS": "get-post",
-        "COOKIEJAR": false,
-        "DEPENDENCIES": Set {},
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
-        "HEADERS": Object {
-          "authentication": "hello",
-        },
-        "PATH": "/posts/1",
-        "REQUEST": "GET /posts/1",
-        "VERB": "GET",
-        "originalRequest": Object {
-          "ALIAS": "get-post",
-          "COOKIEJAR": false,
-          "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "HEADERS": Object {
-            "authentication": "hello",
-          },
-          "REQUEST": "GET /posts/1",
-        },
-        "plugins": Plugins {
-          "context": Object {},
-          "registry": Object {
-            "dynamicValues": Array [],
-            "postRequestModifiers": Array [],
-            "preRequestModifiers": Array [],
-          },
-        },
+    Request {
+      "ALIAS": "user",
+      "COOKIEJAR": false,
+      "DEPENDENCIES": Set {},
+      "ENDPOINT": "http://example.com",
+      "HEADERS": Object {
+        "hello": "world",
       },
-      Request {
+      "PATH": "/user",
+      "REQUEST": "GET /user",
+      "VERB": "GET",
+      "originalRequest": Object {
         "ALIAS": "user",
         "COOKIEJAR": false,
-        "DEPENDENCIES": Set {},
-        "ENDPOINT": "http://jsonplaceholder.typicode.com",
+        "ENDPOINT": "http://example.com",
         "HEADERS": Object {
-          "authentication": "hello",
           "hello": "world",
         },
-        "PATH": "/user",
         "REQUEST": "GET /user",
-        "VERB": "GET",
-        "originalRequest": Object {
-          "ALIAS": "user",
-          "COOKIEJAR": false,
-          "ENDPOINT": "http://jsonplaceholder.typicode.com",
-          "HEADERS": Object {
-            "authentication": "hello",
-            "hello": "world",
-          },
-          "REQUEST": "GET /user",
-        },
-        "plugins": Plugins {
-          "context": Object {},
-          "registry": Object {
-            "dynamicValues": Array [],
-            "postRequestModifiers": Array [],
-            "preRequestModifiers": Array [],
-          },
+      },
+      "plugins": Plugins {
+        "autoload": Array [
+          "std",
+        ],
+        "context": Object {},
+        "registry": Object {
+          "dynamicValues": Array [],
+          "postRequestModifiers": Array [],
+          "preRequestModifiers": Array [],
         },
       },
-    ],
-  },
+    },
+  ],
 }
 `;

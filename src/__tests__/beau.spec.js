@@ -8,16 +8,28 @@ const requireg = require('requireg');
 requireg.resolving = false;
 
 describe(`Beau's config Loader.`, () => {
-    it('should create a request list', () => {
+    it('should load the config', () => {
         moduleVersion.mockReturnValue(1);
 
         const doc = yaml.safeLoad(`
             version: 1
-            endpoint: 'http://jsonplaceholder.typicode.com'
+            endpoint: 'http://example.com'
 
             defaults:
                 headers:
                     authentication: hello
+        `);
+
+        const beau = new Beau(doc);
+        expect(beau).toMatchSnapshot();
+    });
+
+    it(`should load the request list using the configuration`, () => {
+        moduleVersion.mockReturnValue(1);
+
+        const doc = yaml.safeLoad(`
+            version: 1
+            endpoint: 'http://example.com'
 
             GET /posts/1: get-post
             GET /user:
@@ -27,8 +39,7 @@ describe(`Beau's config Loader.`, () => {
         `);
 
         const beau = new Beau(doc);
-
-        expect(beau).toMatchSnapshot();
+        expect(beau.requests).toMatchSnapshot();
     });
 
     it('should display a warning if the module version and the beau file version are different', () => {
