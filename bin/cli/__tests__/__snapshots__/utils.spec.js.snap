@@ -10,6 +10,9 @@ Config {
   },
   "HOSTS": Array [],
   "PLUGINS": Plugins {
+    "autoload": Array [
+      "std",
+    ],
     "context": Object {
       "createReadStream": [Function],
     },

@@ -42,6 +42,9 @@ Config {
     },
   ],
   "PLUGINS": Plugins {
+    "autoload": Array [
+      "std",
+    ],
     "context": Object {},
     "registry": Object {
       "dynamicValues": Array [],
@@ -130,10 +133,13 @@ Config {
       "authentication": "hello",
     },
   },
-  "ENDPOINT": "http://jsonplaceholder.typicode.com",
+  "ENDPOINT": "http://example.com",
   "ENVIRONMENT": Object {},
   "HOSTS": Array [],
   "PLUGINS": Plugins {
+    "autoload": Array [
+      "std",
+    ],
     "context": Object {},
     "registry": Object {
       "dynamicValues": Array [],
@@ -145,7 +151,7 @@ Config {
     Object {
       "ALIAS": "get-post",
       "COOKIEJAR": false,
-      "ENDPOINT": "http://jsonplaceholder.typicode.com",
+      "ENDPOINT": "http://example.com",
       "HEADERS": Object {
         "authentication": "hello",
       },
@@ -154,7 +160,7 @@ Config {
     Object {
       "ALIAS": "user",
       "COOKIEJAR": false,
-      "ENDPOINT": "http://jsonplaceholder.typicode.com",
+      "ENDPOINT": "http://example.com",
       "HEADERS": Object {
         "authentication": "hello",
         "hello": "world",

@@ -20,6 +20,7 @@ Object {
 
 exports[`Beau's plugin system shouldn't do anything when given an empty array. 1`] = `
 Plugins {
+  "autoload": Array [],
   "context": Object {},
   "registry": Object {
     "dynamicValues": Array [],

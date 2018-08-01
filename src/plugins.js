@@ -14,7 +14,9 @@ class Plugins {
 
         this.context = {};
 
-        this.loadPlugins(autoload.concat(plugins));
+        this.autoload = autoload;
+
+        this.loadPlugins(plugins.concat(this.autoload));
     }
 
     normalizePlugins(plugins) {
@@ -52,7 +54,7 @@ class Plugins {
                 const plugin = requireg(module);
                 new plugin(this, plugins[name]);
             } else {
-                if (name === 'std') return;
+                if (this.autoload.includes(name)) return;
 
                 console.warn(
                     `Plugin ${name} couldn't be found. It is available globally?`
