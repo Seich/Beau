@@ -16,7 +16,7 @@ const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g;
 
 const UpperCaseKeys = function(obj) {
     let result = {};
-    Object.keys(obj).forEach(k => (result[k.toUpperCase()] = obj[k]));
+    Object.entries(obj).forEach(([k, v]) => (result[k.toUpperCase()] = v));
     return result;
 };
 
@@ -26,12 +26,12 @@ const isEmptyObject = obj =>
 const removeOptionalKeys = function(obj, optionalValues) {
     let result = {};
 
-    Object.keys(obj).forEach(key => {
-        if (optionalValues.includes(key) && isEmptyObject(obj[key])) {
+    Object.entries(obj).forEach(([key, value]) => {
+        if (optionalValues.includes(key) && isEmptyObject(value)) {
             return;
         }
 
-        result[key] = obj[key];
+        result[key] = value;
     });
 
     return result;
@@ -49,22 +49,19 @@ const replaceInObject = function(obj, fn) {
         return null;
     }
 
-    let type = typeof obj;
-
-    if (type === 'undefined') {
-        return {};
+    switch (typeof obj) {
+        case 'undefined':
+            return {};
+        case 'string':
+            return fn(obj);
+        case 'object':
+            obj = Object.assign({}, obj);
+            Object.entries(obj).forEach(
+                ([key, value]) => (obj[key] = replaceInObject(value, fn))
+            );
+        default:
+            return obj;
     }
-
-    if (type === 'string') {
-        return fn(obj);
-    }
-
-    if (type === 'object') {
-        obj = Object.assign({}, obj);
-        Object.keys(obj).forEach(k => (obj[k] = replaceInObject(obj[k], fn)));
-    }
-
-    return obj;
 };
 
 const moduleVersion = () => parseInt(require('../package.json').version, 10);

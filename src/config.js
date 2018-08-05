@@ -52,13 +52,13 @@ class Config {
     }
 
     loadRequests(host, settings) {
-        let requests = Object.keys(host)
-            .filter(key => requestRegex.test(key))
-            .map(key => {
-                let requestDefinitionIsString = typeof host[key] === 'string';
+        let requests = Object.entries(host)
+            .filter(([key]) => requestRegex.test(key))
+            .map(([key, rDefinition]) => {
+                let requestDefinitionIsString = typeof rDefinition === 'string';
                 let originalRequest = requestDefinitionIsString
-                    ? { ALIAS: host[key] }
-                    : host[key];
+                    ? { ALIAS: rDefinition }
+                    : rDefinition;
 
                 let request = UpperCaseKeys(originalRequest);
 
@@ -81,9 +81,9 @@ class Config {
     loadConfig(host) {
         let config = {};
 
-        Object.keys(host)
-            .filter(k => this.configKeys.includes(k.toUpperCase()))
-            .forEach(k => (config[k.toUpperCase()] = host[k]));
+        Object.entries(host)
+            .filter(([key]) => this.configKeys.includes(key.toUpperCase()))
+            .forEach(([key, value]) => (config[key.toUpperCase()] = value));
 
         return config;
     }
