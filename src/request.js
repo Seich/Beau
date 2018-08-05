@@ -41,11 +41,11 @@ class Request {
     findDependencies(request, set = new Set()) {
         let type = typeof request;
 
-        if (type === 'object') {
-            Object.keys(request)
-                .filter(key => key !== 'ALIAS')
-                .forEach(key => {
-                    set = this.findDependencies(request[key], set);
+        if (type === 'object' && request !== null) {
+            Object.entries(request)
+                .filter(([key]) => key !== 'ALIAS')
+                .forEach(([key, value]) => {
+                    set = this.findDependencies(value, set);
                 });
         } else if (type === 'string') {
             const matches = [];
