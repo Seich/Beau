@@ -31,14 +31,14 @@
         "jsome": "^2.5.0",
         "request": "^2.87.0",
         "request-promise-native": "^1.0.5",
-        "requireg": "^0.1.8"
+        "requireg": "^0.2.0"
     },
     "repository": "git@github.com:Seich/Beau.git",
     "devDependencies": {
         "jest": "^23.4.1",
         "jest-watch-typeahead": "^0.2.0",
         "np": "^3.0.4",
-        "strip-ansi": "^4.0.0"
+        "strip-ansi": "^5.0.0"
     },
     "oclif": {
         "commands": "./bin/cli/commands",
