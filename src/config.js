@@ -52,30 +52,38 @@ class Config {
     }
 
     loadRequests(host, settings) {
-        let requests = Object.entries(host)
+        Object.entries(host)
             .filter(([key]) => requestRegex.test(key))
-            .map(([key, rDefinition]) => {
-                let requestDefinitionIsString = typeof rDefinition === 'string';
-                let originalRequest = requestDefinitionIsString
-                    ? { ALIAS: rDefinition }
-                    : rDefinition;
-
-                let request = UpperCaseKeys(originalRequest);
-
-                if (settings.NAMESPACE) {
-                    request.ALIAS = `${settings.NAMESPACE}:${request.ALIAS}`;
+            .forEach(([key, rDefinition]) => {
+                if (Array.isArray(rDefinition)) {
+                    rDefinition.forEach(req =>
+                        this.addRequest(key, req, settings)
+                    );
+                } else {
+                    this.addRequest(key, rDefinition, settings);
                 }
-
-                request.REQUEST = key;
-                request.COOKIEJAR = this.COOKIEJAR;
-                request.ENDPOINT = settings.ENDPOINT;
-
-                let defaults = UpperCaseKeys(settings.DEFAULTS);
-
-                return deepMerge(defaults, request);
             });
+    }
 
-        this.REQUESTS = this.REQUESTS.concat(requests);
+    addRequest(key, rDefinition, settings) {
+        let requestDefinitionIsString = typeof rDefinition === 'string';
+        let originalRequest = requestDefinitionIsString
+            ? { ALIAS: rDefinition }
+            : rDefinition;
+
+        let request = UpperCaseKeys(originalRequest);
+
+        if (settings.NAMESPACE) {
+            request.ALIAS = `${settings.NAMESPACE}:${request.ALIAS}`;
+        }
+
+        request.REQUEST = key;
+        request.COOKIEJAR = this.COOKIEJAR;
+        request.ENDPOINT = settings.ENDPOINT;
+
+        let defaults = UpperCaseKeys(settings.DEFAULTS);
+
+        this.REQUESTS.push(deepMerge(defaults, request));
     }
 
     loadConfig(host) {
