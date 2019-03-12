@@ -6,7 +6,8 @@ const {
     requestRegex,
     replacementRegex,
     UpperCaseKeys,
-    removeOptionalKeys
+    removeOptionalKeys,
+    isUrl
 } = require('./shared');
 
 class Request {
@@ -63,8 +64,10 @@ class Request {
     }
 
     async exec(cache = new RequestCache()) {
+        const isPathFullUrl = isUrl(this.PATH);
+
         let settings = cache.parse({
-            baseUrl: this.ENDPOINT,
+            baseUrl: isPathFullUrl ? '' : this.ENDPOINT,
             uri: this.PATH,
             method: this.VERB,
             jar: this.COOKIEJAR,

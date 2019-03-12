@@ -1,3 +1,5 @@
+const { URL } = require('url');
+
 const httpVerbs = [
     'GET',
     'HEAD',
@@ -66,6 +68,15 @@ const replaceInObject = function(obj, fn) {
 
 const moduleVersion = () => parseInt(require('../package.json').version, 10);
 
+const isUrl = function(str) {
+    try {
+        new URL(str);
+        return true;
+    } catch (e) {
+        return false;
+    }
+};
+
 module.exports = {
     requestRegex,
     replacementRegex,
@@ -74,5 +85,6 @@ module.exports = {
     removeOptionalKeys,
     toKebabCase,
     replaceInObject,
-    moduleVersion
+    moduleVersion,
+    isUrl
 };

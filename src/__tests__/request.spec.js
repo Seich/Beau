@@ -73,4 +73,28 @@ describe('Request', () => {
         requestPromiseNativeMock.fail = true;
         await expect(requestWithoutDependencies.exec()).rejects.toThrow(Error);
     });
+
+    it(`should use the full url if given one as part of the path instead of the global endpoint`, async () => {
+        const requestWithPath = new Request({
+            endpoint: 'http://example.com',
+            request: 'GET http://martianwabbit.com/user',
+            alias: 'get-user'
+        });
+
+        const requestWithoutPath = new Request({
+            endpoint: 'http://example.com',
+            request: 'GET /user',
+            alias: 'get-user'
+        });
+
+        await expect(requestWithPath.exec()).resolves.toHaveProperty(
+            'request.endpoint',
+            'http://martianwabbit.com/user'
+        );
+
+        await expect(requestWithoutPath.exec()).resolves.toHaveProperty(
+            'request.endpoint',
+            'http://example.com/user'
+        );
+    });
 });
