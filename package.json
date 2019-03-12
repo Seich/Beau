@@ -6,7 +6,7 @@
     "author": "Sergio Diaz <seich@martianwabbit.com>",
     "license": "MIT",
     "scripts": {
-        "test": "jest",
+        "test": "jest -i",
         "test:coverage": "jest --coverage ./src",
         "release": "np"
     },
