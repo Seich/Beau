@@ -37,7 +37,7 @@
     "devDependencies": {
         "jest": "24.4.0",
         "jest-watch-typeahead": "0.2.0",
-        "np": "3.0.4",
+        "np": "5.0.0",
         "strip-ansi": "5.1.0"
     },
     "oclif": {
