@@ -31,7 +31,7 @@
         "jsome": "2.5.0",
         "request": "2.88.0",
         "request-promise-native": "1.0.5",
-        "requireg": "0.2.1"
+        "requireg": "0.2.2"
     },
     "repository": "git@github.com:Seich/Beau.git",
     "devDependencies": {
