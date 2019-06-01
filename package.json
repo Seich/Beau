@@ -17,7 +17,7 @@
     "dependencies": {
         "@oclif/config": "1.12.12",
         "@oclif/command": "1.5.12",
-        "@oclif/plugin-help": "2.1.4",
+        "@oclif/plugin-help": "2.2.0",
         "@oclif/plugin-warn-if-update-available": "1.5.4",
         "beau-std": "0.9.4",
         "cli-color": "1.4.0",
