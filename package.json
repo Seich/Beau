@@ -22,7 +22,7 @@
         "beau-std": "0.9.4",
         "cli-color": "1.4.0",
         "clui": "0.3.6",
-        "deepmerge": "3.0.0",
+        "deepmerge": "3.2.1",
         "dotenv": "7.0.0",
         "globby": "9.2.0",
         "is-plain-object": "3.0.0",
