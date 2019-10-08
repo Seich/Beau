@@ -27,7 +27,7 @@
         "globby": "9.2.0",
         "is-plain-object": "3.0.0",
         "joi": "14.3.0",
-        "js-yaml": "3.13.0",
+        "js-yaml": "3.13.1",
         "jsome": "2.5.0",
         "request": "2.88.0",
         "request-promise-native": "1.0.5",
