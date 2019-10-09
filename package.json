@@ -20,7 +20,7 @@
         "@oclif/plugin-help": "2.2.1",
         "@oclif/plugin-warn-if-update-available": "1.7.0",
         "beau-std": "0.9.4",
-        "cli-color": "1.4.0",
+        "cli-color": "2.0.0",
         "clui": "0.3.6",
         "deepmerge": "4.1.0",
         "dotenv": "8.1.0",
