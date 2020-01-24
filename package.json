@@ -30,7 +30,7 @@
         "js-yaml": "3.13.1",
         "jsome": "2.5.0",
         "request": "2.88.0",
-        "request-promise-native": "1.0.7",
+        "request-promise-native": "1.0.8",
         "requireg": "0.2.2"
     },
     "repository": "git@github.com:Seich/Beau.git",
