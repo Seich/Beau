@@ -24,7 +24,7 @@
         "clui": "0.3.6",
         "deepmerge": "4.1.1",
         "dotenv": "8.2.0",
-        "globby": "10.0.1",
+        "globby": "11.0.0",
         "is-plain-object": "3.0.0",
         "joi": "14.3.1",
         "js-yaml": "3.13.1",
