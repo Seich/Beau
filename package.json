@@ -35,7 +35,7 @@
     },
     "repository": "git@github.com:Seich/Beau.git",
     "devDependencies": {
-        "jest": "24.9.0",
+        "jest": "26.2.2",
         "strip-ansi": "5.2.0",
         "jest-watch-typeahead": "0.6.0",
         "strip-ansi": "6.0.0",
