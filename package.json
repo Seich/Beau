@@ -39,7 +39,7 @@
         "strip-ansi": "5.2.0",
         "jest-watch-typeahead": "0.6.1",
         "strip-ansi": "6.0.0",
-        "np": "6.3.2"
+        "np": "7.0.0"
     },
     "oclif": {
         "commands": "./bin/cli/commands",
