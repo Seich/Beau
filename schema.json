@@ -1,0 +1,99 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://beaujs.com/schema.json",
+    "title": "Schema for Beau",
+    "type": "object",
+    "definitions": {
+        "request": {
+            "oneOf": [
+                { "type": "string" },
+                {
+                    "type": "object",
+                    "required": ["alias"],
+                    "properties": {
+                        "alias": {
+                            "type": "string",
+                            "description": "The name of this request."
+                        },
+                        "headers": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Headers that are part of this request."
+                        },
+                        "params": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "Query String parameters to add to this request."
+                        },
+                        "payload": {
+                            "description": "This request's body. It is converted to json automatically if given an object. It's sent as a string otherwise.",
+                            "oneOf": [
+                                { "type": "string" },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": true
+                                }
+                            ]
+                        },
+                        "form": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "This request's body. Sets the content-type to application/x-www-form-urlencoded."
+                        },
+                        "formdata": {
+                            "type": "object",
+                            "additionalProperties": true,
+                            "description": "This request's body. Sets the content-type to multipart/form-data."
+                        }
+                    },
+                    "allOf": [
+                        { "not": { "required": ["payload", "form"] } },
+                        { "not": { "required": ["payload", "formdata"] } },
+                        { "not": { "required": ["formdata", "form"] } }
+                    ]
+                }
+            ]
+        }
+    },
+    "properties": {
+        "version": {
+            "type": "number",
+            "enum": [1]
+        },
+        "endpoint": {
+            "type": "string",
+            "description": "The root endpoint for this host."
+        },
+        "cookiejar": {
+            "type": "boolean"
+        },
+        "defaults": {
+            "$ref": "#/definitions/request"
+        },
+        "plugins": {
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    { "type": "string" },
+                    { "type": "object", "additionalProperties": true }
+                ]
+            }
+        },
+        "environment": {}
+    },
+    "patternProperties": {
+        "(GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH)\\s.*": {
+            "oneOf": [
+                {
+                    "$ref": "#/definitions/request"
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/request"
+                    }
+                }
+            ]
+        }
+    }
+}
