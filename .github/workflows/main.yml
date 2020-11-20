@@ -1,0 +1,31 @@
+name: Run Tests
+on:
+    push:
+        branches: [master]
+
+    pull_request:
+        branches: [master]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2-beta
+            - name: Install dependencies
+              run: |
+                  npm install
+                  wget https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64 -O cc-test-reporter
+                  chmod +x ./cc-test-reporter
+
+            - name: Run Tests
+              run: npm run test:coverage
+            - name: Report Results
+              if: success()
+              run: |
+                  ./cc-test-reporter format-coverage
+                  ./cc-test-reporter upload-coverage
+              env:
+                GIT_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+                GIT_BRANCH: ${{ github.head_ref }}
+                CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
