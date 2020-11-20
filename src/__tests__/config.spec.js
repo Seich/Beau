@@ -1,8 +1,8 @@
-const yaml = require('js-yaml');
-const Config = require('../config');
+const yaml = require('js-yaml')
+const Config = require('../config')
 
-const requireg = require('requireg');
-requireg.resolving = false;
+const requireg = require('requireg')
+requireg.resolving = false
 
 describe('Config', () => {
     it('should load valid config keys', () => {
@@ -10,13 +10,13 @@ describe('Config', () => {
             version: 1
             endpoint: http://martianwabbit.com
             shouldntBeAdded: true
-        `);
+        `)
 
-        const config = new Config(doc);
-        expect(config.ENDPOINT).toBe(doc.endpoint);
-        expect(config.VERSION).toBe(doc.version);
-        expect(config.shouldntBeAdded).toBeUndefined();
-    });
+        const config = new Config(doc)
+        expect(config.ENDPOINT).toBe(doc.endpoint)
+        expect(config.VERSION).toBe(doc.version)
+        expect(config.shouldntBeAdded).toBeUndefined()
+    })
 
     it('should load requests', () => {
         const doc = yaml.safeLoad(`
@@ -29,11 +29,11 @@ describe('Config', () => {
                 alias: user
                 headers:
                     hello: world
-        `);
+        `)
 
-        const config = new Config(doc);
-        expect(Object.keys(config.REQUESTS).length).toBe(4);
-    });
+        const config = new Config(doc)
+        expect(Object.keys(config.REQUESTS).length).toBe(4)
+    })
 
     it('should set up defaults for all requests', () => {
         const doc = yaml.safeLoad(`
@@ -49,15 +49,15 @@ describe('Config', () => {
                 alias: user
                 headers:
                     hello: world
-        `);
+        `)
 
-        const config = new Config(doc);
+        const config = new Config(doc)
 
-        expect(config).toMatchSnapshot();
-        Object.values(config.REQUESTS).forEach(r => {
-            expect(r.HEADERS.authentication).toMatch('hello');
-        });
-    });
+        expect(config).toMatchSnapshot()
+        Object.values(config.REQUESTS).forEach((r) => {
+            expect(r.HEADERS.authentication).toMatch('hello')
+        })
+    })
 
     it('should load multiple hosts', () => {
         const doc = yaml.safeLoad(`
@@ -97,12 +97,12 @@ describe('Config', () => {
               endpoint: http://example.info
 
               GET /posts: posts
-        `);
+        `)
 
-        let config = new Config(doc);
+        let config = new Config(doc)
 
-        expect(config).toMatchSnapshot();
-    });
+        expect(config).toMatchSnapshot()
+    })
 
     it('should namespace all aliases within an host', () => {
         const doc = yaml.safeLoad(`
@@ -113,13 +113,13 @@ describe('Config', () => {
               - host: test2
                 endpoint: http://example.net
                 GET /posts: posts
-        `);
+        `)
 
-        let config = new Config(doc);
+        let config = new Config(doc)
 
-        expect(config.REQUESTS[0].ALIAS).toBe('test1:posts');
-        expect(config.REQUESTS[1].ALIAS).toBe('test2:posts');
-    });
+        expect(config.REQUESTS[0].ALIAS).toBe('test1:posts')
+        expect(config.REQUESTS[1].ALIAS).toBe('test2:posts')
+    })
 
     it(`should throw if host doesn't have a host key`, () => {
         const doc = yaml.safeLoad(`
@@ -130,10 +130,10 @@ describe('Config', () => {
               - host: test2
                 endpoint: http://example.net
                 GET /posts: posts
-        `);
+        `)
 
-        expect(() => new Config(doc)).toThrow();
-    });
+        expect(() => new Config(doc)).toThrow()
+    })
 
     it(`should merge host settings with global settings`, () => {
         const doc = yaml.safeLoad(`
@@ -152,11 +152,11 @@ describe('Config', () => {
                   headers: false
 
                 GET /posts: posts
-        `);
+        `)
 
-        let config = new Config(doc);
-        expect(config.REQUESTS[0].HEADERS.hello).toBe(1);
-    });
+        let config = new Config(doc)
+        expect(config.REQUESTS[0].HEADERS.hello).toBe(1)
+    })
 
     it(`should allow different settings for the same request`, () => {
         const doc = yaml.safeLoad(`
@@ -168,9 +168,9 @@ describe('Config', () => {
         - alias: req2
           headers:
             request: 2
-    `);
+    `)
 
-        let config = new Config(doc);
-        expect(config.REQUESTS.length).toBe(2);
-    });
-});
+        let config = new Config(doc)
+        expect(config.REQUESTS.length).toBe(2)
+    })
+})

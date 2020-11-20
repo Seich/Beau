@@ -1,4 +1,4 @@
-const { URL } = require('url');
+const { URL } = require('url')
 
 const httpVerbs = [
     'GET',
@@ -10,72 +10,72 @@ const httpVerbs = [
     'OPTIONS',
     'TRACE',
     'PATCH'
-];
+]
 
-const requestRegex = new RegExp(`(${httpVerbs.join('|')})\\s(.*)`, 'i');
-const replacementRegex = /(?:\\?)\$([a-zA-Z\.\d\-\_\:]+)/g;
-const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g;
+const requestRegex = new RegExp(`(${httpVerbs.join('|')})\\s(.*)`, 'i')
+const replacementRegex = /(?:\\?)\$([a-zA-Z\.\d\-\_\:]+)/g
+const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g
 
-const UpperCaseKeys = function(obj) {
-    let result = {};
-    Object.entries(obj).forEach(([k, v]) => (result[k.toUpperCase()] = v));
-    return result;
-};
+const UpperCaseKeys = function (obj) {
+    let result = {}
+    Object.entries(obj).forEach(([k, v]) => (result[k.toUpperCase()] = v))
+    return result
+}
 
-const isEmptyObject = obj =>
-    Object.keys(obj).length === 0 && obj.constructor === Object;
+const isEmptyObject = (obj) =>
+    Object.keys(obj).length === 0 && obj.constructor === Object
 
-const removeOptionalKeys = function(obj, optionalValues) {
-    let result = {};
+const removeOptionalKeys = function (obj, optionalValues) {
+    let result = {}
 
     Object.entries(obj).forEach(([key, value]) => {
         if (optionalValues.includes(key) && isEmptyObject(value)) {
-            return;
+            return
         }
 
-        result[key] = value;
-    });
+        result[key] = value
+    })
 
-    return result;
-};
+    return result
+}
 
-const toKebabCase = function(str) {
+const toKebabCase = function (str) {
     return str
         .trim()
         .replace(/([a-z])([A-Z])/g, '$1-$2')
-        .toLowerCase();
-};
+        .toLowerCase()
+}
 
-const replaceInObject = function(obj, fn) {
+const replaceInObject = function (obj, fn) {
     if (obj === null) {
-        return null;
+        return null
     }
 
     switch (typeof obj) {
         case 'undefined':
-            return {};
+            return {}
         case 'string':
-            return fn(obj);
+            return fn(obj)
         case 'object':
-            obj = Object.assign({}, obj);
+            obj = Object.assign({}, obj)
             Object.entries(obj).forEach(
                 ([key, value]) => (obj[key] = replaceInObject(value, fn))
-            );
+            )
         default:
-            return obj;
+            return obj
     }
-};
+}
 
-const moduleVersion = () => parseInt(require('../package.json').version, 10);
+const moduleVersion = () => parseInt(require('../package.json').version, 10)
 
-const isUrl = function(str) {
+const isUrl = function (str) {
     try {
-        new URL(str);
-        return true;
+        new URL(str)
+        return true
     } catch (e) {
-        return false;
+        return false
     }
-};
+}
 
 module.exports = {
     requestRegex,
@@ -87,4 +87,4 @@ module.exports = {
     replaceInObject,
     moduleVersion,
     isUrl
-};
+}

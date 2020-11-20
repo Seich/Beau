@@ -41,7 +41,7 @@ endpoint: https://httpbin.org/
 POST /anything:
     alias: anything
     payload:
-      hello: world
+        hello: world
 ```
 
 ```

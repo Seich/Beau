@@ -1,46 +1,46 @@
-const { replacementRegex, replaceInObject } = require('./shared');
+const { replacementRegex, replaceInObject } = require('./shared')
 
 class RequestCache {
     constructor() {
-        this.$cache = {};
+        this.$cache = {}
     }
 
     exists(key) {
-        return typeof this.$cache[key] !== 'undefined';
+        return typeof this.$cache[key] !== 'undefined'
     }
 
     add(key, value) {
-        this.$cache[key] = value;
+        this.$cache[key] = value
     }
 
     get(path) {
-        let result = this.$cache;
-        path.split('.').forEach(part => {
+        let result = this.$cache
+        path.split('.').forEach((part) => {
             if (result[part] === undefined) {
-                throw new Error(`${path} not found in cache.`);
+                throw new Error(`${path} not found in cache.`)
             }
 
-            result = result[part];
-        });
+            result = result[part]
+        })
 
-        return result;
+        return result
     }
 
     parse(item) {
         if (item === null) {
-            return null;
+            return null
         }
 
-        return replaceInObject(item, item =>
+        return replaceInObject(item, (item) =>
             item.replace(replacementRegex, (match, key) => {
                 if (match.startsWith('\\')) {
-                    return match.replace('\\$', '$');
+                    return match.replace('\\$', '$')
                 }
 
-                return this.get(key);
+                return this.get(key)
             })
-        );
+        )
     }
 }
 
-module.exports = RequestCache;
+module.exports = RequestCache

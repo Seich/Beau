@@ -1,6 +1,6 @@
 function Request(request) {
     if (Request.fail) {
-        throw new Error();
+        throw new Error()
     }
 
     return {
@@ -14,9 +14,9 @@ function Request(request) {
         statusCode: 200,
         headers: [],
         body: '{"hello": "world"}'
-    };
+    }
 }
 
-Request.fail = false;
+Request.fail = false
 
-module.exports = Request;
+module.exports = Request
