@@ -1,66 +1,66 @@
 {
-    "name": "beau",
-    "version": "0.10.1",
-    "description": "Testing APIs made easy.",
-    "main": "./src/beau.js",
-    "author": "Sergio Diaz <seich@martianwabbit.com>",
-    "license": "MIT",
-    "scripts": {
-        "test": "jest -i",
-        "test:coverage": "jest --coverage ./src",
-        "release": "np"
-    },
-    "files": [
-        "/src",
-        "/bin"
-    ],
-    "dependencies": {
-        "@oclif/command": "1.8.0",
-        "@oclif/config": "1.16.0",
-        "@oclif/plugin-help": "3.1.0",
-        "@oclif/plugin-warn-if-update-available": "1.7.0",
-        "ajv": "7.0.0-beta.6",
-        "beau-std": "0.9.4",
-        "better-ajv-errors": "0.6.7",
-        "cli-color": "2.0.0",
-        "clui": "0.3.6",
-        "deepmerge": "4.2.2",
-        "dotenv": "8.2.0",
-        "globby": "11.0.1",
-        "is-plain-object": "4.1.0",
-        "js-yaml": "3.14.0",
-        "jsome": "2.5.0",
-        "request": "2.88.2",
-        "request-promise-native": "1.0.9",
-        "requireg": "0.2.2"
-    },
-    "repository": "git@github.com:Seich/Beau.git",
-    "devDependencies": {
-        "jest": "24.9.0",
-        "strip-ansi": "6.0.0",
-        "jest-watch-typeahead": "0.6.0",
-        "np": "6.3.2"
-    },
-    "oclif": {
-        "commands": "./bin/cli/commands",
-        "bin": "beau",
-        "plugins": [
-            "@oclif/plugin-help",
-            "@oclif/plugin-warn-if-update-available"
-        ]
-    },
-    "jest": {
-        "testEnvironment": "node",
-        "notify": true,
-        "watchPlugins": [
-            "jest-watch-typeahead/filename",
-            "jest-watch-typeahead/testname"
-        ]
-    },
-    "bin": {
-        "beau": "./bin/beau"
-    },
-    "engines": {
-        "node": ">=8.10.0"
-    }
+  "name": "beau",
+  "version": "0.10.1",
+  "description": "Testing APIs made easy.",
+  "main": "./src/beau.js",
+  "author": "Sergio Diaz <seich@martianwabbit.com>",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest -i",
+    "test:coverage": "jest --coverage ./src",
+    "release": "np"
+  },
+  "files": [
+    "/src",
+    "/bin"
+  ],
+  "dependencies": {
+    "@oclif/plugin-help": "3.2.0",
+    "@oclif/command": "1.8.0",
+    "@oclif/config": "1.17.0",
+    "@oclif/plugin-warn-if-update-available": "1.7.0",
+    "ajv": "7.0.0-beta.6",
+    "beau-std": "0.9.4",
+    "better-ajv-errors": "0.6.7",
+    "cli-color": "2.0.0",
+    "clui": "0.3.6",
+    "deepmerge": "4.2.2",
+    "dotenv": "8.2.0",
+    "globby": "11.0.1",
+    "is-plain-object": "4.1.0",
+    "js-yaml": "3.14.0",
+    "jsome": "2.5.0",
+    "request": "2.88.2",
+    "request-promise-native": "1.0.9",
+    "requireg": "0.2.2"
+  },
+  "repository": "git@github.com:Seich/Beau.git",
+  "devDependencies": {
+    "jest": "24.9.0",
+    "jest-watch-typeahead": "0.6.1",
+    "strip-ansi": "6.0.0",
+    "np": "7.0.0"
+  },
+  "oclif": {
+    "commands": "./bin/cli/commands",
+    "bin": "beau",
+    "plugins": [
+      "@oclif/plugin-help",
+      "@oclif/plugin-warn-if-update-available"
+    ]
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "notify": true,
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ]
+  },
+  "bin": {
+    "beau": "./bin/beau"
+  },
+  "engines": {
+    "node": ">=8.10.0"
+  }
 }
