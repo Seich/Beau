@@ -1,26 +1,22 @@
-const clc = require('cli-color');
-const { Line } = require('clui');
-const { flags, Command } = require('@oclif/command');
-const { baseFlags, loadConfig } = require('../utils');
+const clc = require('cli-color')
+const { Line } = require('clui')
+const Base = require('../base')
 
-class ListCommand extends Command {
+class ListCommand extends Base {
     async run() {
-        const { flags } = this.parse(ListCommand);
-        const Beau = loadConfig(flags.config);
+        const { flags } = this.parse(ListCommand)
+        const Beau = this.loadConfig(flags.config)
 
         if (flags['no-format']) {
             return Beau.requests.list.forEach(
                 ({ VERB, ALIAS, ENDPOINT, PATH }) =>
                     this.log(
-                        VERB +
-                            `\t` +
-                            ALIAS +
-                            `\t` +
-                            ENDPOINT.replace(/\/$/, '') +
-                            `/` +
-                            PATH.replace(/^\//, '')
+                        `${VERB}\t${ALIAS}\t${ENDPOINT.replace(
+                            /\/$/,
+                            ''
+                        )}/${PATH.replace(/^\//, '')}`
                     )
-            );
+            )
         }
 
         new Line()
@@ -28,7 +24,7 @@ class ListCommand extends Command {
             .column('HTTP Verb', 20, [clc.cyan])
             .column('Alias', 30, [clc.cyan])
             .column('Endpoint', 20, [clc.cyan])
-            .output();
+            .output()
 
         Beau.requests.list.forEach(({ VERB, ALIAS, ENDPOINT, PATH }) =>
             new Line()
@@ -39,13 +35,13 @@ class ListCommand extends Command {
                     ENDPOINT.replace(/\/$/, '') + '/' + PATH.replace(/^\//, '')
                 )
                 .output()
-        );
+        )
 
-        new Line().output();
+        new Line().output()
     }
 }
 
-ListCommand.description = `Lists all available requests in the config file.`;
-ListCommand.flags = { ...baseFlags };
+ListCommand.description = `Lists all available requests in the config file.`
+ListCommand.flags = { ...Base.flags }
 
-module.exports = ListCommand;
+module.exports = ListCommand

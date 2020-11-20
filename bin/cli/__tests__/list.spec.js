@@ -2,7 +2,7 @@ const ListCommand = require('../commands/list');
 
 jest.mock('../../../src/shared');
 
-jest.mock('../utils');
+jest.mock('../base');
 
 describe('List Command', () => {
     let result;
