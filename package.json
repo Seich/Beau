@@ -27,7 +27,7 @@
     "deepmerge": "4.2.2",
     "dotenv": "8.2.0",
     "globby": "11.0.1",
-    "is-plain-object": "4.1.0",
+    "is-plain-object": "5.0.0",
     "js-yaml": "3.14.0",
     "jsome": "2.5.0",
     "request": "2.88.2",
