@@ -15,21 +15,21 @@
     "/bin"
   ],
   "dependencies": {
-    "@oclif/plugin-help": "3.2.0",
     "@oclif/command": "1.8.0",
     "@oclif/config": "1.17.0",
+    "@oclif/plugin-help": "3.2.0",
     "@oclif/plugin-warn-if-update-available": "1.7.0",
     "ajv": "7.0.0-beta.6",
     "beau-std": "0.9.4",
     "better-ajv-errors": "0.6.7",
     "cli-color": "2.0.0",
     "clui": "0.3.6",
+    "color-json": "2.0.1",
     "deepmerge": "4.2.2",
     "dotenv": "8.2.0",
     "globby": "11.0.1",
     "is-plain-object": "5.0.0",
     "js-yaml": "3.14.0",
-    "jsome": "2.5.0",
     "request": "2.88.2",
     "request-promise-native": "1.0.9",
     "requireg": "0.2.2"

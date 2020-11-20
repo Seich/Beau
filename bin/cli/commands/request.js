@@ -1,34 +1,34 @@
-const clc = require('cli-color');
-const jsome = require('jsome');
-const { Line, Spinner } = require('clui');
-const { flags } = require('@oclif/command');
-const Base = require('../base');
+const clc = require('cli-color')
+const { Line, Spinner } = require('clui')
+const { flags } = require('@oclif/command')
+const cj = require('color-json')
+const Base = require('../base')
 
 class RequestCommand extends Base {
     prettyOutput(res, verbose = false) {
-        let { status, body } = res.response;
+        let { status, body } = res.response
 
-        this.spinner.stop();
+        this.spinner.stop()
 
         status = status.toString().startsWith(2)
             ? clc.green(status)
-            : clc.red(status);
+            : clc.red(status)
 
         new Line()
             .padding(2)
             .column('Status', 20, [clc.cyan])
             .column('Endpoint', 20, [clc.cyan])
-            .output();
+            .output()
 
         new Line()
             .padding(2)
             .column(status, 20)
             .column(res.request.endpoint)
-            .output();
+            .output()
 
-        new Line().output();
+        new Line().output()
 
-        this.log(jsome.getColoredString((verbose ? res : body) || null));
+        this.log(cj((verbose ? res : body) || null))
     }
 
     async run() {
@@ -42,54 +42,54 @@ class RequestCommand extends Base {
                 quiet = false
             },
             args
-        } = this.parse(RequestCommand);
+        } = this.parse(RequestCommand)
 
-        const Beau = this.loadConfig(config, params);
+        const Beau = this.loadConfig(config, params)
 
-        const spinnerSprite = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'];
-        this.spinner = new Spinner('', spinnerSprite);
+        const spinnerSprite = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷']
+        this.spinner = new Spinner('', spinnerSprite)
 
-        let spinnerEnabled = !noFormat && !asJson && !quiet;
+        let spinnerEnabled = !noFormat && !asJson && !quiet
 
         if (spinnerEnabled) {
-            this.spinner.start();
+            this.spinner.start()
         }
 
-        let res;
+        let res
 
         try {
-            res = await Beau.requests.execByAlias(args.alias);
+            res = await Beau.requests.execByAlias(args.alias)
         } catch (err) {
-            this.spinner.stop();
+            this.spinner.stop()
 
             if (!quiet) {
-                this.error(err.message);
+                this.error(err.message)
             }
 
-            this.exit(1);
+            this.exit(1)
         }
 
         if (quiet) {
-            return;
+            return
         }
 
         if (asJson) {
-            return this.log(JSON.stringify(verbose ? res : res.response));
+            return this.log(JSON.stringify(verbose ? res : res.response))
         }
 
         if (noFormat) {
-            this.log(res.response.status);
-            this.log(res.request.endpoint);
-            this.log(JSON.stringify(res.response.headers));
-            this.log(JSON.stringify(res.response.body));
-            return;
+            this.log(res.response.status)
+            this.log(res.request.endpoint)
+            this.log(JSON.stringify(res.response.headers))
+            this.log(JSON.stringify(res.response.body))
+            return
         }
 
-        this.prettyOutput(res, verbose);
+        this.prettyOutput(res, verbose)
     }
 }
 
-RequestCommand.description = `Executes a request by name.`;
+RequestCommand.description = `Executes a request by name.`
 RequestCommand.flags = {
     ...Base.flags,
     param: flags.string({
@@ -107,7 +107,7 @@ RequestCommand.flags = {
         char: 'j',
         description: `Outputs the response as json.`
     })
-};
+}
 
 RequestCommand.args = [
     {
@@ -115,6 +115,6 @@ RequestCommand.args = [
         required: true,
         description: `The alias of the request to execute.`
     }
-];
+]
 
-module.exports = RequestCommand;
+module.exports = RequestCommand
