@@ -2,7 +2,7 @@ const vm = require('vm');
 const requireg = require('requireg');
 const deepmerge = require('deepmerge');
 const { toKebabCase, dynamicValueRegex, replaceInObject } = require('./shared');
-const isPlainObject = require('is-plain-object');
+const { isPlainObject } = require('is-plain-object');
 
 class Plugins {
     constructor(plugins = [], autoload = ['std']) {
