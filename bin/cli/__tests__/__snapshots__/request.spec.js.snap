@@ -9,7 +9,9 @@ Array [
 ",
   "
 ",
-  "\\"{\\"hello\\": \\"world\\"}\\"
+  "{
+  \\"hello\\": \\"world\\"
+}
 ",
 ]
 `;
@@ -53,18 +55,18 @@ Array [
   "
 ",
   "{
-  request: {
-    body: {
-      name: \\"David\\"
+  \\"request\\": {
+    \\"body\\": {
+      \\"name\\": \\"David\\"
     },
-    endpoint: \\"https://example.org/anything\\"
+    \\"endpoint\\": \\"https://example.org/anything\\"
   },
-  response: {
-    status: 200,
-    headers: [],
-    body: \\"{\\"hello\\": \\"world\\"}\\"
+  \\"response\\": {
+    \\"status\\": 200,
+    \\"headers\\": [],
+    \\"body\\": \\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"
   },
-  body: \\"{\\"hello\\": \\"world\\"}\\"
+  \\"body\\": \\"{\\\\\\"hello\\\\\\": \\\\\\"world\\\\\\"}\\"
 }
 ",
 ]
