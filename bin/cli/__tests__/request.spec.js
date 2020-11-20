@@ -3,7 +3,7 @@ const requestPromiseNativeMock = require('request-promise-native');
 
 jest.mock('../../../src/shared');
 
-jest.mock('../utils');
+jest.mock('../base');
 
 describe('Request Command', () => {
     let result;

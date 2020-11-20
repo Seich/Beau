@@ -7,9 +7,10 @@ environment:
     name: David
 
 GET /anything:
-  alias: anything
-  payload:
-    name: $env.params.name
+  - alias: anything
+    payload:
+      name: $env.params.name
+  - alias: anything2
 
 GET /cookies/set:
   alias: set-cookies

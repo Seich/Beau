@@ -1,10 +1,10 @@
 const clc = require('cli-color');
 const jsome = require('jsome');
 const { Line, Spinner } = require('clui');
-const { flags, Command } = require('@oclif/command');
-const { baseFlags, loadConfig } = require('../utils');
+const { flags } = require('@oclif/command');
+const Base = require('../base');
 
-class RequestCommand extends Command {
+class RequestCommand extends Base {
     prettyOutput(res, verbose = false) {
         let { status, body } = res.response;
 
@@ -44,7 +44,7 @@ class RequestCommand extends Command {
             args
         } = this.parse(RequestCommand);
 
-        const Beau = loadConfig(config, params);
+        const Beau = this.loadConfig(config, params);
 
         const spinnerSprite = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷'];
         this.spinner = new Spinner('', spinnerSprite);
@@ -91,7 +91,7 @@ class RequestCommand extends Command {
 
 RequestCommand.description = `Executes a request by name.`;
 RequestCommand.flags = {
-    ...baseFlags,
+    ...Base.flags,
     param: flags.string({
         char: 'P',
         multiple: true,

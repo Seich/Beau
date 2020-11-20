@@ -5,7 +5,6 @@ useTabs: false
 trailingComma: none
 bracketSpacing: true
 jsxBracketSameLine: true
-parser: babylon
-semi: true
+semi: false
 requirePragma: false
 proseWrap: always
