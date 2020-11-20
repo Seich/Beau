@@ -4,6 +4,10 @@ const fs = require('fs')
 const path = require('path')
 const dotenv = require('dotenv')
 const Beau = require('../../src/beau')
+const Ajv = require('ajv').default
+
+const ajv = new Ajv()
+const validate = ajv.compile(require('../../schema.json'))
 
 class Base extends Command {
     openConfigFile(configFile) {
@@ -13,6 +17,13 @@ class Base extends Command {
 
         let config
         yaml.safeLoadAll(fs.readFileSync(configFile, 'utf-8'), (doc) => {
+            const valid = validate(doc)
+
+            if (!valid) {
+                this.log(validate.errors)
+                this.error(`The configuration file is not valid.`)
+            }
+
             if (typeof config === 'undefined') {
                 config = doc
             } else {
