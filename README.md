@@ -7,6 +7,7 @@
 <p align="center">
     <a href="https://codeclimate.com/github/Seich/Beau/maintainability"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/maintainability" /></a>
     <a href="https://codeclimate.com/github/Seich/Beau/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/test_coverage" /></a>
+    <img src="https://github.com/Seich/Beau/workflows/Tests/badge.svg"/>
 </p>
 
 ## What is Beau?
