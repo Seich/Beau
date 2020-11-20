@@ -21,6 +21,7 @@
         "@oclif/plugin-warn-if-update-available": "1.7.0",
         "ajv": "7.0.0-beta.6",
         "beau-std": "0.9.4",
+        "better-ajv-errors": "0.6.7",
         "cli-color": "2.0.0",
         "clui": "0.3.6",
         "deepmerge": "4.2.2",

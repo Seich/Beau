@@ -5,9 +5,11 @@ const path = require('path')
 const dotenv = require('dotenv')
 const Beau = require('../../src/beau')
 const Ajv = require('ajv').default
+const betterAjvErrors = require('better-ajv-errors')
 
+const schema = require('../../schema.json')
 const ajv = new Ajv()
-const validate = ajv.compile(require('../../schema.json'))
+const validate = ajv.compile(schema)
 
 class Base extends Command {
     openConfigFile(configFile) {
@@ -20,8 +22,10 @@ class Base extends Command {
             const valid = validate(doc)
 
             if (!valid) {
-                this.log(validate.errors)
-                this.error(`The configuration file is not valid.`)
+                this.log(`The configuration file is not valid.`)
+                this.error(
+                    betterAjvErrors(schema, doc, validate.errors, { indent: 2 })
+                )
             }
 
             if (typeof config === 'undefined') {
