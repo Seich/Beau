@@ -1,4 +1,4 @@
 module.exports = {
-    ...require.requireActual('../shared'),
+    ...jest.requireActual('../shared'),
     moduleVersion: jest.fn().mockReturnValue(1)
 };

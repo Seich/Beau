@@ -1,6 +1,6 @@
 const Beau = require('../../../src/beau')
 
-const original = require.requireActual('../base')
+const original = jest.requireActual('../base')
 
 const config = {
     environment: {
