@@ -1,6 +1,6 @@
-const request = require('request-promise-native');
-const RequestCache = require('./requestCache');
-const Plugins = require('./plugins');
+const request = require('request-promise-native')
+const RequestCache = require('./requestCache')
+const Plugins = require('./plugins')
 
 const {
     requestRegex,
@@ -8,63 +8,63 @@ const {
     UpperCaseKeys,
     removeOptionalKeys,
     isUrl
-} = require('./shared');
+} = require('./shared')
 
 class Request {
     constructor(req, plugins = new Plugins()) {
-        this.originalRequest = req;
-        this.plugins = plugins;
+        this.originalRequest = req
+        this.plugins = plugins
 
-        req = UpperCaseKeys(req);
-        Object.assign(this, req);
+        req = UpperCaseKeys(req)
+        Object.assign(this, req)
 
         if (!this.ALIAS) {
-            throw new Error(`${this.REQUEST} is missing an alias.`);
+            throw new Error(`${this.REQUEST} is missing an alias.`)
         }
 
-        const { VERB, PATH } = this.parseRequest(this.REQUEST);
+        const { VERB, PATH } = this.parseRequest(this.REQUEST)
 
-        this.VERB = VERB;
-        this.PATH = PATH;
+        this.VERB = VERB
+        this.PATH = PATH
 
-        this.DEPENDENCIES = this.findDependencies(req);
+        this.DEPENDENCIES = this.findDependencies(req)
     }
 
     parseRequest(request) {
-        const parts = request.match(requestRegex);
+        const parts = request.match(requestRegex)
 
         return {
             VERB: parts[1],
             PATH: parts[2]
-        };
+        }
     }
 
     findDependencies(request, set = new Set()) {
-        let type = typeof request;
+        let type = typeof request
 
         if (type === 'object' && request !== null) {
             Object.entries(request)
                 .filter(([key]) => key !== 'ALIAS')
                 .forEach(([key, value]) => {
-                    set = this.findDependencies(value, set);
-                });
+                    set = this.findDependencies(value, set)
+                })
         } else if (type === 'string') {
-            const matches = [];
+            const matches = []
             request.replace(
                 replacementRegex,
                 (match, g1) => !match.startsWith('\\') && matches.push(g1)
-            );
+            )
 
-            const deps = matches.map(m => m.split('.')[0]);
+            const deps = matches.map((m) => m.split('.')[0])
 
-            return new Set([...set, ...deps]);
+            return new Set([...set, ...deps])
         }
 
-        return set;
+        return set
     }
 
     async exec(cache = new RequestCache()) {
-        const isPathFullUrl = isUrl(this.PATH);
+        const isPathFullUrl = isUrl(this.PATH)
 
         let settings = cache.parse({
             baseUrl: isPathFullUrl ? '' : this.ENDPOINT,
@@ -81,7 +81,7 @@ class Request {
             json: true,
             simple: false,
             resolveWithFullResponse: true
-        });
+        })
 
         settings = removeOptionalKeys(settings, [
             'headers',
@@ -89,17 +89,17 @@ class Request {
             'body',
             'form',
             'formData'
-        ]);
+        ])
 
-        settings = this.plugins.replaceDynamicValues(settings);
+        settings = this.plugins.replaceDynamicValues(settings)
 
         settings = this.plugins.executeModifier(
             'preRequestModifiers',
             settings,
             this.originalRequest
-        );
+        )
 
-        const response = await request(settings);
+        const response = await request(settings)
 
         let results = {
             request: {
@@ -113,18 +113,18 @@ class Request {
                 body: response.body
             },
             body: response.body
-        };
+        }
 
         results = this.plugins.executeModifier(
             'postRequestModifiers',
             results,
             this.originalRequest
-        );
+        )
 
-        cache.add(this.ALIAS, results);
+        cache.add(this.ALIAS, results)
 
-        return results;
+        return results
     }
 }
 
-module.exports = Request;
+module.exports = Request

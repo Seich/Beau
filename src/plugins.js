@@ -1,8 +1,8 @@
-const vm = require('vm');
-const requireg = require('requireg');
-const deepmerge = require('deepmerge');
-const { toKebabCase, dynamicValueRegex, replaceInObject } = require('./shared');
-const { isPlainObject } = require('is-plain-object');
+const vm = require('vm')
+const requireg = require('requireg')
+const deepmerge = require('deepmerge')
+const { toKebabCase, dynamicValueRegex, replaceInObject } = require('./shared')
+const { isPlainObject } = require('is-plain-object')
 
 class Plugins {
     constructor(plugins = [], autoload = ['std']) {
@@ -10,112 +10,110 @@ class Plugins {
             preRequestModifiers: [],
             postRequestModifiers: [],
             dynamicValues: []
-        };
+        }
 
-        this.context = {};
+        this.context = {}
 
-        this.autoload = autoload;
+        this.autoload = autoload
 
-        this.loadPlugins(plugins.concat(this.autoload));
+        this.loadPlugins(plugins.concat(this.autoload))
     }
 
     normalizePlugins(plugins) {
-        let results = {};
+        let results = {}
 
-        plugins.forEach(plugin => {
-            let name = plugin;
-            let settings = undefined;
+        plugins.forEach((plugin) => {
+            let name = plugin
+            let settings = undefined
 
             if (typeof plugin === 'object') {
-                let keys = Object.keys(plugin);
+                let keys = Object.keys(plugin)
 
                 if (keys.length !== 1) {
-                    throw new Error(
-                        `Plugin items should contain only one key.`
-                    );
+                    throw new Error(`Plugin items should contain only one key.`)
                 }
 
-                name = keys[0];
-                settings = plugin[name];
+                name = keys[0]
+                settings = plugin[name]
             }
 
-            results[name] = settings;
-        });
+            results[name] = settings
+        })
 
-        return results;
+        return results
     }
 
     loadPlugins(plugins) {
-        plugins = this.normalizePlugins(plugins);
-        Object.keys(plugins).forEach(name => {
-            const module = `beau-${toKebabCase(name)}`;
+        plugins = this.normalizePlugins(plugins)
+        Object.keys(plugins).forEach((name) => {
+            const module = `beau-${toKebabCase(name)}`
 
             if (typeof requireg.resolve(module) !== 'undefined') {
-                const plugin = requireg(module);
-                new plugin(this, plugins[name]);
+                const plugin = requireg(module)
+                new plugin(this, plugins[name])
             } else {
-                if (this.autoload.includes(name)) return;
+                if (this.autoload.includes(name)) return
 
                 console.warn(
                     `Plugin ${name} couldn't be found. It is available globally?`
-                );
+                )
             }
-        });
+        })
     }
 
     executeModifier(modifier, obj, orig) {
-        let result = deepmerge({}, obj, { isMergeableObject: isPlainObject });
+        let result = deepmerge({}, obj, { isMergeableObject: isPlainObject })
 
         this.registry[modifier].forEach(
-            modifier => (result = modifier(result, orig))
-        );
+            (modifier) => (result = modifier(result, orig))
+        )
 
-        return result;
+        return result
     }
 
     replaceDynamicValues(obj) {
-        vm.createContext(this.context);
-        return replaceInObject(obj, val => {
-            let valIsEmpty = val.trim().length === 0;
+        vm.createContext(this.context)
+        return replaceInObject(obj, (val) => {
+            let valIsEmpty = val.trim().length === 0
 
             if (valIsEmpty) {
-                return val;
+                return val
             }
 
             try {
                 let onlyHasDynamic =
-                    val.replace(dynamicValueRegex, '').trim() === '';
+                    val.replace(dynamicValueRegex, '').trim() === ''
 
                 if (onlyHasDynamic) {
-                    let call;
+                    let call
                     val.replace(dynamicValueRegex, (match, c) => {
-                        call = c;
-                    });
+                        call = c
+                    })
 
-                    return vm.runInContext(call, this.context);
+                    return vm.runInContext(call, this.context)
                 }
 
                 return val.replace(dynamicValueRegex, (match, call) => {
-                    return vm.runInContext(call, this.context);
-                });
+                    return vm.runInContext(call, this.context)
+                })
             } catch (e) {
-                throw new Error(`DynamicValue: ` + e);
+                throw new Error(`DynamicValue: ` + e)
             }
-        });
+        })
     }
 
     addPreRequestModifier(modifier) {
-        this.registry.preRequestModifiers.push(modifier);
+        this.registry.preRequestModifiers.push(modifier)
     }
 
     addPostRequestModifier(modifier) {
-        this.registry.postRequestModifiers.push(modifier);
+        this.registry.postRequestModifiers.push(modifier)
     }
 
     defineDynamicValue(name, fn) {
-        this.registry.dynamicValues.push({ name, fn });
-        this.context[name] = fn;
+        this.registry.dynamicValues.push({ name, fn })
+        this.context[name] = fn
     }
 }
 
-module.exports = Plugins;
+module.exports = Plugins

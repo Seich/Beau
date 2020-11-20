@@ -1,7 +1,7 @@
 class BeauStd {
     constructor(registry, settings) {
-        registry.defineDynamicValue('createReadStream', () => {});
+        registry.defineDynamicValue('createReadStream', () => {})
     }
 }
 
-module.exports = BeauStd;
+module.exports = BeauStd

@@ -1,15 +1,15 @@
 function requireg(name) {
-    return require(name);
+    return require(name)
 }
 
-requireg.resolving = true;
+requireg.resolving = true
 
-requireg.resolve = function(name) {
+requireg.resolve = function (name) {
     if (requireg.resolving) {
-        return '';
+        return ''
     } else {
-        return undefined;
+        return undefined
     }
-};
+}
 
-module.exports = requireg;
+module.exports = requireg
