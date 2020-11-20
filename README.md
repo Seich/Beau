@@ -7,7 +7,6 @@
 <p align="center">
     <a href="https://codeclimate.com/github/Seich/Beau/maintainability"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/maintainability" /></a>
     <a href="https://codeclimate.com/github/Seich/Beau/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bc2de4d71893d6a2d18b/test_coverage" /></a>
-    <a href="https://circleci.com/gh/Seich/Beau/tree/master"><img src="https://circleci.com/gh/Seich/Beau/tree/master.svg?style=svg" alt="CircleCI"></a>
 </p>
 
 ## What is Beau?
