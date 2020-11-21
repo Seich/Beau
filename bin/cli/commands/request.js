@@ -1,8 +1,9 @@
+const Base = require('../base')
+const cj = require('color-json')
 const clc = require('cli-color')
+const inquirer = require('inquirer')
 const { Line, Spinner } = require('clui')
 const { flags } = require('@oclif/command')
-const cj = require('color-json')
-const Base = require('../base')
 
 class RequestCommand extends Base {
     prettyOutput(res, verbose = false) {
@@ -28,7 +29,12 @@ class RequestCommand extends Base {
 
         new Line().output()
 
-        this.log(cj((verbose ? res : body) || null))
+        const result = (verbose ? res : body) || null
+        if (typeof result === 'object') {
+            this.log(cj(result))
+        } else if (typeof result === 'string') {
+            this.log(result)
+        }
     }
 
     async run() {
@@ -39,7 +45,8 @@ class RequestCommand extends Base {
                 'no-format': noFormat = false,
                 verbose = false,
                 'as-json': asJson = false,
-                quiet = false
+                quiet = false,
+                interactive = false
             },
             args
         } = this.parse(RequestCommand)
@@ -51,12 +58,36 @@ class RequestCommand extends Base {
 
         let spinnerEnabled = !noFormat && !asJson && !quiet
 
+        if (typeof args.alias == 'undefined' && !interactive) {
+            this.error(
+                'Missing 1 required argument: The alias of the request to execute.'
+            )
+        }
+
+        if (interactive) {
+            const requests = Beau.requests.list.map(
+                ({ VERB, ALIAS, ENDPOINT, PATH }) => ({
+                    name: `${VERB} ${PATH} - ${ALIAS}`,
+                    value: ALIAS,
+                    description: 'Hello World'
+                })
+            )
+
+            const { name } = await inquirer.prompt({
+                name: 'name',
+                message: 'Pick as Request to execute',
+                type: 'list',
+                choices: requests
+            })
+
+            args.alias = name
+        }
+
         if (spinnerEnabled) {
             this.spinner.start()
         }
 
         let res
-
         try {
             res = await Beau.requests.execByAlias(args.alias)
         } catch (err) {
@@ -106,13 +137,19 @@ RequestCommand.flags = {
     'as-json': flags.boolean({
         char: 'j',
         description: `Outputs the response as json.`
+    }),
+
+    interactive: flags.boolean({
+        char: 'i',
+        description: 'Choose request interactively.',
+        default: false
     })
 }
 
 RequestCommand.args = [
     {
         name: 'alias',
-        required: true,
+        required: false,
         description: `The alias of the request to execute.`
     }
 ]
