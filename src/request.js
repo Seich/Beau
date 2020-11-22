@@ -64,10 +64,8 @@ class Request {
     }
 
     async exec(cache = new RequestCache()) {
-        const isPathFullUrl = isUrl(this.PATH)
-
         let settings = cache.parse({
-            baseUrl: isPathFullUrl ? '' : this.ENDPOINT,
+            baseUrl: '',
             uri: this.PATH,
             method: this.VERB,
             jar: this.COOKIEJAR,
@@ -82,6 +80,9 @@ class Request {
             simple: false,
             resolveWithFullResponse: true
         })
+
+        const isPathFullUrl = isUrl(settings.uri)
+        settings.baseUrl = isPathFullUrl ? '' : this.ENDPOINT
 
         settings = removeOptionalKeys(settings, [
             'headers',

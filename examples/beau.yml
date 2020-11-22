@@ -1,0 +1,23 @@
+endpoint: https://pokeapi.co/api/v2
+
+# Try replacing this pokemon using params:
+# beau request get-pokemon -P "pokemon=dragapult"
+environment:
+  _:
+    pokemon: ditto
+
+GET /pokemon/$env._.pokemon: get-pokemon
+GET $get-pokemon.body.location_area_encounters: get-encounters
+
+---
+host: httpbin
+endpoint: https://httpbin.org
+
+POST /anything:
+  - alias: post-first-area
+    payload:
+      area: $get-encounters.body.0.location_area.name
+
+  - alias: post-pokemon-type
+    payload:
+      type: $get-pokemon.body.types.0.type.name
