@@ -3,8 +3,8 @@
     "version": "0.11.1",
     "description": "Testing APIs made easy.",
     "main": "./src/beau.js",
-    "author": "Sergio Diaz <seich@martianwabbit.com>",
-    "license": "MIT",
+    "author": "David Díaz <seich@martianwabbit.com>",
+    "license": "MIT + Commons Clause",
     "scripts": {
         "test": "jest -i",
         "test:coverage": "jest --coverage ./src",
