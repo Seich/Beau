@@ -1,25 +1,23 @@
-const yaml = require('js-yaml')
-const Config = require('../config')
+import Config, { parseBeauConfig } from '../config'
 
 const requireg = require('requireg')
 requireg.resolving = false
 
 describe('Config', () => {
     it('should load valid config keys', () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             version: 1
             endpoint: http://martianwabbit.com
             shouldntBeAdded: true
         `)
 
         const config = new Config(doc)
-        expect(config.ENDPOINT).toBe(doc.endpoint)
-        expect(config.VERSION).toBe(doc.version)
-        expect(config.shouldntBeAdded).toBeUndefined()
+        expect(config.endpoint).toBe(doc.endpoint)
+        expect(config.version).toBe(doc.version)
     })
 
     it('should load requests', () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             endpoint: http://example.com
 
             GET /profile: get-profile
@@ -32,16 +30,16 @@ describe('Config', () => {
         `)
 
         const config = new Config(doc)
-        expect(Object.keys(config.REQUESTS).length).toBe(4)
+        expect(Object.keys(config.requests).length).toBe(4)
     })
 
     it('should set up defaults for all requests', () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             version: 1
             endpoint: 'http://example.com'
 
             defaults:
-                HEADERS:
+                headers:
                     authentication: hello
 
             GET /posts/1: get-post
@@ -54,18 +52,18 @@ describe('Config', () => {
         const config = new Config(doc)
 
         expect(config).toMatchSnapshot()
-        Object.values(config.REQUESTS).forEach((r) => {
-            expect(r.HEADERS.authentication).toMatch('hello')
+        Object.values(config.requests).forEach((r: any) => {
+            expect(r.headers.authentication).toMatch('hello')
         })
     })
 
     it('should load multiple hosts', () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
           version: 1
           endpoint: http://example.org
 
           defaults:
-            HEADERS:
+            headers:
               hello: mars
 
           GET /e1: e1
@@ -75,7 +73,7 @@ describe('Config', () => {
               endpoint: http://example.com
 
               defaults:
-                HEADERS:
+                headers:
                   hello: world
                   world: hello
 
@@ -86,7 +84,7 @@ describe('Config', () => {
               endpoint: http://example.net
 
               defaults:
-                HEADERS:
+                headers:
                   hello: world
                   world: bye
 
@@ -105,7 +103,7 @@ describe('Config', () => {
     })
 
     it('should namespace all aliases within an host', () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             hosts:
               - host: test1
                 endpoint: http://example.com
@@ -117,12 +115,12 @@ describe('Config', () => {
 
         let config = new Config(doc)
 
-        expect(config.REQUESTS[0].ALIAS).toBe('test1:posts')
-        expect(config.REQUESTS[1].ALIAS).toBe('test2:posts')
+        expect(config.requests[0].alias).toEqual('test1:posts')
+        expect(config.requests[1].alias).toEqual('test2:posts')
     })
 
     it(`should throw if host doesn't have a host key`, () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             hosts:
               - endpoint: http://example.com
                 GET /posts: posts
@@ -136,7 +134,7 @@ describe('Config', () => {
     })
 
     it(`should merge host settings with global settings`, () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             defaults:
               headers:
                 hello: 1
@@ -155,11 +153,11 @@ describe('Config', () => {
         `)
 
         let config = new Config(doc)
-        expect(config.REQUESTS[0].HEADERS.hello).toBe(1)
+        expect(config.requests[0].headers.hello).toBe(1)
     })
 
     it(`should allow different settings for the same request`, () => {
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
       host: https://example.com
       GET /1:
         - alias: req1
@@ -171,6 +169,6 @@ describe('Config', () => {
     `)
 
         let config = new Config(doc)
-        expect(config.REQUESTS.length).toBe(2)
+        expect(config.requests.length).toBe(2)
     })
 })

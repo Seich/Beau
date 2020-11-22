@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Config should load multiple hosts 1`] = `
+Config {
+  "cookiejar": false,
+  "defaults": Object {
+    "headers": Object {
+      "hello": "mars",
+    },
+  },
+  "endpoint": "http://example.org",
+  "environment": Object {},
+  "host": undefined,
+  "hosts": Array [
+    Object {
+      "GET /e2": "e2",
+      "GET /posts": "posts",
+      "defaults": Object {
+        "headers": Object {
+          "hello": "world",
+          "world": "hello",
+        },
+      },
+      "endpoint": "http://example.com",
+      "host": "com",
+    },
+    Object {
+      "GET /e3": "e3",
+      "GET /posts": "posts",
+      "defaults": Object {
+        "headers": Object {
+          "hello": "world",
+          "world": "bye",
+        },
+      },
+      "endpoint": "http://example.net",
+      "host": "net",
+    },
+    Object {
+      "GET /posts": "posts",
+      "endpoint": "http://example.info",
+      "host": "info",
+    },
+  ],
+  "plugins": Plugins {
+    "autoload": Array [
+      "std",
+    ],
+    "context": Object {},
+    "registry": Object {
+      "dynamicValues": Array [],
+      "postRequestModifiers": Array [],
+      "preRequestModifiers": Array [],
+    },
+  },
+  "requests": Array [
+    Object {
+      "alias": "e1",
+      "cookiejar": false,
+      "endpoint": "http://example.org",
+      "headers": Object {
+        "hello": "mars",
+      },
+      "request": "GET /e1",
+    },
+    Object {
+      "alias": "com:e2",
+      "cookiejar": false,
+      "endpoint": "http://example.com",
+      "headers": Object {
+        "hello": "world",
+        "world": "hello",
+      },
+      "request": "GET /e2",
+    },
+    Object {
+      "alias": "com:posts",
+      "cookiejar": false,
+      "endpoint": "http://example.com",
+      "headers": Object {
+        "hello": "world",
+        "world": "hello",
+      },
+      "request": "GET /posts",
+    },
+    Object {
+      "alias": "net:e3",
+      "cookiejar": false,
+      "endpoint": "http://example.net",
+      "headers": Object {
+        "hello": "world",
+        "world": "bye",
+      },
+      "request": "GET /e3",
+    },
+    Object {
+      "alias": "net:posts",
+      "cookiejar": false,
+      "endpoint": "http://example.net",
+      "headers": Object {
+        "hello": "world",
+        "world": "bye",
+      },
+      "request": "GET /posts",
+    },
+    Object {
+      "alias": "info:posts",
+      "cookiejar": false,
+      "endpoint": "http://example.info",
+      "headers": Object {
+        "hello": "mars",
+      },
+      "request": "GET /posts",
+    },
+  ],
+  "version": 1,
+}
+`;
+
+exports[`Config should set up defaults for all requests 1`] = `
+Config {
+  "cookiejar": false,
+  "defaults": Object {
+    "headers": Object {
+      "authentication": "hello",
+    },
+  },
+  "endpoint": "http://example.com",
+  "environment": Object {},
+  "host": undefined,
+  "hosts": Array [],
+  "plugins": Plugins {
+    "autoload": Array [
+      "std",
+    ],
+    "context": Object {},
+    "registry": Object {
+      "dynamicValues": Array [],
+      "postRequestModifiers": Array [],
+      "preRequestModifiers": Array [],
+    },
+  },
+  "requests": Array [
+    Object {
+      "alias": "get-post",
+      "cookiejar": false,
+      "endpoint": "http://example.com",
+      "headers": Object {
+        "authentication": "hello",
+      },
+      "request": "GET /posts/1",
+    },
+    Object {
+      "alias": "user",
+      "cookiejar": false,
+      "endpoint": "http://example.com",
+      "headers": Object {
+        "authentication": "hello",
+        "hello": "world",
+      },
+      "request": "GET /user",
+    },
+  ],
+  "version": 1,
+}
+`;

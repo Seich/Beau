@@ -4,7 +4,7 @@ const deepmerge = require('deepmerge')
 const { toKebabCase, dynamicValueRegex, replaceInObject } = require('./shared')
 const { isPlainObject } = require('is-plain-object')
 
-class Plugins {
+export default class Plugins {
     constructor(plugins = [], autoload = ['std']) {
         this.registry = {
             preRequestModifiers: [],
@@ -116,4 +116,3 @@ class Plugins {
     }
 }
 
-module.exports = Plugins
