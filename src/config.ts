@@ -31,7 +31,7 @@ export interface RequestObject {
 
 export type RequestConfig = RequestObject | RequestObject[] | string
 
-export type UObjectString = { [key: string]: any } | string
+export type UObjectString = { [key: string]: UObjectString } | string
 
 export default class Config implements BeauConfig {
     version = moduleVersion()

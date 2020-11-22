@@ -10,7 +10,7 @@ const {
     isUrl
 } = require('./shared')
 
-class Request {
+export default class Request {
     constructor(req, plugins = new Plugins()) {
         this.originalRequest = req
         this.plugins = plugins
@@ -127,5 +127,3 @@ class Request {
         return results
     }
 }
-
-module.exports = Request

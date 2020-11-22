@@ -1,15 +1,22 @@
-const Request = require('./request')
-const RequestCache = require('./requestCache')
+import Config, { RequestObject } from './config'
+import Plugins from './plugins'
+import Request from './request'
+import RequestCache from './requestCache'
 
 class RequestList {
-    constructor(config = { REQUESTS: [] }) {
-        this.list = this.loadRequests(config.REQUESTS, config.PLUGINS)
-        this.cache = new RequestCache()
+    list: Request[] = []
+    cache: RequestCache
 
-        this.cache.add(`env`, config.ENVIRONMENT)
+    constructor(config: Config) {
+        this.list = config.requests.map(
+            (req) => new Request(req, config.plugins)
+        )
+
+        this.cache = new RequestCache()
+        this.cache.add(`env`, config.environment)
     }
 
-    async execByAlias(alias) {
+    async execByAlias(alias: string) {
         if (this.cache.exists(alias)) {
             return this.cache.get(alias)
         }
@@ -35,19 +42,6 @@ class RequestList {
         await Promise.all(dependencies)
 
         return this.cache
-    }
-
-    loadRequests(REQUESTS, PLUGINS) {
-        let requests = []
-        REQUESTS.forEach((request) => {
-            try {
-                requests.push(new Request(request, PLUGINS))
-            } catch (e) {
-                throw new Error(`${request.request} was ignored: ${e}`)
-            }
-        })
-
-        return requests
     }
 }
 

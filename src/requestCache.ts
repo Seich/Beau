@@ -1,32 +1,36 @@
-const { replacementRegex, replaceInObject } = require('./shared')
+import { UObjectString } from './config'
+import { replacementRegex, replaceInObject } from './shared'
 
-class RequestCache {
-    constructor() {
-        this.$cache = {}
-    }
+export default class RequestCache {
+    $cache: { [key: string]: UObjectString } = {}
 
-    exists(key) {
+    exists(key: string) {
         return typeof this.$cache[key] !== 'undefined'
     }
 
-    add(key, value) {
+    add(key: string, value: UObjectString) {
         this.$cache[key] = value
     }
 
-    get(path) {
-        let result = this.$cache
+    get(path: string): string {
+        let result: string = ''
+        let crawler: UObjectString = this.$cache
         path.split('.').forEach((part) => {
-            if (result[part] === undefined) {
+            if (typeof crawler === 'string' || crawler[part] === undefined) {
                 throw new Error(`${path} not found in cache.`)
             }
 
-            result = result[part]
+            crawler = crawler[part]
         })
+
+        if (typeof crawler === 'string') {
+            result = crawler
+        }
 
         return result
     }
 
-    parse(item) {
+    parse(item: UObjectString | null | undefined) {
         if (item === null) {
             return null
         }
@@ -42,5 +46,3 @@ class RequestCache {
         )
     }
 }
-
-module.exports = RequestCache
