@@ -4,6 +4,7 @@ const clc = require('cli-color')
 const prompts = require('prompts')
 const { Line, Spinner } = require('clui')
 const { flags } = require('@oclif/command')
+const { expandPath } = require('../../../src/shared')
 
 class RequestCommand extends Base {
     prettyOutput(res, verbose = false) {
@@ -69,7 +70,7 @@ class RequestCommand extends Base {
                 ({ VERB, ALIAS, ENDPOINT, PATH }) => ({
                     title: `${VERB} ${PATH} - ${ALIAS}`,
                     value: ALIAS,
-                    description: `${ENDPOINT}${PATH}`
+                    description: expandPath(ENDPOINT, PATH)
                 })
             )
 
