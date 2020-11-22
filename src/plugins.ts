@@ -3,9 +3,22 @@ import requireg = require('requireg')
 import deepmerge = require('deepmerge')
 import { toKebabCase, dynamicValueRegex, replaceInObject } from './shared'
 import { isPlainObject } from 'is-plain-object'
-import {UObjectString} from './config'
+import { RequestObject, UObjectString } from './config'
+
+type IPluginRegistry = {
+    [key in PluginType]: Array<(arg0: any, arg1: any) => any>
+}
+
+type PluginType =
+    | 'preRequestModifiers'
+    | 'postRequestModifiers'
+    | 'dynamicValues'
 
 export default class Plugins {
+    registry: IPluginRegistry
+    context: vm.Context
+    autoload: string[] = []
+
     constructor(plugins: UObjectString[] = [], autoload = ['std']) {
         this.registry = {
             preRequestModifiers: [],
@@ -14,14 +27,12 @@ export default class Plugins {
         }
 
         this.context = {}
-
         this.autoload = autoload
-
         this.loadPlugins(plugins.concat(this.autoload))
     }
 
-    normalizePlugins(plugins) {
-        let results = {}
+    normalizePlugins(plugins: Array<string | { [key: string]: any }>) {
+        let results: { [key: string]: any } = {}
 
         plugins.forEach((plugin) => {
             let name = plugin
@@ -38,14 +49,14 @@ export default class Plugins {
                 settings = plugin[name]
             }
 
-            results[name] = settings
+            results[name as string] = settings
         })
 
         return results
     }
 
-    loadPlugins(plugins) {
-        plugins = this.normalizePlugins(plugins)
+    loadPlugins(pluginsToLoad: Array<string | { [key: string]: any }>) {
+        const plugins = this.normalizePlugins(pluginsToLoad)
         Object.keys(plugins).forEach((name) => {
             const module = `beau-${toKebabCase(name)}`
 
@@ -62,17 +73,15 @@ export default class Plugins {
         })
     }
 
-    executeModifier(modifier, obj, orig): typeof obj {
-        let result = deepmerge({}, obj, { isMergeableObject: isPlainObject })
+    executeModifier<T>(modifier: PluginType, obj: T, orig: RequestObject): T {
+        let result = deepmerge<T>({}, obj, { isMergeableObject: isPlainObject })
 
-        this.registry[modifier].forEach(
-            (modifier) => (result = modifier(result, orig))
-        )
+        this.registry[modifier].forEach((mod) => (result = mod(result, orig)))
 
         return result
     }
 
-    replaceDynamicValues(obj) {
+    replaceDynamicValues(obj: { [key: string]: any }) {
         vm.createContext(this.context)
         return replaceInObject(obj, (val) => {
             let valIsEmpty = val.trim().length === 0
@@ -86,15 +95,16 @@ export default class Plugins {
                     val.replace(dynamicValueRegex, '').trim() === ''
 
                 if (onlyHasDynamic) {
-                    let call
-                    val.replace(dynamicValueRegex, (match, c) => {
+                    let call = ''
+                    val.replace(dynamicValueRegex, (_, c) => {
                         call = c
+                        return ''
                     })
 
                     return vm.runInContext(call, this.context)
                 }
 
-                return val.replace(dynamicValueRegex, (match, call) => {
+                return val.replace(dynamicValueRegex, (_, call) => {
                     return vm.runInContext(call, this.context)
                 })
             } catch (e) {

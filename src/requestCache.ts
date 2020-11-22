@@ -26,8 +26,8 @@ export default class RequestCache {
     }
 
     parse(
-        item: { [key: string]: any } | null | undefined
-    ): string | null | { [key: string]: any } {
+        item: { [key: string]: any } | null | undefined | string
+    ): typeof item {
         if (item === null) {
             return null
         }

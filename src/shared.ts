@@ -16,19 +16,13 @@ export const requestRegex = new RegExp(`(${httpVerbs.join('|')})\\s(.*)`, 'i')
 export const replacementRegex = /(?:\\?)\$([a-zA-Z\.\d\-\_\:]+)/g
 export const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g
 
-export const UpperCaseKeys = function (obj: object) {
-    let result = {}
-    Object.entries(obj).forEach(([k, v]) => (result[k.toUpperCase()] = v))
-    return result
-}
-
 export const isEmptyObject = (obj: object) =>
     Object.keys(obj).length === 0 && obj.constructor === Object
 
 export const removeOptionalKeys = function (
     obj: object,
     optionalValues: string[]
-) {
+): typeof obj {
     let result = {}
 
     Object.entries(obj).forEach(([key, value]) => {
@@ -49,10 +43,10 @@ export const toKebabCase = function (str: string) {
         .toLowerCase()
 }
 
-export const replaceInObject = function (
-    obj: object | string | undefined | null,
+export const replaceInObject = function<T> (
+    obj: T,
     fn: (arg0: string) => string
-) {
+): T | null | {} | string {
     if (obj === null) {
         return null
     }

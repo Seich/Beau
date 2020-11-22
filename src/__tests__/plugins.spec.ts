@@ -1,6 +1,6 @@
-const Plugins = require('../plugins')
-const Request = require('../request')
-const RequestCache = require('../requestCache')
+import Plugins from '../plugins'
+import Request from '../request'
+import RequestCache from '../requestCache'
 const requireg = require('requireg')
 
 describe(`Beau's plugin system`, () => {

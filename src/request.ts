@@ -5,11 +5,24 @@ import Plugins from './plugins'
 import {
     requestRegex,
     replacementRegex,
-    UpperCaseKeys,
     removeOptionalKeys,
     isUrl
 } from './shared'
 import { RequestObject, UObjectString } from './config'
+
+export interface IBeauRequestResult {
+    request: {
+        headers: { [key: string]: any }
+        body: { [key: string]: any } | string
+        endpoint: string
+    }
+    response: {
+        status: number
+        headers: { [key: string]: any }
+        body: { [key: string]: any } | string
+    }
+    body: { [key: string]: any } | string
+}
 
 export default class Request implements RequestObject {
     originalRequest: RequestObject
@@ -133,7 +146,7 @@ export default class Request implements RequestObject {
 
         const response = await request(settings)
 
-        let results = {
+        let results: IBeauRequestResult = {
             request: {
                 headers: response.request.headers,
                 body: response.request.body,

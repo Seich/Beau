@@ -1,6 +1,6 @@
 import Beau from '../beau'
 import { parseBeauConfig } from '../config'
-import * as shared from '../shared'
+const shared = require('../shared')
 
 const requireg = require('requireg')
 requireg.resolving = false
