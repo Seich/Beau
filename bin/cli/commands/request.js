@@ -1,7 +1,7 @@
 const Base = require('../base')
 const cj = require('color-json')
 const clc = require('cli-color')
-const inquirer = require('inquirer')
+const prompts = require('prompts')
 const { Line, Spinner } = require('clui')
 const { flags } = require('@oclif/command')
 
@@ -67,16 +67,16 @@ class RequestCommand extends Base {
         if (interactive) {
             const requests = Beau.requests.list.map(
                 ({ VERB, ALIAS, ENDPOINT, PATH }) => ({
-                    name: `${VERB} ${PATH} - ${ALIAS}`,
+                    title: `${VERB} ${PATH} - ${ALIAS}`,
                     value: ALIAS,
-                    description: 'Hello World'
+                    description: `${ENDPOINT}${PATH}`
                 })
             )
 
-            const { name } = await inquirer.prompt({
+            const { name } = await prompts({
                 name: 'name',
                 message: 'Pick as Request to execute',
-                type: 'list',
+                type: 'select',
                 choices: requests
             })
 

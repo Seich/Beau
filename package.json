@@ -28,9 +28,9 @@
         "deepmerge": "4.2.2",
         "dotenv": "8.2.0",
         "globby": "11.0.1",
-        "inquirer": "7.3.3",
         "is-plain-object": "5.0.0",
         "js-yaml": "3.14.0",
+        "prompts": "2.4.0",
         "request": "2.88.2",
         "request-promise-native": "1.0.9",
         "requireg": "0.2.2"
