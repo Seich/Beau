@@ -77,6 +77,14 @@ const isUrl = function (str) {
     }
 }
 
+const expandPath = (url, path) => {
+    if (isUrl(path)) {
+        return path
+    }
+
+    return url.replace(/\/+$/, '') + '/' + path.replace(/^\/+/, '')
+}
+
 module.exports = {
     requestRegex,
     replacementRegex,
@@ -86,5 +94,6 @@ module.exports = {
     toKebabCase,
     replaceInObject,
     moduleVersion,
-    isUrl
+    isUrl,
+    expandPath
 }

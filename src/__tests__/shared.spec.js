@@ -5,7 +5,8 @@ const {
     UpperCaseKeys,
     removeOptionalKeys,
     toKebabCase,
-    replaceInObject
+    replaceInObject,
+    expandPath
 } = require('../shared')
 
 describe('Shared Utilities', () => {
@@ -70,6 +71,28 @@ describe('Shared Utilities', () => {
         it('should replace every value in an object with the output of a function', () => {
             let a = { b: 'b', c: 'c' }
             expect(replaceInObject(a, (obj) => 'a')).toEqual({ b: 'a', c: 'a' })
+        })
+    })
+
+    describe('expandPath', () => {
+        test.each([
+            ['https://alchem.ee', 'api/v1/hello'],
+            ['https://alchem.ee/', '/api/v1/hello'],
+            ['https://alchem.ee', '/api/v1/hello'],
+            ['https://alchem.ee/', 'api/v1/hello']
+        ])(
+            'should add a base url to the path is the path is not a url: %s, %s',
+            (url, path) => {
+                expect(expandPath(url, path)).toEqual(
+                    'https://alchem.ee/api/v1/hello'
+                )
+            }
+        )
+
+        it('should return the path if its a fully fledged url on its own', () => {
+            expect(
+                expandPath('https://alchem.ee', 'https://martianwabbit.com')
+            ).toEqual('https://martianwabbit.com')
         })
     })
 })
