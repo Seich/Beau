@@ -71,6 +71,9 @@
         "cookiejar": {
             "type": "boolean"
         },
+        "host": {
+            "type": "string"
+        },
         "defaults": {
             "$ref": "#/definitions/requestObject"
         },
@@ -83,7 +86,17 @@
                 ]
             }
         },
-        "environment": {}
+        "environment": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+                "_": {
+                    "type": "object",
+                    "description": "Environment variables brought in by cli params or dotenv.",
+                    "additionalProperties": true
+                }
+            }
+        }
     },
     "patternProperties": {
         "(GET|HEAD|POST|PUT|DELETE|CONNECT|OPTIONS|TRACE|PATCH)\\s.*": {
