@@ -18,6 +18,10 @@ jobs:
                   wget https://codeclimate.com/downloads/test-reporter/test-reporter-0.6.3-linux-amd64 -O cc-test-reporter
                   chmod +x ./cc-test-reporter
 
+            - name: Validate Schema
+              run: |
+                npx ajv-cli compile -s schema.json
+                npx ajv-cli validate -s schema.json -d examples/beau.yml
             - name: Run CLI Tests
               run: npm test -- ./bin
             - name: Run Lib Tests

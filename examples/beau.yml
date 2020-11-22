@@ -9,11 +9,7 @@ environment:
 GET /pokemon/$env._.pokemon: get-pokemon
 GET $get-pokemon.body.location_area_encounters: get-encounters
 
----
-host: httpbin
-endpoint: https://httpbin.org
-
-POST /anything:
+POST https://httpbin.org/anything:
   - alias: post-first-area
     payload:
       area: $get-encounters.body.0.location_area.name
