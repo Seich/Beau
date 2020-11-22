@@ -41,6 +41,7 @@ class Base extends Command {
 
         return config
     }
+
     loadConfig(configFile, params = []) {
         const config = this.openConfigFile(configFile)
         const env = dotenv.config().parsed || {}
