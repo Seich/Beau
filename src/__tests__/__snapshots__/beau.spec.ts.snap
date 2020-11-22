@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Beau's config Loader. should load the config 1`] = `
+exports[`Beau's config Loader should load the config 1`] = `
 Beau {
   "config": Config {
     "cookiejar": false,
@@ -38,7 +38,7 @@ Beau {
 }
 `;
 
-exports[`Beau's config Loader. should load the request list using the configuration 1`] = `
+exports[`Beau's config Loader should load the request list using the configuration 1`] = `
 RequestList {
   "cache": RequestCache {
     "$cache": Object {

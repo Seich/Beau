@@ -7,7 +7,7 @@ requireg.resolving = false
 
 shared.moduleVersion = jest.fn().mockReturnValue(1)
 
-describe(`Beau's config Loader.`, () => {
+describe(`Beau's config Loader`, () => {
     it('should load the config', () => {
         const doc = parseBeauConfig(`
             version: 1
