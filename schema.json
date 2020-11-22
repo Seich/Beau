@@ -62,6 +62,7 @@
     "properties": {
         "version": {
             "type": "number",
+            "description": "The beau version this document was created for.",
             "enum": [1]
         },
         "endpoint": {
@@ -69,15 +70,19 @@
             "description": "The root endpoint for this host."
         },
         "cookiejar": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Enable cookie support for requests?"
         },
         "host": {
-            "type": "string"
+            "type": "string",
+            "description": "The name of the current host. It allows referencing requests between different hosts."
         },
         "defaults": {
+            "description": "Default values to be added to all requests.",
             "$ref": "#/definitions/requestObject"
         },
         "plugins": {
+            "description": "Plugins to be enabled for this document.",
             "type": "array",
             "items": {
                 "anyOf": [
@@ -88,6 +93,7 @@
         },
         "environment": {
             "type": "object",
+            "description": "Global document variables for easy access.",
             "additionalProperties": true,
             "properties": {
                 "_": {
