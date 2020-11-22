@@ -25,6 +25,7 @@ export default class Request implements RequestObject {
     request: string
     verb: string
     path: string
+    dependencies: Set<string>
 
     constructor(req: RequestObject, plugins = new Plugins()) {
         this.originalRequest = req
@@ -64,7 +65,7 @@ export default class Request implements RequestObject {
         }
     }
 
-    findDependencies(request: RequestObject | string, set = new Set()) {
+    findDependencies(request: RequestObject | string, set = new Set<string>()) {
         if (typeof request === 'object' && request !== null) {
             Object.entries(request)
                 .filter(([key]) => key !== 'alias')

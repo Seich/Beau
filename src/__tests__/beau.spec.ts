@@ -1,17 +1,15 @@
-const yaml = require('js-yaml')
-const Beau = require('../beau')
-const { moduleVersion } = require('../shared')
-
-jest.mock('../shared')
+import Beau from '../beau'
+import { parseBeauConfig } from '../config'
+import * as shared from '../shared'
 
 const requireg = require('requireg')
 requireg.resolving = false
 
+shared.moduleVersion = jest.fn().mockReturnValue(1)
+
 describe(`Beau's config Loader.`, () => {
     it('should load the config', () => {
-        moduleVersion.mockReturnValue(1)
-
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             version: 1
             endpoint: 'http://example.com'
 
@@ -25,9 +23,7 @@ describe(`Beau's config Loader.`, () => {
     })
 
     it(`should load the request list using the configuration`, () => {
-        moduleVersion.mockReturnValue(1)
-
-        const doc = yaml.safeLoad(`
+        const doc = parseBeauConfig(`
             version: 1
             endpoint: 'http://example.com'
 
@@ -48,9 +44,9 @@ describe(`Beau's config Loader.`, () => {
             .spyOn(console, 'warn')
             .mockImplementation((val) => (stdout = val))
 
-        moduleVersion.mockReturnValue(2)
+        shared.moduleVersion.mockReturnValue(2)
 
-        const beau = new Beau({ version: 1 })
+        new Beau({ version: 1 })
         expect(stdout).toEqual('This Beau file expects v1. You are using v2.')
 
         spy.mockReset()

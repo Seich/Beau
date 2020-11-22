@@ -1,25 +1,25 @@
-import deepmerge from "deepmerge"
-import {BeauConfig, Config} from "./config"
-import {moduleVersion} from './shared'
+import { moduleVersion } from './shared'
+import RequestList from './requestList'
+import Config, { BeauConfig } from './config'
 
-const RequestList = require('./requestList')
+const deepmerge = require('deepmerge')
 
-class Beau {
+export default class Beau {
     config: Config
+    requests: RequestList
 
     constructor(doc: BeauConfig, env = {}) {
         doc.environment = deepmerge(doc.environment, env)
         this.config = new Config(doc)
         this.requests = new RequestList(this.config)
 
-        if (this.config.VERSION !== moduleVersion()) {
+        if (this.config.version !== moduleVersion()) {
             console.warn(
                 `This Beau file expects v${
-                    this.config.VERSION
+                    this.config.version
                 }. You are using v${moduleVersion()}.`
             )
         }
     }
 }
 
-module.exports = Beau

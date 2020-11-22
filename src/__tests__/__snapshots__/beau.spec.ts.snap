@@ -3,16 +3,17 @@
 exports[`Beau's config Loader. should load the config 1`] = `
 Beau {
   "config": Config {
-    "COOKIEJAR": false,
-    "DEFAULTS": Object {
+    "cookiejar": false,
+    "defaults": Object {
       "headers": Object {
         "authentication": "hello",
       },
     },
-    "ENDPOINT": "http://example.com",
-    "ENVIRONMENT": Object {},
-    "HOSTS": Array [],
-    "PLUGINS": Plugins {
+    "endpoint": "http://example.com",
+    "environment": Object {},
+    "host": undefined,
+    "hosts": Array [],
+    "plugins": Plugins {
       "autoload": Array [
         "std",
       ],
@@ -23,17 +24,8 @@ Beau {
         "preRequestModifiers": Array [],
       },
     },
-    "REQUESTS": Array [],
-    "VERSION": 1,
-    "configKeys": Array [
-      "VERSION",
-      "ENDPOINT",
-      "PLUGINS",
-      "DEFAULTS",
-      "ENVIRONMENT",
-      "HOSTS",
-      "COOKIEJAR",
-    ],
+    "requests": Array [],
+    "version": 1,
   },
   "requests": RequestList {
     "cache": RequestCache {
@@ -55,19 +47,22 @@ RequestList {
   },
   "list": Array [
     Request {
-      "ALIAS": "get-post",
-      "COOKIEJAR": false,
-      "DEPENDENCIES": Set {},
-      "ENDPOINT": "http://example.com",
-      "PATH": "/posts/1",
-      "REQUEST": "GET /posts/1",
-      "VERB": "GET",
+      "alias": "get-post",
+      "cookiejar": false,
+      "dependencies": Set {},
+      "endpoint": "http://example.com",
+      "form": Object {},
+      "formdata": Object {},
+      "headers": Object {},
       "originalRequest": Object {
-        "ALIAS": "get-post",
-        "COOKIEJAR": false,
-        "ENDPOINT": "http://example.com",
-        "REQUEST": "GET /posts/1",
+        "alias": "get-post",
+        "cookiejar": false,
+        "endpoint": "http://example.com",
+        "request": "GET /posts/1",
       },
+      "params": Object {},
+      "path": "/posts/1",
+      "payload": Object {},
       "plugins": Plugins {
         "autoload": Array [
           "std",
@@ -79,27 +74,31 @@ RequestList {
           "preRequestModifiers": Array [],
         },
       },
+      "request": "GET /posts/1",
+      "verb": "GET",
     },
     Request {
-      "ALIAS": "user",
-      "COOKIEJAR": false,
-      "DEPENDENCIES": Set {},
-      "ENDPOINT": "http://example.com",
-      "HEADERS": Object {
+      "alias": "user",
+      "cookiejar": false,
+      "dependencies": Set {},
+      "endpoint": "http://example.com",
+      "form": Object {},
+      "formdata": Object {},
+      "headers": Object {
         "hello": "world",
       },
-      "PATH": "/user",
-      "REQUEST": "GET /user",
-      "VERB": "GET",
       "originalRequest": Object {
-        "ALIAS": "user",
-        "COOKIEJAR": false,
-        "ENDPOINT": "http://example.com",
-        "HEADERS": Object {
+        "alias": "user",
+        "cookiejar": false,
+        "endpoint": "http://example.com",
+        "headers": Object {
           "hello": "world",
         },
-        "REQUEST": "GET /user",
+        "request": "GET /user",
       },
+      "params": Object {},
+      "path": "/user",
+      "payload": Object {},
       "plugins": Plugins {
         "autoload": Array [
           "std",
@@ -111,6 +110,8 @@ RequestList {
           "preRequestModifiers": Array [],
         },
       },
+      "request": "GET /user",
+      "verb": "GET",
     },
   ],
 }

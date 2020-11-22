@@ -8,12 +8,11 @@ export default class RequestCache {
         return typeof this.$cache[key] !== 'undefined'
     }
 
-    add(key: string, value: UObjectString) {
+    add(key: string, value: { [key: string]: any }) {
         this.$cache[key] = value
     }
 
-    get(path: string): string {
-        let result: string = ''
+    get(path: string): UObjectString {
         let crawler: UObjectString = this.$cache
         path.split('.').forEach((part) => {
             if (typeof crawler === 'string' || crawler[part] === undefined) {
@@ -23,11 +22,7 @@ export default class RequestCache {
             crawler = crawler[part]
         })
 
-        if (typeof crawler === 'string') {
-            result = crawler
-        }
-
-        return result
+        return crawler
     }
 
     parse(
@@ -43,7 +38,7 @@ export default class RequestCache {
                     return match.replace('\\$', '$')
                 }
 
-                return this.get(key)
+                return this.get(key) as string
             })
         )
     }
