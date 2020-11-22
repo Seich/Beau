@@ -30,7 +30,9 @@ export default class RequestCache {
         return result
     }
 
-    parse(item: UObjectString | null | undefined) {
+    parse(
+        item: { [key: string]: any } | null | undefined
+    ): string | null | { [key: string]: any } {
         if (item === null) {
             return null
         }

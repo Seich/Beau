@@ -1,59 +1,85 @@
-const request = require('request-promise-native')
-const RequestCache = require('./requestCache')
-const Plugins = require('./plugins')
+import request = require('request-promise-native')
+import RequestCache from './requestCache'
+import Plugins from './plugins'
 
-const {
+import {
     requestRegex,
     replacementRegex,
     UpperCaseKeys,
     removeOptionalKeys,
     isUrl
-} = require('./shared')
+} from './shared'
+import { RequestObject, UObjectString } from './config'
 
-export default class Request {
-    constructor(req, plugins = new Plugins()) {
+export default class Request implements RequestObject {
+    originalRequest: RequestObject
+    plugins: Plugins
+    endpoint: string
+    cookiejar: boolean
+    alias?: string
+    form: { [key: string]: any }
+    formdata: { [key: string]: any }
+    headers: { [key: string]: any }
+    params: { [key: string]: any }
+    payload: UObjectString
+    request: string
+    verb: string
+    path: string
+
+    constructor(req: RequestObject, plugins = new Plugins()) {
         this.originalRequest = req
         this.plugins = plugins
+        this.endpoint = req.endpoint ?? ''
+        this.cookiejar = req.cookiejar ?? false
+        this.alias = req.alias ?? undefined
+        this.form = req.form ?? {}
+        this.formdata = req.formdata ?? {}
+        this.payload = req.payload ?? {}
+        this.headers = req.headers ?? {}
+        this.params = req.params ?? {}
+        this.request = req.request ?? ''
 
-        req = UpperCaseKeys(req)
-        Object.assign(this, req)
-
-        if (!this.ALIAS) {
-            throw new Error(`${this.REQUEST} is missing an alias.`)
+        if (!this.alias) {
+            throw new Error(`${this.request} is missing an alias.`)
         }
 
-        const { VERB, PATH } = this.parseRequest(this.REQUEST)
+        const { verb, path } = this.parseRequest(this.request)
 
-        this.VERB = VERB
-        this.PATH = PATH
+        this.verb = verb
+        this.path = path
 
-        this.DEPENDENCIES = this.findDependencies(req)
+        this.dependencies = this.findDependencies(req)
     }
 
-    parseRequest(request) {
+    parseRequest(request: string) {
         const parts = request.match(requestRegex)
 
+        if (parts === null) {
+            throw new Error('Request path misformed.')
+        }
+
         return {
-            VERB: parts[1],
-            PATH: parts[2]
+            verb: parts[1],
+            path: parts[2]
         }
     }
 
-    findDependencies(request, set = new Set()) {
-        let type = typeof request
-
-        if (type === 'object' && request !== null) {
+    findDependencies(request: RequestObject | string, set = new Set()) {
+        if (typeof request === 'object' && request !== null) {
             Object.entries(request)
-                .filter(([key]) => key !== 'ALIAS')
-                .forEach(([key, value]) => {
+                .filter(([key]) => key !== 'alias')
+                .forEach(([_, value]) => {
                     set = this.findDependencies(value, set)
                 })
-        } else if (type === 'string') {
-            const matches = []
-            request.replace(
-                replacementRegex,
-                (match, g1) => !match.startsWith('\\') && matches.push(g1)
-            )
+        } else if (typeof request === 'string') {
+            const matches: string[] = []
+            request.replace(replacementRegex, (match, g1: any) => {
+                if (!match.startsWith('\\')) {
+                    matches.push(g1)
+                }
+
+                return ''
+            })
 
             const deps = matches.map((m) => m.split('.')[0])
 
@@ -66,23 +92,27 @@ export default class Request {
     async exec(cache = new RequestCache()) {
         let settings = cache.parse({
             baseUrl: '',
-            uri: this.PATH,
-            method: this.VERB,
-            jar: this.COOKIEJAR,
+            uri: this.path,
+            method: this.verb,
+            jar: this.cookiejar,
 
-            headers: this.HEADERS,
-            qs: this.PARAMS,
-            body: this.PAYLOAD,
-            form: this.FORM,
-            formData: this.FORMDATA,
+            headers: this.headers,
+            qs: this.params,
+            body: this.payload,
+            form: this.form,
+            formData: this.formdata,
 
             json: true,
             simple: false,
             resolveWithFullResponse: true
         })
 
+        if (typeof settings !== 'object' || settings === null) {
+            throw new Error('Error parsing request.')
+        }
+
         const isPathFullUrl = isUrl(settings.uri)
-        settings.baseUrl = isPathFullUrl ? '' : this.ENDPOINT
+        settings.baseUrl = isPathFullUrl ? '' : this.endpoint
 
         settings = removeOptionalKeys(settings, [
             'headers',
@@ -122,7 +152,7 @@ export default class Request {
             this.originalRequest
         )
 
-        cache.add(this.ALIAS, results)
+        cache.add(this.alias!, results)
 
         return results
     }

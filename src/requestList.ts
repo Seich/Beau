@@ -1,5 +1,4 @@
-import Config, { RequestObject } from './config'
-import Plugins from './plugins'
+import Config from './config'
 import Request from './request'
 import RequestCache from './requestCache'
 

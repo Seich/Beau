@@ -34,11 +34,11 @@ export type RequestConfig = RequestObject | RequestObject[] | string
 export type UObjectString = { [key: string]: UObjectString } | string
 
 export default class Config implements BeauConfig {
-    version = moduleVersion()
-    cookiejar = false
-    endpoint = ''
+    version: number
+    cookiejar: boolean
+    endpoint: string
 
-    defaults: RequestObject = {}
+    defaults: RequestObject
     plugins: Plugins
     environment = {}
     host?: string = undefined

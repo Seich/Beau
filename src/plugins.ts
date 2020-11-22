@@ -62,7 +62,7 @@ export default class Plugins {
         })
     }
 
-    executeModifier(modifier, obj, orig) {
+    executeModifier(modifier, obj, orig): typeof obj {
         let result = deepmerge({}, obj, { isMergeableObject: isPlainObject })
 
         this.registry[modifier].forEach(
