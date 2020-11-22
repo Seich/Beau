@@ -1,6 +1,6 @@
 {
     "name": "beau",
-    "version": "0.11.0",
+    "version": "0.11.1",
     "description": "Testing APIs made easy.",
     "main": "./src/beau.js",
     "author": "Sergio Diaz <seich@martianwabbit.com>",
