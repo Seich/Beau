@@ -1,4 +1,6 @@
-const request = require('request-promise-native')
+const got = require('got')
+const FormData = require('form-data')
+const { CookieJar } = require('tough-cookie')
 const RequestCache = require('./requestCache')
 const Plugins = require('./plugins')
 
@@ -65,31 +67,39 @@ class Request {
 
     async exec(cache = new RequestCache()) {
         let settings = cache.parse({
-            baseUrl: '',
-            uri: this.PATH,
+            url: this.PATH,
             method: this.VERB,
-            jar: this.COOKIEJAR,
 
             headers: this.HEADERS,
-            qs: this.PARAMS,
+            searchParams: this.PARAMS,
             body: this.PAYLOAD,
             form: this.FORM,
             formData: this.FORMDATA,
 
-            json: true,
-            simple: false,
-            resolveWithFullResponse: true
+            throwHttpErrors: false,
+            responseType: 'json',
+            allowGetBody: true
         })
 
-        const isPathFullUrl = isUrl(settings.uri)
-        settings.baseUrl = isPathFullUrl ? '' : this.ENDPOINT
+        if (!isUrl(settings.url)) {
+            settings.url =
+                this.ENDPOINT.replace(/\/+$/, '') +
+                '/' +
+                settings.url.replace(/^\/+/, '')
+        }
+
+        if (typeof settings.body === 'object') {
+            settings.json = settings.body
+            settings.body = {}
+        }
 
         settings = removeOptionalKeys(settings, [
             'headers',
-            'qs',
+            'searchParams',
             'body',
             'form',
-            'formData'
+            'formData',
+            'json'
         ])
 
         settings = this.plugins.replaceDynamicValues(settings)
@@ -100,13 +110,28 @@ class Request {
             this.originalRequest
         )
 
-        const response = await request(settings)
+        if (typeof settings.formData === 'object') {
+            const formdata = new FormData()
+            Object.keys(settings.formData).forEach((key) =>
+                formdata.append(key, settings.formData[key])
+            )
+
+            settings.body = formdata
+        }
+
+        if (this.COOKIEJAR) {
+            settings.cookiejar = new CookieJar()
+        }
+
+        console.log(settings)
+
+        const response = await got(settings)
 
         let results = {
             request: {
                 headers: response.request.headers,
                 body: response.request.body,
-                endpoint: response.request.uri.href
+                endpoint: response.request.requestUrl
             },
             response: {
                 status: response.statusCode,

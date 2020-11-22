@@ -27,13 +27,14 @@
         "color-json": "2.0.1",
         "deepmerge": "4.2.2",
         "dotenv": "8.2.0",
+        "form-data": "3.0.0",
         "globby": "11.0.1",
+        "got": "11.8.0",
         "is-plain-object": "5.0.0",
         "js-yaml": "3.14.0",
         "prompts": "2.4.0",
-        "request": "2.88.2",
-        "request-promise-native": "1.0.9",
-        "requireg": "0.2.2"
+        "requireg": "0.2.2",
+        "tough-cookie": "4.0.0"
     },
     "repository": "git@github.com:Seich/Beau.git",
     "devDependencies": {
