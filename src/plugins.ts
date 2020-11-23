@@ -1,6 +1,6 @@
 import vm = require('vm')
-import requireg = require('requireg')
-import deepmerge = require('deepmerge')
+import * as requireg from 'requireg'
+import * as deepmerge from 'deepmerge'
 import { toKebabCase, dynamicValueRegex, replaceInObject } from './shared'
 import { isPlainObject } from 'is-plain-object'
 import { RequestObject, UObjectString } from './config'
@@ -19,7 +19,10 @@ export default class Plugins {
     context: vm.Context
     autoload: string[] = []
 
-    constructor(plugins: UObjectString[] = [], autoload = ['std']) {
+    constructor(
+        plugins: Array<string | { [key: string]: any }> = [],
+        autoload = ['std']
+    ) {
         this.registry = {
             preRequestModifiers: [],
             postRequestModifiers: [],

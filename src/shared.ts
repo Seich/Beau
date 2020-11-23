@@ -22,8 +22,8 @@ export const isEmptyObject = (obj: object) =>
 export const removeOptionalKeys = function (
     obj: object,
     optionalValues: string[]
-): typeof obj {
-    let result = {}
+): Partial<typeof obj> {
+    let result: { [key: string]: any } = {}
 
     Object.entries(obj).forEach(([key, value]) => {
         if (optionalValues.includes(key) && isEmptyObject(value)) {
@@ -43,10 +43,10 @@ export const toKebabCase = function (str: string) {
         .toLowerCase()
 }
 
-export const replaceInObject = function<T> (
-    obj: T,
+export const replaceInObject = function (
+    obj: { [key: string]: any },
     fn: (arg0: string) => string
-): T | null | {} | string {
+): typeof obj | null | {} | string {
     if (obj === null) {
         return null
     }

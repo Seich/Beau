@@ -8,7 +8,7 @@ export default class RequestCache {
         return typeof this.$cache[key] !== 'undefined'
     }
 
-    add(key: string, value: { [key: string]: any }) {
+    add(key: string, value: any) {
         this.$cache[key] = value
     }
 

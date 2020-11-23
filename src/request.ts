@@ -1,4 +1,4 @@
-import request = require('request-promise-native')
+import * as request  from 'request-promise-native'
 import RequestCache from './requestCache'
 import Plugins from './plugins'
 
