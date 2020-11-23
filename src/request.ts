@@ -138,11 +138,19 @@ export default class Request implements RequestObject {
 
         settings = this.plugins.replaceDynamicValues(settings)
 
+        if (typeof settings !== 'object' || settings === null) {
+            throw new Error()
+        }
+
         settings = this.plugins.executeModifier(
             'preRequestModifiers',
             settings,
             this.originalRequest
         )
+
+        if (typeof settings !== 'object' || settings === null) {
+            throw new Error()
+        }
 
         const response = await request(settings)
 

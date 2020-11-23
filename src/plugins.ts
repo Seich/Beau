@@ -1,12 +1,17 @@
 import vm = require('vm')
-import * as requireg from 'requireg'
 import * as deepmerge from 'deepmerge'
 import { toKebabCase, dynamicValueRegex, replaceInObject } from './shared'
 import { isPlainObject } from 'is-plain-object'
-import { RequestObject, UObjectString } from './config'
+import { RequestObject } from './config'
 
-type IPluginRegistry = {
-    [key in PluginType]: Array<(arg0: any, arg1: any) => any>
+const requireg = require('requireg')
+
+type PluginFn = (arg0: any, arg1: any) => any
+
+interface IPluginRegistry {
+    preRequestModifiers: PluginFn[]
+    postRequestModifiers: PluginFn[]
+    dynamicValues: Array<{ name: string; fn: PluginFn }>
 }
 
 type PluginType =
@@ -76,11 +81,13 @@ export default class Plugins {
         })
     }
 
-    executeModifier<T>(modifier: PluginType, obj: T, orig: RequestObject): T {
+    executeModifier<T extends object>(
+        modifier: PluginType,
+        obj: T,
+        orig: RequestObject
+    ): T {
         let result = deepmerge<T>({}, obj, { isMergeableObject: isPlainObject })
-
-        this.registry[modifier].forEach((mod) => (result = mod(result, orig)))
-
+        this.registry[modifier].forEach((mod: any) => (result = mod(result, orig)))
         return result
     }
 
@@ -116,15 +123,15 @@ export default class Plugins {
         })
     }
 
-    addPreRequestModifier(modifier) {
+    addPreRequestModifier(modifier: any) {
         this.registry.preRequestModifiers.push(modifier)
     }
 
-    addPostRequestModifier(modifier) {
+    addPostRequestModifier(modifier: any) {
         this.registry.postRequestModifiers.push(modifier)
     }
 
-    defineDynamicValue(name, fn) {
+    defineDynamicValue(name: string, fn: (arg0: any, arg1: any) => string) {
         this.registry.dynamicValues.push({ name, fn })
         this.context[name] = fn
     }

@@ -25,9 +25,7 @@ export default class RequestCache {
         return crawler
     }
 
-    parse(
-        item: { [key: string]: any } | null | undefined | string
-    ): typeof item {
+    parse<T>(item: T): T | null {
         if (item === null) {
             return null
         }

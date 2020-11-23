@@ -19,11 +19,11 @@ export const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g
 export const isEmptyObject = (obj: object) =>
     Object.keys(obj).length === 0 && obj.constructor === Object
 
-export const removeOptionalKeys = function (
-    obj: object,
+export const removeOptionalKeys = function<T extends object>(
+    obj: T,
     optionalValues: string[]
-): Partial<typeof obj> {
-    let result: { [key: string]: any } = {}
+): T {
+    let result: any = {}
 
     Object.entries(obj).forEach(([key, value]) => {
         if (optionalValues.includes(key) && isEmptyObject(value)) {
@@ -44,9 +44,9 @@ export const toKebabCase = function (str: string) {
 }
 
 export const replaceInObject = function (
-    obj: { [key: string]: any },
+    obj: any,
     fn: (arg0: string) => string
-): typeof obj | null | {} | string {
+): typeof obj {
     if (obj === null) {
         return null
     }
