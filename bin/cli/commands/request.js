@@ -76,7 +76,7 @@ class RequestCommand extends Base {
 
             const { name } = await prompts({
                 name: 'name',
-                message: 'Pick as Request to execute',
+                message: 'Pick a Request to execute',
                 type: 'select',
                 choices: requests
             })
