@@ -1,13 +1,12 @@
-const {
+import {
     requestRegex,
     replacementRegex,
     dynamicValueRegex,
-    UpperCaseKeys,
     removeOptionalKeys,
     toKebabCase,
     replaceInObject,
     expandPath
-} = require('../shared')
+} from '../shared'
 
 describe('Shared Utilities', () => {
     describe('requestRegex', () => {
@@ -44,13 +43,6 @@ describe('Shared Utilities', () => {
             [`$[test({ \n id: 1 \n })]`, ['$[test({ \n id: 1 \n })]']]
         ])('should match: %s', (example, expected) => {
             expect(example.match(dynamicValueRegex)).toEqual(expected)
-        })
-    })
-
-    describe('UpperCaseKeys', () => {
-        it('should uppercase all first-level keys in an object', () => {
-            let a = { test: 1, Test2: 2 }
-            expect(UpperCaseKeys(a)).toEqual({ TEST: 1, TEST2: 2 })
         })
     })
 

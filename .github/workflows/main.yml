@@ -20,10 +20,8 @@ jobs:
 
             - name: Validate Schema
               run: |
-                npx ajv-cli compile -s schema.json
-                npx ajv-cli validate -s schema.json -d examples/beau.yml
-            - name: Run CLI Tests
-              run: npm test -- ./bin
+                  npx ajv-cli compile -s schema.json
+                  npx ajv-cli validate -s schema.json -d examples/beau.yml
             - name: Run Lib Tests
               run: npm run test:coverage
             - name: Report Results
@@ -32,6 +30,8 @@ jobs:
                   ./cc-test-reporter format-coverage
                   ./cc-test-reporter upload-coverage
               env:
-                GIT_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
-                GIT_BRANCH: ${{ github.head_ref }}
-                CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+                  GIT_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+                  GIT_BRANCH: ${{ github.head_ref }}
+                  CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_REPO_TOKEN }}
+            - name: Run CLI Tests
+              run: npm test -- ./bin

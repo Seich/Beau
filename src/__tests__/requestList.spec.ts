@@ -1,5 +1,5 @@
-const Config = require('../config')
-const RequestList = require('../requestList')
+import Config from '../config'
+import RequestList from '../requestList'
 const requestPromiseNativeMock = require('request-promise-native')
 
 describe('RequestList', () => {
@@ -10,19 +10,19 @@ describe('RequestList', () => {
     }
 
     const doc = {
-        ENDPOINT: endpoint,
-        ENVIRONMENT: env,
+        endpoint: endpoint,
+        environment: env,
         'GET /post': { alias: 'get-posts' },
         'POST /user': {
             alias: 'user',
             payload: {
-                name: 'Sergio',
+                name: 'David',
                 lastname: 'Diaz'
             }
         }
     }
 
-    let requests
+    let requests: RequestList
     beforeEach(() => {
         requestPromiseNativeMock.fail = false
 

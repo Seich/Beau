@@ -1,11 +1,33 @@
-const vm = require('vm')
-const requireg = require('requireg')
-const deepmerge = require('deepmerge')
-const { toKebabCase, dynamicValueRegex, replaceInObject } = require('./shared')
-const { isPlainObject } = require('is-plain-object')
+import vm = require('vm')
+import * as deepmerge from 'deepmerge'
+import { toKebabCase, dynamicValueRegex, replaceInObject } from './shared'
+import { isPlainObject } from 'is-plain-object'
+import { RequestObject } from './config'
 
-class Plugins {
-    constructor(plugins = [], autoload = ['std']) {
+const requireg = require('requireg')
+
+type PluginFn = (arg0: any, arg1: any) => any
+
+interface IPluginRegistry {
+    preRequestModifiers: PluginFn[]
+    postRequestModifiers: PluginFn[]
+    dynamicValues: Array<{ name: string; fn: PluginFn }>
+}
+
+type PluginType =
+    | 'preRequestModifiers'
+    | 'postRequestModifiers'
+    | 'dynamicValues'
+
+export default class Plugins {
+    registry: IPluginRegistry
+    context: vm.Context
+    autoload: string[] = []
+
+    constructor(
+        plugins: Array<string | { [key: string]: any }> = [],
+        autoload = ['std']
+    ) {
         this.registry = {
             preRequestModifiers: [],
             postRequestModifiers: [],
@@ -13,14 +35,12 @@ class Plugins {
         }
 
         this.context = {}
-
         this.autoload = autoload
-
         this.loadPlugins(plugins.concat(this.autoload))
     }
 
-    normalizePlugins(plugins) {
-        let results = {}
+    normalizePlugins(plugins: Array<string | { [key: string]: any }>) {
+        let results: { [key: string]: any } = {}
 
         plugins.forEach((plugin) => {
             let name = plugin
@@ -37,14 +57,14 @@ class Plugins {
                 settings = plugin[name]
             }
 
-            results[name] = settings
+            results[name as string] = settings
         })
 
         return results
     }
 
-    loadPlugins(plugins) {
-        plugins = this.normalizePlugins(plugins)
+    loadPlugins(pluginsToLoad: Array<string | { [key: string]: any }>) {
+        const plugins = this.normalizePlugins(pluginsToLoad)
         Object.keys(plugins).forEach((name) => {
             const module = `beau-${toKebabCase(name)}`
 
@@ -61,17 +81,17 @@ class Plugins {
         })
     }
 
-    executeModifier(modifier, obj, orig) {
-        let result = deepmerge({}, obj, { isMergeableObject: isPlainObject })
-
-        this.registry[modifier].forEach(
-            (modifier) => (result = modifier(result, orig))
-        )
-
+    executeModifier<T extends object>(
+        modifier: PluginType,
+        obj: T,
+        orig: RequestObject
+    ): T {
+        let result = deepmerge<T>({}, obj, { isMergeableObject: isPlainObject })
+        this.registry[modifier].forEach((mod: any) => (result = mod(result, orig)))
         return result
     }
 
-    replaceDynamicValues(obj) {
+    replaceDynamicValues(obj: { [key: string]: any }) {
         vm.createContext(this.context)
         return replaceInObject(obj, (val) => {
             let valIsEmpty = val.trim().length === 0
@@ -85,15 +105,16 @@ class Plugins {
                     val.replace(dynamicValueRegex, '').trim() === ''
 
                 if (onlyHasDynamic) {
-                    let call
-                    val.replace(dynamicValueRegex, (match, c) => {
+                    let call = ''
+                    val.replace(dynamicValueRegex, (_, c) => {
                         call = c
+                        return ''
                     })
 
                     return vm.runInContext(call, this.context)
                 }
 
-                return val.replace(dynamicValueRegex, (match, call) => {
+                return val.replace(dynamicValueRegex, (_, call) => {
                     return vm.runInContext(call, this.context)
                 })
             } catch (e) {
@@ -102,18 +123,16 @@ class Plugins {
         })
     }
 
-    addPreRequestModifier(modifier) {
+    addPreRequestModifier(modifier: any) {
         this.registry.preRequestModifiers.push(modifier)
     }
 
-    addPostRequestModifier(modifier) {
+    addPostRequestModifier(modifier: any) {
         this.registry.postRequestModifiers.push(modifier)
     }
 
-    defineDynamicValue(name, fn) {
+    defineDynamicValue(name: string, fn: (arg0: any, arg1: any) => string) {
         this.registry.dynamicValues.push({ name, fn })
         this.context[name] = fn
     }
 }
-
-module.exports = Plugins

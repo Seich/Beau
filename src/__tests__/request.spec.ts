@@ -1,5 +1,5 @@
-const Request = require('../request')
-const RequestCache = require('../requestCache')
+import Request from '../request'
+import RequestCache from '../requestCache'
 const requestPromiseNativeMock = require('request-promise-native')
 
 describe('Request', () => {
@@ -45,11 +45,11 @@ describe('Request', () => {
     })
 
     it('should load up the given request', () => {
-        expect(request.VERB).toBe('POST')
-        expect(request.ENDPOINT).toBe(validRequestConfig.endpoint)
-        expect(request.HEADERS).toBeDefined()
-        expect(request.PAYLOAD).toBeDefined()
-        expect(request.PARAMS).toBeDefined()
+        expect(request.verb).toBe('POST')
+        expect(request.endpoint).toBe(validRequestConfig.endpoint)
+        expect(request.headers).toBeDefined()
+        expect(request.payload).toBeDefined()
+        expect(request.params).toBeDefined()
     })
 
     it('should throw if a given request is invalid', () => {
@@ -57,9 +57,9 @@ describe('Request', () => {
     })
 
     it('should list all of its dependencies', () => {
-        expect(request.DEPENDENCIES.size).toBe(2)
-        expect(request.DEPENDENCIES).toContain('session')
-        expect(request.DEPENDENCIES).toContain('profile')
+        expect(request.dependencies.size).toBe(2)
+        expect(request.dependencies).toContain('session')
+        expect(request.dependencies).toContain('profile')
     })
 
     it('should execute a request', async () => {

@@ -1,6 +1,6 @@
-const { URL } = require('url')
+import { URL } from 'url'
 
-const httpVerbs = [
+export const httpVerbs = [
     'GET',
     'HEAD',
     'POST',
@@ -12,21 +12,18 @@ const httpVerbs = [
     'PATCH'
 ]
 
-const requestRegex = new RegExp(`(${httpVerbs.join('|')})\\s(.*)`, 'i')
-const replacementRegex = /(?:\\?)\$([a-zA-Z\.\d\-\_\:]+)/g
-const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g
+export const requestRegex = new RegExp(`(${httpVerbs.join('|')})\\s(.*)`, 'i')
+export const replacementRegex = /(?:\\?)\$([a-zA-Z\.\d\-\_\:]+)/g
+export const dynamicValueRegex = /\$\[(\w+\((?:.|[\n\r])*?\))\]/g
 
-const UpperCaseKeys = function (obj) {
-    let result = {}
-    Object.entries(obj).forEach(([k, v]) => (result[k.toUpperCase()] = v))
-    return result
-}
-
-const isEmptyObject = (obj) =>
+export const isEmptyObject = (obj: object) =>
     Object.keys(obj).length === 0 && obj.constructor === Object
 
-const removeOptionalKeys = function (obj, optionalValues) {
-    let result = {}
+export const removeOptionalKeys = function<T extends object>(
+    obj: T,
+    optionalValues: string[]
+): T {
+    let result: any = {}
 
     Object.entries(obj).forEach(([key, value]) => {
         if (optionalValues.includes(key) && isEmptyObject(value)) {
@@ -39,14 +36,17 @@ const removeOptionalKeys = function (obj, optionalValues) {
     return result
 }
 
-const toKebabCase = function (str) {
+export const toKebabCase = function (str: string) {
     return str
         .trim()
         .replace(/([a-z])([A-Z])/g, '$1-$2')
         .toLowerCase()
 }
 
-const replaceInObject = function (obj, fn) {
+export const replaceInObject = function (
+    obj: any,
+    fn: (arg0: string) => string
+): typeof obj {
     if (obj === null) {
         return null
     }
@@ -66,9 +66,10 @@ const replaceInObject = function (obj, fn) {
     }
 }
 
-const moduleVersion = () => parseInt(require('../package.json').version, 10)
+export const moduleVersion = () =>
+    parseInt(require('../package.json').version, 10)
 
-const isUrl = function (str) {
+export const isUrl = function (str: string) {
     try {
         new URL(str)
         return true
@@ -77,23 +78,10 @@ const isUrl = function (str) {
     }
 }
 
-const expandPath = (url, path) => {
+export const expandPath = (url: string, path: string) => {
     if (isUrl(path)) {
         return path
     }
 
     return url.replace(/\/+$/, '') + '/' + path.replace(/^\/+/, '')
-}
-
-module.exports = {
-    requestRegex,
-    replacementRegex,
-    dynamicValueRegex,
-    UpperCaseKeys,
-    removeOptionalKeys,
-    toKebabCase,
-    replaceInObject,
-    moduleVersion,
-    isUrl,
-    expandPath
 }

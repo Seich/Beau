@@ -1,4 +1,4 @@
-const RequestCache = require('../requestCache')
+import RequestCache from '../requestCache'
 
 describe('Request Cache', () => {
     let cache

@@ -1,14 +1,14 @@
-const Plugins = require('../plugins')
-const Request = require('../request')
-const RequestCache = require('../requestCache')
+import Plugins from '../plugins'
+import Request from '../request'
+import RequestCache from '../requestCache'
 const requireg = require('requireg')
 
 describe(`Beau's plugin system`, () => {
-    let request
-    let plugins
+    let request: Request
+    let plugins: Plugins
 
     beforeEach(() => {
-        plugins = new Plugins([{ Modifiers: [Object] }, 'DynamicValues'], [])
+        plugins = new Plugins([{ Modifiers: [{}] }, 'DynamicValues'], [])
     })
 
     it('should load all plugins', () => {

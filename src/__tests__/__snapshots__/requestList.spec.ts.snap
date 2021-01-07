@@ -6,7 +6,7 @@ Object {
   "request": Object {
     "body": Object {
       "lastname": "Diaz",
-      "name": "Sergio",
+      "name": "David",
     },
     "endpoint": "http://martianwabbit.com/user",
     "headers": undefined,
