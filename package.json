@@ -27,7 +27,7 @@
         "color-json": "2.0.1",
         "deepmerge": "4.2.2",
         "dotenv": "8.2.0",
-        "globby": "11.0.1",
+        "globby": "11.0.2",
         "is-plain-object": "5.0.0",
         "js-yaml": "3.14.0",
         "prompts": "2.4.0",
