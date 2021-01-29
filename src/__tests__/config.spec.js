@@ -6,7 +6,7 @@ requireg.resolving = false
 
 describe('Config', () => {
     it('should load valid config keys', () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             version: 1
             endpoint: http://martianwabbit.com
             shouldntBeAdded: true
@@ -19,7 +19,7 @@ describe('Config', () => {
     })
 
     it('should load requests', () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             endpoint: http://example.com
 
             GET /profile: get-profile
@@ -36,7 +36,7 @@ describe('Config', () => {
     })
 
     it('should set up defaults for all requests', () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             version: 1
             endpoint: 'http://example.com'
 
@@ -60,7 +60,7 @@ describe('Config', () => {
     })
 
     it('should load multiple hosts', () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
           version: 1
           endpoint: http://example.org
 
@@ -105,7 +105,7 @@ describe('Config', () => {
     })
 
     it('should namespace all aliases within an host', () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             hosts:
               - host: test1
                 endpoint: http://example.com
@@ -122,7 +122,7 @@ describe('Config', () => {
     })
 
     it(`should throw if host doesn't have a host key`, () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             hosts:
               - endpoint: http://example.com
                 GET /posts: posts
@@ -136,7 +136,7 @@ describe('Config', () => {
     })
 
     it(`should merge host settings with global settings`, () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             defaults:
               headers:
                 hello: 1
@@ -159,7 +159,7 @@ describe('Config', () => {
     })
 
     it(`should allow different settings for the same request`, () => {
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
       host: https://example.com
       GET /1:
         - alias: req1
