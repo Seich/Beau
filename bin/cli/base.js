@@ -18,7 +18,7 @@ class Base extends Command {
         }
 
         let config
-        yaml.safeLoadAll(fs.readFileSync(configFile, 'utf-8'), (doc) => {
+        yaml.loadAll(fs.readFileSync(configFile, 'utf-8'), (doc) => {
             const valid = validate(doc)
 
             if (!valid) {

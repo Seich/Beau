@@ -11,7 +11,7 @@ describe(`Beau's config Loader.`, () => {
     it('should load the config', () => {
         moduleVersion.mockReturnValue(1)
 
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             version: 1
             endpoint: 'http://example.com'
 
@@ -27,7 +27,7 @@ describe(`Beau's config Loader.`, () => {
     it(`should load the request list using the configuration`, () => {
         moduleVersion.mockReturnValue(1)
 
-        const doc = yaml.safeLoad(`
+        const doc = yaml.load(`
             version: 1
             endpoint: 'http://example.com'
 
