@@ -1,5 +1,6 @@
 const clc = require('cli-color')
 const { Line } = require('clui')
+const { expandPath } = require('../../../src/shared')
 const Base = require('../base')
 
 class ListCommand extends Base {
@@ -31,9 +32,7 @@ class ListCommand extends Base {
                 .padding(2)
                 .column(VERB, 20, [clc.yellow])
                 .column(ALIAS, 30, [clc.yellow])
-                .column(
-                    ENDPOINT.replace(/\/$/, '') + '/' + PATH.replace(/^\//, '')
-                )
+                .column(expandPath(ENDPOINT, PATH))
                 .output()
         )
 
