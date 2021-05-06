@@ -26,7 +26,7 @@
         "clui": "0.3.6",
         "color-json": "2.0.1",
         "deepmerge": "4.2.2",
-        "dotenv": "8.2.0",
+        "dotenv": "9.0.0",
         "globby": "11.0.2",
         "is-plain-object": "5.0.0",
         "js-yaml": "4.0.0",
