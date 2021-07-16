@@ -19,7 +19,7 @@
         "@oclif/config": "1.17.0",
         "@oclif/plugin-help": "3.2.1",
         "@oclif/plugin-warn-if-update-available": "1.7.0",
-        "ajv": "7.0.3",
+        "ajv": "8.6.2",
         "beau-std": "0.9.4",
         "better-ajv-errors": "0.7.0",
         "cli-color": "2.0.0",
